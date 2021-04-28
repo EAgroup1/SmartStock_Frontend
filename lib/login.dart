@@ -16,7 +16,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    CreateEmailInput() {
+    
+    createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Usuario o Email'),
         validator: (value) {
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    CreatePasswordInput() {
+    createPasswordInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Contraseña'),
         validator: (value) {
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    CreateLoginButton(BuildContext context) {
+    createLoginButton(BuildContext context) {
       return Container(
           padding: const EdgeInsets.only(top: 30),
           child: ElevatedButton(
@@ -55,20 +56,20 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
-    CreateAccountLink() {
+    createAccountLink() {
       return Container(
           child: Text('Crea tu cuenta aquí', textAlign: TextAlign.right),
           padding: EdgeInsets.only(top: 40));
     }
 
-    ResetPassword() {
+    resetPassword() {
       return Container(
           child:
               Text('¿Has olvidado la contraseña?', textAlign: TextAlign.left),
           padding: EdgeInsets.only(bottom: 10));
     }
 
-    Divisor() {
+    divisor() {
       return Container(
           padding: const EdgeInsets.only(top: 5),
           child: Row(children: [
@@ -80,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
           ]));
     }
 
-    FacebookButton() {
+    facebookButton() {
       return Container(
           padding: const EdgeInsets.only(top: 32),
           child: RaisedButton(
@@ -106,13 +107,13 @@ class _LoginPageState extends State<LoginPage> {
             width: 300.00,
             height: 240,
           ),
-          CreateEmailInput(),
-          CreatePasswordInput(),
-          CreateLoginButton(context),
-          CreateAccountLink(),
-          ResetPassword(),
-          Divisor(),
-          FacebookButton()
+          createEmailInput(),
+          createPasswordInput(),
+          createLoginButton(context),
+          createAccountLink(),
+          resetPassword(),
+          divisor(),
+          facebookButton()
         ],
       ),
     );
