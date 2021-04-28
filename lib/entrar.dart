@@ -12,9 +12,10 @@ class EntrarPage extends StatefulWidget {
 class _EntrarPageState extends State<EntrarPage> {
   List<Widget> datosUsuario = [];
 
-     getUser() async {
-      String url = 'http://localhost:4000/';
-      var response = await get(Uri.encodeFull(url))
+    getUser() async {
+      var url = Uri.parse("http://localhost:4000/");
+      var response = await http.get(url);
+      debugPrint(response.body);
     }
 
     @override
