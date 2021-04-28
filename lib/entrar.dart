@@ -13,8 +13,8 @@ class _EntrarPageState extends State<EntrarPage> {
   List<Widget> datosUsuario = [];
 
      getUser() async {
-      var response = await http.get(Uri.encodeFull("http://localhost:4000/");
-      debugPrint(response.body);
+      String url = 'http://localhost:4000/';
+      var response = await get(Uri.encodeFull(url))
     }
 
     @override
@@ -26,8 +26,6 @@ class _EntrarPageState extends State<EntrarPage> {
 
   @override
   Widget build(BuildContext context) {
-
-  
 
     return Scaffold(
       appBar: AppBar(title: Text('Datos del usuario')),
