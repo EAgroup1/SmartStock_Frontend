@@ -13,7 +13,7 @@ class _EntrarPageState extends State<EntrarPage> {
   List<Widget> datosUsuario = [];
 
     getUser() async {
-      var url = Uri.parse("http://localhost:4000/");
+      var url = Uri.parse("http://localhost:4000/logIn");
       var response = await http.get(url);
       debugPrint(response.body);
     }
@@ -21,7 +21,7 @@ class _EntrarPageState extends State<EntrarPage> {
     @override
     initState() {
       super.initState();
-      getUser();
+     // getUser();
     }
 
 

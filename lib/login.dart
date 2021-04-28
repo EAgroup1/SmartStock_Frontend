@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'register.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -16,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Usuario o Email'),
@@ -58,8 +59,18 @@ class _LoginPageState extends State<LoginPage> {
 
     createAccountLink() {
       return Container(
-          child: Text('Crea tu cuenta aquí', textAlign: TextAlign.right),
-          padding: EdgeInsets.only(top: 40));
+        padding: const EdgeInsets.all(16.0),
+        child: TextButton(
+          child: Text('Register'),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
+        ),
+      );
+      /* child: Text('Crea tu cuenta aquí', textAlign: TextAlign.right),
+          padding: EdgeInsets.only(top: 40)); */
     }
 
     resetPassword() {
@@ -101,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       //key: _formKey,
       body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 30.0),
         children: <Widget>[
           Image.asset(
             'assets/images/smartstock.jpeg',
