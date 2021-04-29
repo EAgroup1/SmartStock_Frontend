@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/crear.dart';
 import 'package:rlbasic/entrar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
 import 'register.dart';
+import 'entrar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //final _formKey = GlobalKey<FormState>();
+  var name, password, token;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,9 @@ class _LoginPageState extends State<LoginPage> {
             return 'Por favor, introduce un texto';
           } else
             return null;
+        },
+        onChanged: (val) {
+          name = val;
         },
       );
     }
@@ -39,6 +44,9 @@ class _LoginPageState extends State<LoginPage> {
           } else
             return null;
         },
+        onChanged: (val) {
+          password = val;
+        },
         obscureText: true,
       );
     }
@@ -47,14 +55,13 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
           padding: const EdgeInsets.only(top: 30),
           child: ElevatedButton(
-            child: Text(
-              'Entrar',
-            ),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => EntrarPage()));
-            },
-          ));
+              child: Text(
+                'Entrar',
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => EntrarPage()));
+              }));
     }
 
     createLinks() {
