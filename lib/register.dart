@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rlbasic/crear.dart';
 import 'package:rlbasic/entrar.dart';
+import 'package:rlbasic/termsAndConditions.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -9,6 +8,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  // bool _value = true;
+
   @override
   Widget build(BuildContext context) {
     createNameInput() {
@@ -25,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     createEmailInput() {
       return TextFormField(
-        decoration: InputDecoration(hintText: 'Email'),
+        decoration: InputDecoration(filled: true, hintText: 'Email'),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
@@ -37,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     createPasswordInput() {
       return TextFormField(
-        decoration: InputDecoration(hintText: 'Contraseña'),
+        decoration: InputDecoration(filled: true, hintText: 'Contraseña'),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un texto';
@@ -50,7 +51,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     createConPasswordInput() {
       return TextFormField(
-        decoration: InputDecoration(hintText: 'Confirma la contraseña'),
+        decoration:
+            InputDecoration(filled: true, hintText: 'Confirma la contraseña'),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un texto';
@@ -58,6 +60,48 @@ class _RegisterPageState extends State<RegisterPage> {
             return value;
         },
         obscureText: true,
+      );
+    }
+
+    termsAndConditions() {
+      return ButtonBar(
+        children: <Widget>[
+/*           CheckboxListTile(
+  title: Text("title text"),
+  value: _value,
+  onChanged: (newValue) {
+    setState(() {
+      _value = newValue;
+    });
+  },
+  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+)
+ */
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: TextButton(
+              child: Text('Terms and Conditions'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => TermsAndConditionsPage()),
+                );
+              },
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: TextButton(
+              child: Text('Terms and Conditions'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => TermsAndConditionsPage()),
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
 
@@ -85,11 +129,14 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 240,
           ),
           createNameInput(),
+          SizedBox(height: 12.0),
           createEmailInput(),
           // spacer
-          SizedBox(height: 12.0),
+          SizedBox(height: 30.0),
           createPasswordInput(),
+          SizedBox(height: 12.0),
           createConPasswordInput(),
+          termsAndConditions(),
           createRegisterButton(context)
         ],
       ),

@@ -57,27 +57,34 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
-    createAccountLink() {
-      return Container(
-        padding: const EdgeInsets.all(16.0),
-        child: TextButton(
-          child: Text('Register'),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => RegisterPage()),
-            );
-          },
-        ),
+    createLinks() {
+      return ButtonBar(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: TextButton(
+              child: Text('¿Has olvidado la contraseña?'),
+              onPressed: () {
+                /*  Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => TermsAndConditionsPage()),
+                ); */
+              },
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: TextButton(
+              child: Text('Registrarse'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RegisterPage()),
+                );
+              },
+            ),
+          )
+        ],
       );
-      /* child: Text('Crea tu cuenta aquí', textAlign: TextAlign.right),
-          padding: EdgeInsets.only(top: 40)); */
-    }
-
-    resetPassword() {
-      return Container(
-          child:
-              Text('¿Has olvidado la contraseña?', textAlign: TextAlign.left),
-          padding: EdgeInsets.only(bottom: 10));
     }
 
     divisor() {
@@ -122,8 +129,7 @@ class _LoginPageState extends State<LoginPage> {
           createEmailInput(),
           createPasswordInput(),
           createLoginButton(context),
-          createAccountLink(),
-          resetPassword(),
+          createLinks(),
           divisor(),
           facebookButton()
         ],
