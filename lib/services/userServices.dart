@@ -6,8 +6,10 @@ class UserServices {
   var url = "http://localhost:4000/api/users/";
 
   login(email, password) async {
+    print(email);
+    print(password);
     try {
-      return await dio.post(url+'logIn',
+      return await dio.post(url + 'logIn',
           data: {"email": email, "password": password},
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } on DioError catch (e) {
@@ -21,7 +23,7 @@ class UserServices {
 
   register(name, email, password) async {
     try {
-      return await dio.post(url+'signUp',
+      return await dio.post(url + 'signUp',
           data: {
             "username": name,
             "email": email,

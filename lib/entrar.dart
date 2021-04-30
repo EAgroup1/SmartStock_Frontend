@@ -28,8 +28,6 @@ class _EntrarPageState extends State<EntrarPage> {
     // getUser();
   } 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

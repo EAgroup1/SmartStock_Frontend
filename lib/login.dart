@@ -29,34 +29,34 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    logIn(String email, String pass) async {
-      var url = Uri.parse('http://localhost:4000/api/users/logIn');
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map body = {"email": email, "password": pass};
-      var jsonResponse;
-      var res = await http.post(url, body: body);
-      if (res.statusCode == 200) {
-        jsonResponse = json.decode(res.body);
-        print("Response status: ${res.statusCode}");
-        print("Response status: ${res.body}");
+    // logIn(String email, String pass) async {
+    //   var url = Uri.parse('http://localhost:4000/api/users/logIn');
+    //   SharedPreferences sharedPreferences =
+    //       await SharedPreferences.getInstance();
+    //   Map body = {"email": email, "password": pass};
+    //   var jsonResponse;
+    //   var res = await http.post(url, body: body);
+    //   if (res.statusCode == 200) {
+    //     jsonResponse = json.decode(res.body);
+    //     print("Response status: ${res.statusCode}");
+    //     print("Response status: ${res.body}");
 
-        if (jsonResponse != null) {
-          setState(() {
-            _isLoading = false;
-          });
+    //     if (jsonResponse != null) {
+    //       setState(() {
+    //         _isLoading = false;
+    //       });
 
-          sharedPreferences.setString("token", jsonResponse["token"]);
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => RegisterPage()));
-        }
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
-        print("Response status: ${res.body}");
-      }
-    }
+    //       sharedPreferences.setString("token", jsonResponse["token"]);
+    //       Navigator.of(context)
+    //           .push(MaterialPageRoute(builder: (context) => RegisterPage()));
+    //     }
+    //   } else {
+    //     setState(() {
+    //       _isLoading = false;
+    //     });
+    //     print("Response status: ${res.body}");
+    //   }
+    // }
 
     createEmailInput() {
       return TextFormField(
@@ -84,6 +84,9 @@ class _LoginPageState extends State<LoginPage> {
             return null;
         },
         obscureText: true,
+        onChanged: (val) {
+          password = val;
+        },
       );
     }
 
@@ -107,15 +110,15 @@ class _LoginPageState extends State<LoginPage> {
                 });
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EntrarPage()));
-                _emailController.text == "" || _passController.text == ""
-                    ? null
-                    // ignore: unnecessary_statements
-                    : () {
-                        setState(() {
-                          _isLoading = true;
-                        });
-                        logIn(_emailController.text, _passController.text);
-                      };
+                // _emailController.text == "" || _passController.text == ""
+                //     ? null
+                //     // ignore: unnecessary_statements
+                //     : () {
+                //         setState(() {
+                //           _isLoading = true;
+                //         });
+                //         logIn(_emailController.text, _passController.text);
+                //       };
               }));
     }
 
