@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+import 'termsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,10 +8,12 @@ import 'package:rlbasic/crear.dart';
 import 'package:rlbasic/entrar.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rlbasic/services/userServices.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'register.dart';
 import 'entrar.dart';
+import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,7 +22,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //final _formKey = GlobalKey<FormState>();
-  var name, password, token;
+  var email, password, token;
   bool _isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
@@ -55,14 +60,17 @@ class _LoginPageState extends State<LoginPage> {
 
     createEmailInput() {
       return TextFormField(
-          decoration: InputDecoration(hintText: 'Usuario o Email'),
-          controller: _emailController,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Por favor, introduce un texto';
-            } else
-              return null;
-          });
+        decoration: InputDecoration(hintText: 'Usuario o Email'),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Por favor, introduce un texto';
+          } else
+            return null;
+        },
+        onChanged: (val) {
+          email = val;
+        },
+      );
     }
 
     createPasswordInput() {
@@ -87,6 +95,16 @@ class _LoginPageState extends State<LoginPage> {
                 'Entrar',
               ),
               onPressed: () {
+                UserServices().login(email, password).then((val) {
+                  print(val.data);
+                  if (val.data['success']) {
+                    token = val.data['token'];
+                    Fluttertoast.showToast(
+                        msg: 'loged',
+                        toastLength: Toast.LENGTH_SHORT,
+                        timeInSecForIosWeb: 6);
+                  }
+                });
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EntrarPage()));
                 _emailController.text == "" || _passController.text == ""
@@ -100,7 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                       };
               }));
     }
-    
 
     createLinks() {
       return ButtonBar(
@@ -110,10 +127,10 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-                /*  Navigator.of(context).push(
+                Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (context) => TermsAndConditionsPage()),
-                ); */
+                );
               },
             ),
           ),

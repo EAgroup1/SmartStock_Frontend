@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/entrar.dart';
+import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/termsAndConditions.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -9,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   // bool _value = true;
+  var name, email, password, conpassword, token;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,9 @@ class _RegisterPageState extends State<RegisterPage> {
             return 'Por favor, introduce un texto';
           } else
             return value;
+        },
+        onChanged: (val) {
+          name = val;
         },
       );
     }
@@ -33,6 +39,9 @@ class _RegisterPageState extends State<RegisterPage> {
           } else
             return value;
         },
+        onChanged: (val) {
+          email = val;
+        },
       );
     }
 
@@ -40,12 +49,18 @@ class _RegisterPageState extends State<RegisterPage> {
       return TextFormField(
         decoration: InputDecoration(filled: true, hintText: 'Contraseña'),
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (value == null || value.isEmpty ) {
             return 'Por favor, introduce un texto';
+          }
+          if(value != password){
+            return 'Las contraseñas han de ser iguales';
           } else
             return value;
         },
         obscureText: true,
+        onChanged: (val) {
+          password = val;
+        },
       );
     }
 
@@ -59,24 +74,16 @@ class _RegisterPageState extends State<RegisterPage> {
           } else
             return value;
         },
-        obscureText: true,
+        obscureText: true,        
+        onChanged: (val) {
+          conpassword = val;
+        },
       );
     }
 
     termsAndConditions() {
       return ButtonBar(
         children: <Widget>[
-/*           CheckboxListTile(
-  title: Text("title text"),
-  value: _value,
-  onChanged: (newValue) {
-    setState(() {
-      _value = newValue;
-    });
-  },
-  controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-)
- */
           Container(
             padding: const EdgeInsets.all(16.0),
             child: TextButton(
@@ -113,8 +120,19 @@ class _RegisterPageState extends State<RegisterPage> {
               'Entrar',
             ),
             onPressed: () {
-              Navigator.of(context)
+              UserServices().register(name, email, password).then((val) {
+                print(val.data);
+                if (val.data['success']) {
+                  token = val.data['token'];
+                  Fluttertoast.showToast(
+                      msg: 'loged',
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 6);
+                }
+              });
+              /* Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => EntrarPage()));
+             */
             },
           ));
     }
