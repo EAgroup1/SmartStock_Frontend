@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/crear.dart';
 import 'package:rlbasic/entrar.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'register.dart';
@@ -17,35 +18,62 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //final _formKey = GlobalKey<FormState>();
   var name, password, token;
+  bool _isLoading = false;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    logIn(String email, String pass) async {
+      var url = Uri.parse('http://localhost:4000/api/users/logIn');
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map body = {"email": email, "password": pass};
+      var jsonResponse;
+      var res = await http.post(url, body: body);
+      if (res.statusCode == 200) {
+        jsonResponse = json.decode(res.body);
+        print("Response status: ${res.statusCode}");
+        print("Response status: ${res.body}");
+
+        if (jsonResponse != null) {
+          setState(() {
+            _isLoading = false;
+          });
+
+          sharedPreferences.setString("token", jsonResponse["token"]);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => RegisterPage()));
+        }
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        print("Response status: ${res.body}");
+      }
+    }
+
     createEmailInput() {
       return TextFormField(
-        decoration: InputDecoration(hintText: 'Usuario o Email'),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
-          } else
-            return null;
-        },
-        onChanged: (val) {
-          name = val;
-        },
-      );
+          decoration: InputDecoration(hintText: 'Usuario o Email'),
+          controller: _emailController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Por favor, introduce un texto';
+            } else
+              return null;
+          });
     }
 
     createPasswordInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Contraseña'),
+        controller: _passController,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un texto';
           } else
             return null;
-        },
-        onChanged: (val) {
-          password = val;
         },
         obscureText: true,
       );
@@ -61,8 +89,18 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EntrarPage()));
+                _emailController.text == "" || _passController.text == ""
+                    ? null
+                    // ignore: unnecessary_statements
+                    : () {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        logIn(_emailController.text, _passController.text);
+                      };
               }));
     }
+    
 
     createLinks() {
       return ButtonBar(
