@@ -1,13 +1,18 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/crear.dart';
 import 'package:rlbasic/entrar.dart';
 import 'package:http/http.dart' as http;
+import 'package:rlbasic/services/userServices.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'register.dart';
 import 'entrar.dart';
+import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,7 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //final _formKey = GlobalKey<FormState>();
-  var name, password, token;
+  var email, password, token;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
             return null;
         },
         onChanged: (val) {
-          name = val;
+          email = val;
         },
       );
     }
@@ -59,8 +64,19 @@ class _LoginPageState extends State<LoginPage> {
                 'Entrar',
               ),
               onPressed: () {
-                Navigator.of(context).push(
+               UserServices().login(email, password).then((val) {
+                  print(val.data);
+                  if (val.data['success']) {
+                    token = val.data['token'];
+                    Fluttertoast.showToast(
+                        msg: 'loged',
+                        toastLength: Toast.LENGTH_SHORT,
+                        timeInSecForIosWeb: 6);
+                  }
+                });
+                /*        Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => EntrarPage()));
+              */
               }));
     }
 
