@@ -96,18 +96,6 @@ class _RegisterPageState extends State<RegisterPage> {
               },
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: TextButton(
-              child: Text('Terms and Conditions'),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => TermsAndConditionsPage()),
-                );
-              },
-            ),
-          ),
         ],
       );
     }

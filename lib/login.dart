@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:math';
+import 'my_navigator.dart';
 import 'termsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -108,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                         timeInSecForIosWeb: 6);
                   }
                 });
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EntrarPage()));
+                MyNavigator.goToEntrar(context);
                 // _emailController.text == "" || _passController.text == ""
                 //     ? null
                 //     // ignore: unnecessary_statements
@@ -130,10 +130,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => TermsAndConditionsPage()),
-                );
+                MyNavigator.goToTerms(context);
               },
             ),
           ),
@@ -142,9 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('Registrarse'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RegisterPage()),
-                );
+                MyNavigator.goToRegister(context);
               },
             ),
           )
