@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/entrar.dart';
+import 'package:rlbasic/pantallas/entrar.dart';
+import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
-import 'package:rlbasic/termsAndConditions.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

@@ -5,8 +5,8 @@ import 'termsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rlbasic/crear.dart';
-import 'package:rlbasic/entrar.dart';
+import 'package:rlbasic/pantallas/crear.dart';
+import 'package:rlbasic/pantallas/entrar.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rlbasic/services/userServices.dart';
@@ -30,35 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // logIn(String email, String pass) async {
-    //   var url = Uri.parse('http://localhost:4000/api/users/logIn');
-    //   SharedPreferences sharedPreferences =
-    //       await SharedPreferences.getInstance();
-    //   Map body = {"email": email, "password": pass};
-    //   var jsonResponse;
-    //   var res = await http.post(url, body: body);
-    //   if (res.statusCode == 200) {
-    //     jsonResponse = json.decode(res.body);
-    //     print("Response status: ${res.statusCode}");
-    //     print("Response status: ${res.body}");
-
-    //     if (jsonResponse != null) {
-    //       setState(() {
-    //         _isLoading = false;
-    //       });
-
-    //       sharedPreferences.setString("token", jsonResponse["token"]);
-    //       Navigator.of(context)
-    //           .push(MaterialPageRoute(builder: (context) => RegisterPage()));
-    //     }
-    //   } else {
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
-    //     print("Response status: ${res.body}");
-    //   }
-    // }
-
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Usuario o Email'),
