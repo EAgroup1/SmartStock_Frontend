@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/pantallas/entrar.dart';
+import 'package:rlbasic/pantallas/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
 

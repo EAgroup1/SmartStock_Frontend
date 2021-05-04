@@ -5,8 +5,16 @@ class MyNavigator {
     Navigator.pushNamed(context, "/login");
   }
 
-  static void goToEntrar(BuildContext context) {
-    Navigator.pushNamed(context, "/entrar");
+  static void goToUser(BuildContext context) {
+    Navigator.pushNamed(context, "/user");
+  }
+
+  static void goToCompany(BuildContext context) {
+    Navigator.pushNamed(context, "/company");
+  }
+
+  static void goToDeliverer(BuildContext context) {
+    Navigator.pushNamed(context, "/deliverer");
   }
 
   static void goToRegister(BuildContext context) {

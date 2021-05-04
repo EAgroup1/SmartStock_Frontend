@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/pantallas/crear.dart';
-import 'package:rlbasic/pantallas/entrar.dart';
+import 'package:rlbasic/pantallas/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'register.dart';
-import 'entrar.dart';
+import 'user.dart';
 import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                         timeInSecForIosWeb: 6);
                   }
                 });
-                MyNavigator.goToEntrar(context);
+                MyNavigator.goToUser(context);
                 // _emailController.text == "" || _passController.text == ""
                 //     ? null
                 //     // ignore: unnecessary_statements
@@ -147,6 +147,24 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
+    googleButton() {
+      return Container(
+          padding: const EdgeInsets.only(top: 32),
+          child: RaisedButton(
+            textColor: Colors.white,
+            color: Colors.blue,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(FontAwesomeIcons.google),
+              Padding(
+                padding: const EdgeInsets.only(left: 32),
+                child: Text('Entrar con Google', textAlign: TextAlign.center),
+              )
+            ]),
+            onPressed: () {},
+          ));
+    }
+
+
     return Scaffold(
       //key: _formKey,
       body: ListView(
@@ -162,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
           createLoginButton(context),
           createLinks(),
           divisor(),
-          facebookButton()
+          facebookButton(),
+          googleButton()
         ],
       ),
     );
