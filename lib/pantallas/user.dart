@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-
+import 'package:rlbasic/pantallas/my_navigator.dart';
 
 class UserPage extends StatefulWidget {
   @override
@@ -37,7 +37,7 @@ class _UserPageState extends State<UserPage> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -51,22 +51,29 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.add_business_rounded),
-              title: Text('Buscar productos'),
-             
-            ),
+                leading: Icon(Icons.add_business_rounded),
+                title: Text('Buscar productos'),
+                onTap: () {
+                  Navigator.of(context).pushNamed("");
+                }),
             ListTile(
-              leading: Icon(Icons.apartment),
-              title: Text('Mis productos almacenados'),
-            ),
+                leading: Icon(Icons.apartment),
+                title: Text('Mis productos almacenados'),
+                onTap: () {
+                  Navigator.of(context).pushNamed("");
+                }),
             ListTile(
-              leading: Icon(Icons.motorcycle),
-              title: Text('Productos para entregar'),
-            ),
+                leading: Icon(Icons.motorcycle),
+                title: Text('Productos para entregar'),
+                onTap: () {
+                  Navigator.of(context).pushNamed("");
+                }),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Configuración'),
-            ),
+                leading: Icon(Icons.account_circle),
+                title: Text('Configuración'),
+                onTap: () {
+                  MyNavigator.goToConfigUser(context);
+                }),
           ],
         ),
       ),

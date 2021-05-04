@@ -13,6 +13,17 @@ class MyNavigator {
     Navigator.pushNamed(context, "/company");
   }
 
+  static void goToConfigUser(BuildContext context) {
+    Navigator.pushNamed(context, "/configuser");
+  }
+
+   static void goToConfigCompany(BuildContext context) {
+    Navigator.pushNamed(context, "/configcompany");
+  }
+   static void goToConfigDeliverer(BuildContext context) {
+    Navigator.pushNamed(context, "/configdeliverer");
+  }
+
   static void goToDeliverer(BuildContext context) {
     Navigator.pushNamed(context, "/deliverer");
   }
