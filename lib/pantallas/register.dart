@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/pantallas/user.dart';
+import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
+
+import 'my_navigator.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -11,7 +16,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   // bool _value = true;
-  var name, email, password, conpassword, token;
+  var name, email, password, conpassword, token, id, _aux;
+  late final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +55,10 @@ class _RegisterPageState extends State<RegisterPage> {
       return TextFormField(
         decoration: InputDecoration(filled: true, hintText: 'Contraseña'),
         validator: (value) {
-          if (value == null || value.isEmpty ) {
+          if (value == null || value.isEmpty) {
             return 'Por favor, introduce un texto';
           }
-          if(value != password){
+          if (value != password) {
             return 'Las contraseñas han de ser iguales';
           } else
             return value;
@@ -74,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
           } else
             return value;
         },
-        obscureText: true,        
+        obscureText: true,
         onChanged: (val) {
           conpassword = val;
         },
@@ -109,18 +115,33 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onPressed: () {
               UserServices().register(name, email, password).then((val) {
-                print(val.data);
-                if (val.data['success']) {
+                _aux = val.data;
+                print(_aux);
+                try {
+                  print(val.statusCode);
+                  id = _aux['_id'].toString();
+                  print(id);
                   token = val.data['token'];
+                  user = new User(name, email, password);
+                  print(user.email);
+                  print(val.data['_id'].toString());
+                  user.id = id;
+                  print(user);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserPage(user: user)),
+                  );
+                  //  MyNavigator.goToUser(context, );
+
+                } catch (err) {
+                  print(err);
                   Fluttertoast.showToast(
-                      msg: 'loged',
+                      msg: err.toString(),
                       toastLength: Toast.LENGTH_SHORT,
                       timeInSecForIosWeb: 6);
                 }
               });
-              /* Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => EntrarPage()));
-             */
             },
           ));
     }

@@ -25,10 +25,9 @@ class UserServices {
     try {
       return await dio.post(url + 'signUp',
           data: {
-            "username": name,
+            "userName": name,
             "email": email,
             "password": password,
-            "role": 1
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } on DioError catch (e) {
