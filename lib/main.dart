@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/pantallas/crear.dart';
-import 'package:rlbasic/pantallas/deliverer.dart';
+import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
