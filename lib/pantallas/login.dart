@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Entrar',
               ),
               onPressed: () {
+
                 UserServices().login(email, password).then((val) {
                   print(val.data);
                   if (val.data['success']) {
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                         timeInSecForIosWeb: 6);
                   }
                 });
-            
+
                 MyNavigator.goToUser(context);
                 // _emailController.text == "" || _passController.text == ""
                 //     ? null
