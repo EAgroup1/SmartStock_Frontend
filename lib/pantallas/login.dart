@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:math';
+import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'my_navigator.dart';
 import 'termsAndConditions.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'dart:convert';
 import 'register.dart';
 import 'user.dart';
 import 'package:dio/dio.dart';
+import 'splashScreen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
+  var splashScreen = SplashScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +166,6 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {},
           ));
     }
-
 
     return Scaffold(
       //key: _formKey,
