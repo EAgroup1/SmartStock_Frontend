@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
@@ -16,7 +17,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   // bool _value = true;
-  var name, email, password, conpassword, token, id, _aux;
+  var name, email, password, conpassword, token, id;
   late final User user;
 
   @override
@@ -115,23 +116,29 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onPressed: () {
               UserServices().register(name, email, password).then((val) {
-                _aux = val.data;
-                print(_aux);
+/*                 Aux aux = Aux.fromJson(val.data);
+                print(aux.token);
+                print(id); */
                 try {
-                  print(val.statusCode);
-                  id = _aux['_id'].toString();
+                  print(val.data);
+                  print(val.headers);
+                  //  print(val.request);
+                  print(val.data);
+                  print(val.data['_aux']['token']);
+                  print(val.data['_aux']['_id']);
+                  /* id = val['_id'];
                   print(id);
                   token = val.data['token'];
                   user = new User(name, email, password);
                   print(user.email);
                   print(val.data['_id'].toString());
                   user.id = id;
-                  print(user);
+                  print(user); 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => UserPage(user: user)),
-                  );
+                  );*/
                   //  MyNavigator.goToUser(context, );
 
                 } catch (err) {
