@@ -9,7 +9,7 @@ import 'dart:core';
 import 'package:rlbasic/pantallas/my_navigator.dart';
 
 class UserPage extends StatefulWidget {
-  late final User user;
+  late User user;
   UserPage({required this.user});
   @override
   _UserPageState createState() => _UserPageState();

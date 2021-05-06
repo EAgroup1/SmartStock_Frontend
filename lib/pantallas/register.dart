@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   // bool _value = true;
   var name, email, password, conpassword, token, id;
   late final User user;
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     createNameInput() {
@@ -27,9 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(filled: true, hintText: 'Nombre completo'),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
-          } else
-            return value;
+            return 'Por favor, introduce nombre';
+          }
         },
         onChanged: (val) {
           name = val;
@@ -43,8 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
-          } else
-            return value;
+          }
         },
         onChanged: (val) {
           email = val;
@@ -57,12 +55,11 @@ class _RegisterPageState extends State<RegisterPage> {
         decoration: InputDecoration(filled: true, hintText: 'Contraseña'),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
+            return 'Por favor, introduce una contraseña';
           }
           if (value != password) {
             return 'Las contraseñas han de ser iguales';
-          } else
-            return value;
+          }
         },
         obscureText: true,
         onChanged: (val) {
@@ -77,9 +74,8 @@ class _RegisterPageState extends State<RegisterPage> {
             InputDecoration(filled: true, hintText: 'Confirma la contraseña'),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
-          } else
-            return value;
+            return 'Por favor, introduce una contraseña';
+          }
         },
         obscureText: true,
         onChanged: (val) {
@@ -115,49 +111,41 @@ class _RegisterPageState extends State<RegisterPage> {
               'Entrar',
             ),
             onPressed: () {
-              UserServices().register(name, email, password).then((val) {
-/*                 Aux aux = Aux.fromJson(val.data);
-                print(aux.token);
-                print(id); */
-                try {
-                  print(val.data);
-                  print(val.headers);
-                  //  print(val.request);
-                  print(val.data);
-                  print(val.data['_aux']['token']);
-                  print(val.data['_aux']['_id']);
-                  /* id = val['_id'];
-                  print(id);
-                  token = val.data['token'];
-                  user = new User(name, email, password);
-                  print(user.email);
-                  print(val.data['_id'].toString());
-                  user.id = id;
-                  print(user); 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => UserPage(user: user)),
-                  );*/
-                  //  MyNavigator.goToUser(context, );
+              if (_formKey.currentState!.validate()) {
+                UserServices().register(name, email, password).then((val) {
+                  try {
+                    print(val.data);
+                    user = new User(name, email, password);
+                    user.token = val.data['_aux']['token'];
+                    user.id = val.data['_aux']['_id'];
+                    print('ok');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserPage(user: user)),
+                    );
+                    //  MyNavigator.goToUser(context, );
 
-                } catch (err) {
-                  print(err);
-                  Fluttertoast.showToast(
-                      msg: err.toString(),
-                      toastLength: Toast.LENGTH_SHORT,
-                      timeInSecForIosWeb: 6);
-                }
-              });
+                  } catch (err) {
+                    print(err);
+                    Fluttertoast.showToast(
+                        msg: err.toString(),
+                        toastLength: Toast.LENGTH_SHORT,
+                        timeInSecForIosWeb: 6);
+                  }
+                });
+              }
             },
           ));
     }
 
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        children: <Widget>[
-          Image.asset(
+    return Material(
+      child: Form(
+        key: _formKey,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(
             'assets/images/smartstock.jpeg',
             width: 300.00,
             height: 240,
@@ -172,8 +160,9 @@ class _RegisterPageState extends State<RegisterPage> {
           createConPasswordInput(),
           termsAndConditions(),
           createRegisterButton(context)
-        ],
-      ),
+              
+            ]
+        ))
     );
   }
 }

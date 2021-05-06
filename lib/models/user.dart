@@ -7,6 +7,7 @@ class User {
   late String lastname;
   late String salary;
   late String id;
-  
+  late String token;
+
   User(this.username, this.email, this.password);
 }
