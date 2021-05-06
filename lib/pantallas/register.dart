@@ -111,58 +111,67 @@ class _RegisterPageState extends State<RegisterPage> {
               'Entrar',
             ),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                UserServices().register(name, email, password).then((val) {
-                  try {
+              try {
+                if (_formKey.currentState!.validate()) {
+                  UserServices().register(name, email, password).then((val) {
                     print(val.data);
-                    user = new User(name, email, password);
-                    user.token = val.data['_aux']['token'];
-                    user.id = val.data['_aux']['_id'];
-                    print('ok');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserPage(user: user)),
-                    );
-                    //  MyNavigator.goToUser(context, );
-
-                  } catch (err) {
-                    print(err);
-                    Fluttertoast.showToast(
-                        msg: err.toString(),
-                        toastLength: Toast.LENGTH_SHORT,
-                        timeInSecForIosWeb: 6);
-                  }
-                });
+                    print(val.statusCode);
+                    if (val.statusCode == 200) {
+                      user = new User(name, email, password);
+                      user.token = val.data['_aux']['token'];
+                      user.id = val.data['_aux']['_id'];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserPage(user: user)),
+                      );
+                      //  MyNavigator.goToUser(context, );
+                    } else if (val.statusCode == 401) {
+                      Fluttertoast.showToast(
+                          msg: 'Email o contraseña incorrectos',
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: val.status,
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    }
+                  });
+                }
+              } catch (err) {
+                print(err);
+                Fluttertoast.showToast(
+                  msg: err.toString(),
+                  toastLength: Toast.LENGTH_SHORT,
+                  timeInSecForIosWeb: 6
+                );
               }
             },
           ));
     }
 
     return Material(
-      child: Form(
-        key: _formKey,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-            'assets/images/smartstock.jpeg',
-            width: 300.00,
-            height: 240,
-          ),
-          createNameInput(),
-          SizedBox(height: 12.0),
-          createEmailInput(),
-          // spacer
-          SizedBox(height: 30.0),
-          createPasswordInput(),
-          SizedBox(height: 12.0),
-          createConPasswordInput(),
-          termsAndConditions(),
-          createRegisterButton(context)
-              
-            ]
-        ))
-    );
+        child: Form(
+            key: _formKey,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/smartstock.jpeg',
+                    width: 300.00,
+                    height: 240,
+                  ),
+                  createNameInput(),
+                  SizedBox(height: 12.0),
+                  createEmailInput(),
+                  // spacer
+                  SizedBox(height: 30.0),
+                  createPasswordInput(),
+                  SizedBox(height: 12.0),
+                  createConPasswordInput(),
+                  termsAndConditions(),
+                  createRegisterButton(context)
+                ])));
   }
 }

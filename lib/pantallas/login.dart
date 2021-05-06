@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:math';
+import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'my_navigator.dart';
 import 'termsAndConditions.dart';
@@ -29,18 +30,18 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
 
   @override
   Widget build(BuildContext context) {
     createEmailInput() {
       return TextFormField(
-        decoration: InputDecoration(hintText: 'Usuario o Email'),
+        decoration: InputDecoration(hintText: 'Email'),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
-          } else
-            return null;
+            return 'Por favor, introduce un email';
+          }
         },
         onChanged: (val) {
           email = val;
@@ -54,9 +55,8 @@ class _LoginPageState extends State<LoginPage> {
         controller: _passController,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Por favor, introduce un texto';
-          } else
-            return null;
+            return 'Por favor, introduce una contraseña';
+          }
         },
         obscureText: true,
         onChanged: (val) {
@@ -73,28 +73,49 @@ class _LoginPageState extends State<LoginPage> {
                 'Entrar',
               ),
               onPressed: () {
-
-                UserServices().login(email, password).then((val) {
-                  print(val.data);
-                  if (val.data['success']) {
-                    token = val.data['token'];
-                    Fluttertoast.showToast(
-                        msg: 'loged',
-                        toastLength: Toast.LENGTH_SHORT,
-                        timeInSecForIosWeb: 6);
+                try {
+                  if (_formKey.currentState!.validate()) {
+                    UserServices().login(email, password).then((val) {
+                      print(val.data);
+                      print(val.statusCode);
+                      if (val.statusCode == 200) {
+                        token = val.data['token'];
+                        Fluttertoast.showToast(
+                          msg: 'Logged successfully',
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6
+                        );
+                        //definir usuario
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserPage(user:new User("pablo", "pablo", "pablo"))),
+                        );
+                        //MyNavigator.goToUser(context);
+                      }
+                      else if(val.statusCode == 401){
+                        Fluttertoast.showToast(
+                          msg: 'Email o contraseña incorrectos',
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6
+                        );
+                      }
+                      else {
+                        Fluttertoast.showToast(
+                          msg: val.status,
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6
+                        );
+                      }
+                    });
                   }
-                });
-
-                MyNavigator.goToUser(context);
-                // _emailController.text == "" || _passController.text == ""
-                //     ? null
-                //     // ignore: unnecessary_statements
-                //     : () {
-                //         setState(() {
-                //           _isLoading = true;
-                //         });
-                //         logIn(_emailController.text, _passController.text);
-                //       };
+                } catch (err) {
+                  print(err);
+                  Fluttertoast.showToast(
+                      msg: err.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 6);
+                }
               }));
     }
 
@@ -169,10 +190,12 @@ class _LoginPageState extends State<LoginPage> {
           ));
     }
 
-    return Scaffold(
-      //key: _formKey,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 30.0),
+    return Material(
+        child: Form(
+      key: _formKey,
+      child: Column(
+        //   padding: EdgeInsets.symmetric(horizontal: 30.0),
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
             'assets/images/smartstock.jpeg',
@@ -188,6 +211,6 @@ class _LoginPageState extends State<LoginPage> {
           googleButton()
         ],
       ),
-    );
+    ));
   }
 }
