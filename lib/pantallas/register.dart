@@ -1,14 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
-
-import 'my_navigator.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

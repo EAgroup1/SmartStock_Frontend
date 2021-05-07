@@ -1,22 +1,12 @@
-import 'dart:developer';
-import 'dart:math';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'my_navigator.dart';
-import 'termsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rlbasic/pantallas/crear.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rlbasic/services/userServices.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'register.dart';
 import 'user/user.dart';
-import 'package:dio/dio.dart';
 import 'splashScreen.dart';
 
 class LoginPage extends StatefulWidget {
