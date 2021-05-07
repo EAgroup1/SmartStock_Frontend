@@ -11,7 +11,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // bool _value = true;
   var name, email, password, conpassword, token, id;
   late final User user;
   final _formKey = GlobalKey<FormState>();
@@ -149,24 +148,26 @@ class _RegisterPageState extends State<RegisterPage> {
     return Material(
         child: Form(
             key: _formKey,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/smartstock.jpeg',
-                    width: 300.00,
-                    height: 240,
-                  ),
-                  createNameInput(),
-                  SizedBox(height: 12.0),
-                  createEmailInput(),
-                  // spacer
-                  SizedBox(height: 30.0),
-                  createPasswordInput(),
-                  SizedBox(height: 12.0),
-                  createConPasswordInput(),
-                  termsAndConditions(),
-                  createRegisterButton(context)
-                ])));
+            child: SafeArea(
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,                 
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/smartstock.jpeg',
+                          width: 300.00,
+                          height: 240,
+                        ),
+                        createNameInput(),
+                        SizedBox(height: 12.0),
+                        createEmailInput(),
+                        SizedBox(height: 30.0),
+                        createPasswordInput(),
+                        SizedBox(height: 12.0),
+                        createConPasswordInput(),
+                        termsAndConditions(),
+                        createRegisterButton(context)
+                  ])))));
   }
 }
