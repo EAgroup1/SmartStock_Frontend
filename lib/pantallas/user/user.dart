@@ -4,34 +4,16 @@ import 'package:rlbasic/models/user.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
 
-class UserPage extends StatefulWidget {
-  late User user;
+class UserPage extends StatelessWidget {
+  final User user;
   UserPage({required this.user});
-  @override
-  _UserPageState createState() => _UserPageState();
-}
-
-class _UserPageState extends State<UserPage> {
-  List<Widget> datosUsuario = [];
-
-  getUser() async {
-    var url = Uri.parse("http://localhost:4000/logIn");
-    var response = await http.get(url);
-    debugPrint(response.body);
-  }
-
-  @override
-  initState() {
-    super.initState();
-    //getUser();
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('¡Bienvenido usuario!'),
+        title:  Text(user.username, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(

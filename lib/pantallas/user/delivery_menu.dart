@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class DeliveryMenu extends StatefulWidget {
-  @override
-  _DeliveryMenuState createState() => _DeliveryMenuState();
-}
-
-class _DeliveryMenuState extends State<DeliveryMenu> {
+class DeliveryMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
