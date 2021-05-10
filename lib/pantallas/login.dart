@@ -1,6 +1,6 @@
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
-import 'my_navigator.dart';
+import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

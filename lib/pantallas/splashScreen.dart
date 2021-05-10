@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'my_navigator.dart';
+import '../my_navigator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
