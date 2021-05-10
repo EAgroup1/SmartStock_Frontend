@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
@@ -111,14 +112,15 @@ class _RegisterPageState extends State<RegisterPage> {
                     print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
-                      user = new User(name, email, password);
-                      user.token = val.data['_aux']['token'];
-                      user.id = val.data['_aux']['_id'];
+                      Aux aux = new Aux(
+                          val.data['_aux']['_id'],
+                          val.data['_aux']['token'],
+                          val.data['_aux']['userName']);                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UserPage(user: user)),
-                      );
+                            builder: (context) => UserPage(aux: aux)),
+                      ); 
                       //  MyNavigator.goToUser(context, );
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
@@ -136,10 +138,9 @@ class _RegisterPageState extends State<RegisterPage> {
               } catch (err) {
                 print(err);
                 Fluttertoast.showToast(
-                  msg: err.toString(),
-                  toastLength: Toast.LENGTH_SHORT,
-                  timeInSecForIosWeb: 6
-                );
+                    msg: err.toString(),
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 6);
               }
             },
           ));
@@ -149,25 +150,25 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Form(
             key: _formKey,
             child: SafeArea(
-              child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,                 
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/images/smartstock.jpeg',
-                          width: 300.00,
-                          height: 240,
-                        ),
-                        createNameInput(),
-                        SizedBox(height: 12.0),
-                        createEmailInput(),
-                        SizedBox(height: 30.0),
-                        createPasswordInput(),
-                        SizedBox(height: 12.0),
-                        createConPasswordInput(),
-                        termsAndConditions(),
-                        createRegisterButton(context)
-                  ])))));
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/smartstock.jpeg',
+                            width: 300.00,
+                            height: 240,
+                          ),
+                          createNameInput(),
+                          SizedBox(height: 12.0),
+                          createEmailInput(),
+                          SizedBox(height: 30.0),
+                          createPasswordInput(),
+                          SizedBox(height: 12.0),
+                          createConPasswordInput(),
+                          termsAndConditions(),
+                          createRegisterButton(context)
+                        ])))));
   }
 }

@@ -1,7 +1,7 @@
 class Aux {
-  String _id;
+  String id;
   String token;
-  Aux.fromJson(jsonMap)
-      : this._id = jsonMap['_id'],
-        this.token = jsonMap['token'];
+  String userName;
+
+  Aux(this.id, this.token, this.userName);
 }

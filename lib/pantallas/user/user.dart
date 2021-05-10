@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
 
 class UserPage extends StatelessWidget {
-  final User user;
-  UserPage({required this.user});
+  final Aux aux;
+  UserPage({required this.aux});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title:  Text(user.username, semanticsLabel: "Bienvenido"),
+        title:  Text(aux.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(

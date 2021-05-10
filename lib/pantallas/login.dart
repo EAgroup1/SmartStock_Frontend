@@ -1,3 +1,4 @@
+import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import '../my_navigator.dart';
@@ -16,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //final _formKey = GlobalKey<FormState>();
-  var email, password, token;
+  var email, password;
   bool _isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
@@ -69,33 +70,30 @@ class _LoginPageState extends State<LoginPage> {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        token = val.data['token'];
-                        Fluttertoast.showToast(
-                          msg: 'Logged successfully',
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 6
-                        );
-                        //definir usuario
+                        Aux aux = new Aux(
+                            val.data['_aux']['id'],
+                            val.data['_aux']['token'],
+                            val.data['_aux']['userName']);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => UserPage(user:new User("pablo", "pablo", "pablo"))),
+                              builder: (context) => UserPage(aux: aux)),
                         );
                         //MyNavigator.goToUser(context);
-                      }
-                      else if(val.statusCode == 401){
                         Fluttertoast.showToast(
-                          msg: 'Email o contraseña incorrectos',
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 6
-                        );
-                      }
-                      else {
+                            msg: 'Logged successfully',
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
+                      } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
-                          msg: val.status,
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 6
-                        );
+                            msg: 'Email o contraseña incorrectos',
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: val.status,
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
                       }
                     });
                   }
