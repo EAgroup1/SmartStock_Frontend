@@ -21,7 +21,6 @@ var routes = <String, WidgetBuilder>{
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
   //"/forgotPassword": (BuildContext context) => ?Page(),
   //"/createNewPassword": (BuildContext context) => ?Page(),
-
   //"/user": (BuildContext context) => UserPage(),
   "/user/deliveries": (BuildContext context) => DeliveryMenu(),
 };
