@@ -14,7 +14,7 @@ class UserPage extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title:  Text(aux.userName, semanticsLabel: "Bienvenido"),
+        title: Text(aux.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(
@@ -36,7 +36,7 @@ class UserPage extends StatelessWidget {
                 leading: Icon(Icons.add_business_rounded),
                 title: Text('Buscar productos'),
                 onTap: () {
-                  Navigator.of(context).pushNamed("");
+                  MyNavigator.goToSearchProducts(context);
                 }),
             ListTile(
                 leading: Icon(Icons.apartment),

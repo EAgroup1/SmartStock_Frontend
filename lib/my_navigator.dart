@@ -10,6 +10,7 @@ import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
 import 'package:rlbasic/pantallas/createNewPassword.dart';
+import 'package:rlbasic/pantallas/user/search_products.dart';
 
 var routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => LoginPage(),
@@ -19,6 +20,7 @@ var routes = <String, WidgetBuilder>{
   "/register": (BuildContext context) => RegisterPage(),
   "/TermsConditions": (BuildContext context) => TermsAndConditionsPage(),
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
+  "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
   //"/forgotPassword": (BuildContext context) => ?Page(),
   //"/createNewPassword": (BuildContext context) => ?Page(),
   //"/user": (BuildContext context) => UserPage(),
@@ -64,5 +66,9 @@ class MyNavigator {
 
   static void goToUserDeliveryMenu(BuildContext context) {
     Navigator.pushNamed(context, "/user/deliveries");
+  }
+
+  static void goToSearchProducts(BuildContext context) {
+    Navigator.pushNamed(context, "/user/searchproducts");
   }
 }

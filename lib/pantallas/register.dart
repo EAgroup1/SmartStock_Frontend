@@ -112,10 +112,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     //print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
-                      Aux aux = new Aux(
-                          val.data['_id'],
-                          val.data['token'],
-                          val.data['userName']);                      
+                      Aux aux = new Aux(val.data['_id'], val.data['token'],
+                          val.data['userName']);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
