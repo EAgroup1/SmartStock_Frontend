@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
               try {
                 if (_formKey.currentState!.validate()) {
                   UserServices().register(name, email, password).then((val) {
-                    print(val.data);
+                    //print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
                       Aux aux = new Aux(
@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UserPage(aux: aux)),
-                      ); 
+                      );
                       //  MyNavigator.goToUser(context, );
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
