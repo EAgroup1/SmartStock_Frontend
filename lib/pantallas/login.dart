@@ -71,9 +71,9 @@ class _LoginPageState extends State<LoginPage> {
                       print(val.statusCode);
                       if (val.statusCode == 200) {
                         Aux aux = new Aux(
-                            val.data['_aux']['id'],
-                            val.data['_aux']['token'],
-                            val.data['_aux']['userName']);
+                            val.data['_id'],
+                            val.data['token'],
+                            val.data['userName']);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
