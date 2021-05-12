@@ -20,7 +20,7 @@ class DeliveryMenuScreen extends StatelessWidget {
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(            
+          appBar: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Color(0xff5808e5),
             bottom: TabBar(
@@ -33,9 +33,8 @@ class DeliveryMenuScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Center(
-                child: GetReady()),
-              Center(child: Text('')),
+              Center(child: GetReady()),
+              Center(child: PickUp()),
             ],
           ),
         ),
@@ -44,24 +43,56 @@ class DeliveryMenuScreen extends StatelessWidget {
   }
 }
 
-class GetReady extends StatelessWidget{
+class GetReady extends StatelessWidget {
+  //CAMBIAR A LISTA DE LOTES
+  final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
-    return Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.arrow_right),
-                        title: const Text('Company Name || 12-2-2021'),
-                      )
-                      ],
-                  ),
-                ),
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.arrow_right),
+                title: Text('${items[index]}'),
+                subtitle: Text('Pick up day: ${items[index]}'),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class PickUp extends StatelessWidget{
+    //CAMBIAR A LISTA DE LOTES
+  final items = List<String>.generate(3, (i) => "Item $i");
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(Icons.av_timer),
+                title: Text('${items[index]}'),
+                subtitle: Text('Pick up day: ${items[index]}'),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
   
 }
-
 class Menu extends StatelessWidget {
   final Aux aux = new Aux("id", "token", "userName");
   //final Aux aux;
@@ -118,4 +149,3 @@ class Menu extends StatelessWidget {
     );
   }
 }
-
