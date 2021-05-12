@@ -33,7 +33,8 @@ class DeliveryMenuScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Center(child: Text('')),
+              Center(
+                child: GetReady()),
               Center(child: Text('')),
             ],
           ),
@@ -41,6 +42,24 @@ class DeliveryMenuScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class GetReady extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.arrow_right),
+                        title: const Text('Company Name || 12-2-2021'),
+                      )
+                      ],
+                  ),
+                ),
+  }
+  
 }
 
 class Menu extends StatelessWidget {
@@ -100,10 +119,3 @@ class Menu extends StatelessWidget {
   }
 }
 
-class DeliveryList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
