@@ -181,9 +181,8 @@ class _LoginPageState extends State<LoginPage> {
     return Material(
         child: Form(
       key: _formKey,
-      child: Column(
-        //   padding: EdgeInsets.symmetric(horizontal: 30.0),
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: ListView(
+        padding: const EdgeInsets.all(30),
         children: <Widget>[
           Image.asset(
             'assets/images/smartstock.jpeg',
