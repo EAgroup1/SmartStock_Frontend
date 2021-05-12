@@ -26,7 +26,7 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (lotSeleccionado != null) Text(lotSeleccionado.name),
+          if (lotSeleccionado != null) Text(lotSeleccionado!.name),
           MaterialButton(
               child: Text('Buscar productos',
                   style: TextStyle(color: Colors.white)),
