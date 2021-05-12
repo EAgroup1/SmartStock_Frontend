@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
           }
-          if (value != password) {
+          if (conpassword != password) {
             return 'Las contraseñas han de ser iguales';
           }
         },
@@ -70,6 +70,9 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
+          }
+          else if (password != conpassword) {
+            return 'Las contraseñas han de ser iguales';
           }
         },
         obscureText: true,
@@ -150,8 +153,8 @@ class _RegisterPageState extends State<RegisterPage> {
             child: SafeArea(
                 child: Align(
                     alignment: Alignment.center,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    child: ListView(
+                        padding: const EdgeInsets.all(30),
                         children: <Widget>[
                           Image.asset(
                             'assets/images/smartstock.jpeg',
