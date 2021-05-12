@@ -80,7 +80,9 @@ class EmailBack extends StatelessWidget{
   }
 }
 
+//we can print on the screen but it has a methods to change some values
 class ButtonBack extends StatefulWidget{
+  //we can show all screen again after state
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
