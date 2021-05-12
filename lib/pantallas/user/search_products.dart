@@ -15,7 +15,7 @@ class SearchProductsPage extends StatefulWidget {
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
 
-  Lot lotSeleccionado;
+  Lot? lotSeleccionado;
 
   List<Lot> historial = [];
 
