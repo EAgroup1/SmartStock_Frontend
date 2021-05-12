@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class UserServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/users/";
+  var url = "http://backend:4000/api/users/";
 
   login(email, password) async {
     print(email);
