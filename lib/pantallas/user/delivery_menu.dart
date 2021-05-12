@@ -76,6 +76,7 @@ class PickUp extends StatelessWidget{
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
+        onPressed(){}
         return Card(
           clipBehavior: Clip.antiAlias,
           child: Column(

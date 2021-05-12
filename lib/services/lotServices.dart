@@ -18,4 +18,19 @@ class lotServices {
       return [];
     }
   }
+  getLotUser(String id) async{
+    try {
+      final resp = await dio.post(url,
+        data:{"id":id},
+        options: Options(contentType: Headers.formUrlEncodedContentType)      
+      );
+      print(resp.data);
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
 }
