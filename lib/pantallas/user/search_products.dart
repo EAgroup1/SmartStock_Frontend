@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rlbasic/models/_aux.dart';
+import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/models/user.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/lotServices.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SearchProductsPage extends StatefulWidget {
   @override
@@ -11,27 +14,49 @@ class SearchProductsPage extends StatefulWidget {
 }
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
-  @override
+
+  Lot lotSeleccionado;
+
+  List<Lot> historial = [];
+
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Buscar productos"),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: DataSearch());
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (lotSeleccionado != null) Text(lotSeleccionado.name),
+          MaterialButton(
+              child: Text('Buscar productos',
+                  style: TextStyle(color: Colors.white)),
+              shape: StadiumBorder(),
+              elevation: 0,
+              splashColor: Colors.transparent,
+              color: Colors.blue,
+              onPressed: () async {
+                final lote = await showSearch(
+                    context: context,
+                    delegate: DataSearch('Buscar...', historial));
+
+                setState(() {
+                  this.lotSeleccionado = lote!;
+                  this.historial.insert(0, lote);
+                });
               })
         ],
-      ),
-      drawer: Drawer(),
+      )),
     );
   }
 }
 
-class DataSearch extends SearchDelegate<String> {
-  final cosas = ["Item", "Quantity"];
-  final cosas2 = ["Zapatos", "20"];
+class DataSearch extends SearchDelegate<Lot?> {
+  /*  final cosas = ["Item", "Quantity"];
+  final cosas2 = ["Zapatos", "20"]; */
+  final String searchFieldLabel;
+  final List<Lot> historialot;
+
+  DataSearch(this.searchFieldLabel, this.historialot);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -54,7 +79,7 @@ class DataSearch extends SearchDelegate<String> {
         icon: AnimatedIcon(
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
-          
+          this.close(context, null);
         });
   }
 
@@ -62,15 +87,26 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
     //show some result based on the selction
-    return Center(
-      child: Container(
-          height: 200,
-          width: 200,
-          child: Card(
-              color: Colors.red,
-              child: Center(
-                child: Text(query),
-              ))),
+    print(query);
+
+    if (query.trim().length == 0) {
+      return Text('No hay valor en el query');
+    }
+    final lotservices = new lotServices();
+
+    return FutureBuilder(
+      future: lotservices.getLot(query),
+      builder: (_, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return ListTile(
+              title: Text('No hay nada que coincida con lo que has escrito'));
+        }
+        if (snapshot.hasData) {
+          return _showLots(snapshot.data);
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
     );
   }
 
@@ -78,27 +114,24 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final suggestionlist = query.isEmpty
-        ? cosas
-        : cosas2.where((p) => p.startsWith(query)).toList();
+    return _showLots(this.historialot);
+  }
+
+  Widget _showLots(List<Lot> lot) {
     return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          showResults(context);
-        },
-        leading: Icon(Icons.apartment),
-        title: RichText(
-            text: TextSpan(
-                text: suggestionlist[index].substring(0, query.length),
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                children: [
-              TextSpan(
-                  text: suggestionlist[index].substring(query.length),
-                  style: TextStyle(color: Colors.grey))
-            ])),
-      ),
-      itemCount: suggestionlist.length,
+      itemCount: lot.length,
+      itemBuilder: (context, i) {
+        var lote = lot[i];
+
+        return ListTile(
+          title: Text(lote.name),
+          subtitle: Text(lote.quantity),
+          trailing: Text(lote.price),
+          onTap: () {
+            this.close(context, lote);
+          },
+        );
+      },
     );
   }
 }
