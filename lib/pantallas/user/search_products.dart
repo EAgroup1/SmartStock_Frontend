@@ -125,8 +125,8 @@ class DataSearch extends SearchDelegate<Lot?> {
 
         return ListTile(
           title: Text(lote.name),
-          subtitle: Text(lote.quantity),
-          trailing: Text(lote.price),
+          subtitle: Text(lote.quantity.toString()),
+          trailing: Text(lote.price.toString()),
           onTap: () {
             this.close(context, lote);
           },
