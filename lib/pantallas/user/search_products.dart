@@ -66,7 +66,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            query = "";
+            this.query = '';
           })
     ];
   }
@@ -117,16 +117,16 @@ class DataSearch extends SearchDelegate<Lot?> {
     return _showLots(this.historialot);
   }
 
-  Widget _showLots(List<Lot> lot) {
+  Widget _showLots(List<dynamic> lots) {
     return ListView.builder(
-      itemCount: lot.length,
+      itemCount: lots.length,
       itemBuilder: (context, i) {
-        var lote = lot[i];
+        var lote = lots[i];
 
         return ListTile(
           title: Text(lote.name),
-          subtitle: Text(lote.quantity),
-          trailing: Text(lote.price),
+          subtitle: Text(lote.qty.toString()),
+          trailing: Text(lote.price.toString()),
           onTap: () {
             this.close(context, lote);
           },

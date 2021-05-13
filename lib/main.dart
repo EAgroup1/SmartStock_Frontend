@@ -8,6 +8,7 @@ void main() {
   runApp(MyApp());
 }
 
+//MyApp heredates of StatelessWidget ---> overwrite build method
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
           dividerColor: Colors.grey,
           primarySwatch: Colors.blue,
         ),
+        //First widget to render
         home: SplashScreen(),
         routes: routes);
   }

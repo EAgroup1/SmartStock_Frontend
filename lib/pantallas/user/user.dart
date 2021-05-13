@@ -11,11 +11,12 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //menu lateral
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
         title: Text(aux.userName, semanticsLabel: "Bienvenido"),
-      ),
+        ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -60,5 +61,6 @@ class UserPage extends StatelessWidget {
         ),
       ),
     ));
-  }
+    
+    }
 }
