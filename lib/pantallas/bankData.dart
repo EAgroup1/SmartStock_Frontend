@@ -9,7 +9,10 @@ class BankDataPage extends StatefulWidget {
 
 class _BankDataPageState extends State<BankDataPage> {
   var IBAN;
-  
+  var role;
+  bool _businessChecked = false;
+  bool _storageChecked = false;
+  bool _delivererChecked = false;
   @override
   Widget build(BuildContext context) {
 
@@ -17,9 +20,9 @@ class _BankDataPageState extends State<BankDataPage> {
         return Center(
           child: CheckboxListTile(
             title: const Text('Rol Empresa'),
-            value: timeDilation != 1.0,
+            value: _businessChecked,
             onChanged: (bool? value) {
-              setState(() { timeDilation = value! ? 2.0 : 1.0; });
+              setState(() { role = "Business"; _businessChecked = value!; });
             },
             secondary: const Icon(Icons.hourglass_empty),
           ),
@@ -29,9 +32,9 @@ class _BankDataPageState extends State<BankDataPage> {
         return Center(
           child: CheckboxListTile(
             title: const Text('Rol Almacén'),
-            value: timeDilation != 1.0,
+            value: _storageChecked,
             onChanged: (bool? value) {
-              setState(() { timeDilation = value! ? 2.0 : 1.0; });
+              setState(() { role = "Storage"; _storageChecked = value!; });
             },
             secondary: const Icon(Icons.hourglass_empty),
           ),
@@ -41,9 +44,9 @@ class _BankDataPageState extends State<BankDataPage> {
         return Center(
           child: CheckboxListTile(
             title: const Text('Rol Repartidor'),
-            value: timeDilation != 1.0,
+            value: _delivererChecked,
             onChanged: (bool? value) {
-              setState(() { timeDilation = value! ? 2.0 : 1.0; });
+              setState(() { role = "Deliverer"; _delivererChecked = value!; });
             },
             secondary: const Icon(Icons.hourglass_empty),
           ),
@@ -70,7 +73,28 @@ class _BankDataPageState extends State<BankDataPage> {
                 'Confirmar datos',
               ),
               onPressed: () {
-                Fluttertoast.showToast(msg:"Envio falso de momento");
+                var sum = 0;
+                if (_delivererChecked){
+                  sum = sum +1;
+                }
+                if (_businessChecked){
+                  sum = sum +1;
+                }
+                if (_storageChecked){
+                  sum = sum +1;
+                }
+                if (sum>1){
+                  Fluttertoast.showToast(msg: "Solo un rol. Deselecciona hasta solo tener un rol.");
+                }
+                else if (sum == 0){
+                  Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
+                }
+                else{
+                  Fluttertoast.showToast(msg: "Envio falso de momento");
+                }
+                if (IBAN == null && !_businessChecked){
+                  Fluttertoast.showToast(msg: "Introduce tu IBAN");
+                }
               }));
       }
       return Material(

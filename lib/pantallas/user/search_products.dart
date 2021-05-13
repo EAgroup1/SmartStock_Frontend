@@ -149,4 +149,3 @@ class DataSearch extends SearchDelegate<Lot?> {
     );
   }
 }
-

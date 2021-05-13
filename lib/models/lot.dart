@@ -1,29 +1,38 @@
 import 'dart:html';
 
+import 'package:rlbasic/models/user.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'lot.g.dart';
+
+@JsonSerializable()
 class Lot {
   String name;
-  String dimensions;
-  int weight;
+  late String dimensions;
+  late int weight;
+  @JsonKey(name:'qty')
   int qty;
   int price;
-  bool isFragile;
-  late String info;
+  late bool isFragile;
+  String info;
+  @JsonKey(name:'_id')
+  String id;
   int minimumQty;
 
-  Lot({required this.name, required this.dimensions, required this.weight,
-      required this.qty, required this.price, required this.isFragile, required this.info,
-      required this.minimumQty});
+  Lot(this.name, this.qty, this.price, this.id, this.info, this.minimumQty);
 
-  static Lot fromJson(Map json) {
+  factory Lot.fromJson(Map<String, dynamic> json) => _$LotFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LotToJson(this);
+
+  /* static Lot fromJson(Map json) {
     return Lot(
-        name: json['name'], dimensions: json['dimensions'], weight: json['weight'], 
-        qty: json['qty'], price: json['price'], isFragile: json['isFragile'], 
-        info: json['info'], minimumQty: json['minimumQty']);
+        name: json['name'], quantity: json['quantity'], price: json['price'], id: json['_id'], info: json['info']);
   }
 
   @override
   String toString() {
-      // TODO: implement toString
-      return 'Instance of Lot : $name' ;
-    }
+    // TODO: implement toString
+    return 'Instance of Lot : $name';
+  } */
 }

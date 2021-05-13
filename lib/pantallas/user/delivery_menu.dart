@@ -51,16 +51,26 @@ class GetReady extends StatelessWidget {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
-        return Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              ListTile(
-                leading: Icon(Icons.arrow_right),
-                title: Text('${items[index]}'),
-                subtitle: Text('Pick up day: ${items[index]}'),
-              )
-            ],
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              //CAMBIAR POR LOTE
+              builder: (BuildContext context) =>
+                  _buildPopupDialog(context, items[index]),
+            );
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.arrow_right),
+                  title: Text('${items[index]}'),
+                  subtitle: Text('Pick up day: ${items[index]}'),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -68,32 +78,74 @@ class GetReady extends StatelessWidget {
   }
 }
 
-class PickUp extends StatelessWidget{
-    //CAMBIAR A LISTA DE LOTES
+class PickUp extends StatelessWidget {
+  //CAMBIAR A LISTA DE LOTES
   final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
-        onPressed(){}
-        return Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              ListTile(
-                leading: Icon(Icons.av_timer),
-                title: Text('${items[index]}'),
-                subtitle: Text('Pick up day: ${items[index]}'),
-              )
-            ],
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              //CAMBIAR POR LOTE
+              builder: (BuildContext context) =>
+                  _buildPopupDialog(context, items[index]),
+            );
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.av_timer),
+                  title: Text('${items[index]}'),
+                  subtitle: Text('Pick up day: ${items[index]}'),
+                )
+              ],
+            ),
           ),
         );
       },
     );
   }
-  
 }
+
+Widget _buildPopupDialog(BuildContext context, String item) {
+  final bool value;
+  final Function onChange;
+
+  return new AlertDialog(
+    title: const Text('TO BE READY'),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('Items to add:'),
+       /*  CheckboxListTile(
+          title: Text('nombre de items'),
+          secondary: Text('numero de items'),
+          value: value,
+          onChanged: (bool? newValue) {
+            onChanged(newValue);
+          },
+        ) */
+      ],
+    ),
+    actions: <Widget>[
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Close'),
+      ),
+    ],
+  );
+}
+
 class Menu extends StatelessWidget {
   final Aux aux = new Aux("id", "token", "userName");
   //final Aux aux;

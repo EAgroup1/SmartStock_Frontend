@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,15 +25,24 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
+  User user = User('', '', '');
+  Dio dioerror = new Dio();
 
   @override
   Widget build(BuildContext context) {
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Email'),
+        controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un email';
+          } else if (RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(value)) {
+            return null;
+          } else {
+            return 'Introduce un correo válido';
           }
         },
         onChanged: (val) {
@@ -70,9 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        Aux aux = new Aux(
-                            val.data['_id'],
-                            val.data['token'],
+                        Aux aux = new Aux(val.data['_id'], val.data['token'],
                             val.data['userName']);
                         Navigator.push(
                           context,
@@ -115,7 +124,9 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-                MyNavigator.goToTerms(context);
+                DeliveryServices().getdeliveriesUser("609c29591c34f216f043c43d");
+          //      UserServices().login(email, password)
+               // MyNavigator.goToTerms(context);
               },
             ),
           ),
