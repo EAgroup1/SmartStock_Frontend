@@ -13,7 +13,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   var name, email, password, conpassword, token, id;
-  late final User user;
+  User user = User('', '', '');
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,16 @@ class _RegisterPageState extends State<RegisterPage> {
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(filled: true, hintText: 'Email'),
+        controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
+          } else if (RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(value)) {
+            return null;
+          } else {
+            return 'Introduce un correo válido';
           }
         },
         onChanged: (val) {
@@ -51,8 +58,9 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
-          }
-          if (conpassword != password) {
+          } else if (value.length < 3) {
+            return 'Introduce una contraseña de más de 3 carácteres';
+          } else if (conpassword != password) {
             return 'Las contraseñas han de ser iguales';
           }
         },
@@ -70,8 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
-          }
-          else if (password != conpassword) {
+          } else if (password != conpassword) {
             return 'Las contraseñas han de ser iguales';
           }
         },
@@ -117,18 +124,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (val.statusCode == 200) {
                       Aux aux = new Aux(val.data['_id'], val.data['token'],
                           val.data['userName']);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserPage(aux: aux)),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserPage(aux: aux)),
+                        );
                       //  MyNavigator.goToUser(context, );
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
-                    } else {
+                     
+                    } 
+                    else {
                       Fluttertoast.showToast(
                           msg: val.status,
                           toastLength: Toast.LENGTH_SHORT,
