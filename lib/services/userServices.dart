@@ -26,6 +26,22 @@ class UserServices {
     }
   }
 
+  getUser(String id) async{
+    try {
+      final resp = await dio.post(url,
+        data:{"id":id},
+        options: Options(contentType: Headers.formUrlEncodedContentType)      
+      );
+      print(resp.data);
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => User.fromJson(obj)).toList();
+
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   register(name, email, password) async {
     try {
       return await dio.post(url + 'signUp',

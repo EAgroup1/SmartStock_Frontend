@@ -93,7 +93,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       return Text('No hay valor en el query');
     }
     final lotservices = new lotServices();
-
+    
     return FutureBuilder(
       future: lotservices.getLot(query),
       builder: (_, AsyncSnapshot snapshot) {
@@ -114,7 +114,18 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    return _showLots(this.historialot);
+    final allLots = new lotServices();
+    return FutureBuilder(
+      future: allLots.getAllLots(),
+      builder: (_, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return _showLots(snapshot.data);
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  
   }
 
   Widget _showLots(List<dynamic> lots) {
@@ -124,12 +135,15 @@ class DataSearch extends SearchDelegate<Lot?> {
         var lote = lots[i];
 
         return ListTile(
-          title: Text(lote.name),
-          subtitle: Text(lote.qty.toString()),
-          trailing: Text(lote.price.toString()),
+          title: Text(lote.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          subtitle: Text(lote.info.toString()),
+          trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () {
             this.close(context, lote);
           },
+          dense: true,
+          selected: false,
+          enabled: true,
         );
       },
     );
