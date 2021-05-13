@@ -18,7 +18,7 @@ class UserServices {
     } catch (e) {
       if (e is DioError) {
         Fluttertoast.showToast(
-            msg: 'No existe el email, regístrate',
+            msg: 'No estás registrado o la contraseña es incorrecta',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
