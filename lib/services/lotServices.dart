@@ -7,7 +7,7 @@ class lotServices {
 
   getLot(String name) async {
     try {
-      final resp = await dio.get(url);
+      final resp = await dio.get('$url'+'get/'+'$name');
       print(resp.data);
 
       final List<dynamic> lotlist = resp.data;
@@ -28,6 +28,17 @@ class lotServices {
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
 
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  getAllLots() async {
+    try {
+      final resp = await dio.get(url);
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
       print(e);
       return [];

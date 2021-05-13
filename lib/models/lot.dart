@@ -11,14 +11,15 @@ class Lot {
   late String dimensions;
   late int weight;
   @JsonKey(name:'qty')
-  int quantity;
+  int qty;
   int price;
   late bool isFragile;
   String info;
   @JsonKey(name:'_id')
   String id;
+  int minimumQty;
 
-  Lot(this.name, this.quantity, this.price, this.id, this.info);
+  Lot(this.name, this.qty, this.price, this.id, this.info, this.minimumQty);
 
   factory Lot.fromJson(Map<String, dynamic> json) => _$LotFromJson(json);
 
