@@ -47,11 +47,26 @@ class DeliveryMenuScreen extends StatelessWidget {
 
 class GetReady extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
-  final List<Delivery> deliveries = DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
+  late final List<Delivery> deliveries;
+  final deliveryService = new DeliveryServices();
 
-final items = List<String>.generate(3, (i) => "Item $i");
+  final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
+    FutureBuilder(
+      future: deliveryService.getDeliveriesUser("609c29591c34f216f043c43d"),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasError) {
+          return ListTile(
+              title: Text('No hay nada que coincida con lo que has escrito'));
+        }
+        if (snapshot.hasData) {
+          return this.deliveries = snapshot.data;
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
     return ListView.builder(
       itemCount: deliveries.length,
       itemBuilder: (context, index) {
@@ -71,7 +86,8 @@ final items = List<String>.generate(3, (i) => "Item $i");
                 ListTile(
                   leading: Icon(Icons.arrow_right),
                   title: Text('${deliveries[index].businessItem.userName}'),
-                  subtitle: Text('Pick up day: ${deliveries[index].deliveryDate}'),
+                  subtitle:
+                      Text('Pick up day: ${deliveries[index].deliveryDate}'),
                 )
               ],
             ),
@@ -84,7 +100,8 @@ final items = List<String>.generate(3, (i) => "Item $i");
 
 class PickUp extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
-  final List<Delivery> deliveries = DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
+  final List<Delivery> deliveries =
+      DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
   final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
@@ -107,7 +124,8 @@ class PickUp extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.av_timer),
                   title: Text('${deliveries[index].businessItem.userName}'),
-                  subtitle: Text('Pick up day: ${deliveries[index].deliveryDate}'),
+                  subtitle:
+                      Text('Pick up day: ${deliveries[index].deliveryDate}'),
                 )
               ],
             ),
