@@ -2,17 +2,23 @@ import 'dart:html';
 
 class Lot {
   String name;
-  late String dimensions;
-  late String weight;
-  String quantity;
-  String price;
-  late String isFragile;
+  String dimensions;
+  int weight;
+  int qty;
+  int price;
+  bool isFragile;
+  late String info;
+  int minimumQty;
 
-  Lot({required this.name, required this.quantity, required this.price});
+  Lot({required this.name, required this.dimensions, required this.weight,
+      required this.qty, required this.price, required this.isFragile, required this.info,
+      required this.minimumQty});
 
   static Lot fromJson(Map json) {
     return Lot(
-        name: json['name'], quantity: json['quantity'], price: json['price']);
+        name: json['name'], dimensions: json['dimensions'], weight: json['weight'], 
+        qty: json['qty'], price: json['price'], isFragile: json['isFragile'], 
+        info: json['info'], minimumQty: json['minimumQty']);
   }
 
   @override

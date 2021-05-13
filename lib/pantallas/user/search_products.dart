@@ -66,7 +66,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            query = "";
+            this.query = '';
           })
     ];
   }
@@ -117,16 +117,16 @@ class DataSearch extends SearchDelegate<Lot?> {
     return _showLots(this.historialot);
   }
 
-  Widget _showLots(List<Lot> lot) {
+  Widget _showLots(List<dynamic> lots) {
     return ListView.builder(
-      itemCount: lot.length,
+      itemCount: lots.length,
       itemBuilder: (context, i) {
-        var lote = lot[i];
+        var lote = lots[i];
 
         return ListTile(
           title: Text(lote.name),
-          subtitle: Text(lote.quantity),
-          trailing: Text(lote.price),
+          subtitle: Text(lote.qty.toString()),
+          trailing: Text(lote.price.toString()),
           onTap: () {
             this.close(context, lote);
           },
@@ -135,3 +135,15 @@ class DataSearch extends SearchDelegate<Lot?> {
     );
   }
 }
+
+lote.dimensions
+"name": "Leche",
+    "dimensions": "60x30x15",
+    "weight": 60,
+    "qty": 40,
+    "price": 1,
+    "isFragile": true,
+    "info": "La vaca hace muuuuh",
+    "minimumQty": 40,
+    "businessItem": "609bd8b5992ec4146032d392",
+    "userItem":"609bd8a5992ec4146032d391"
