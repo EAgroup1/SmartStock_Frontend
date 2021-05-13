@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rlbasic/models/_aux.dart';
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 
 class DeliveryMenu extends StatelessWidget {
   @override
@@ -45,11 +47,13 @@ class DeliveryMenuScreen extends StatelessWidget {
 
 class GetReady extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
-  final items = List<String>.generate(3, (i) => "Item $i");
+  final List<Delivery> deliveries = DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
+
+final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: items.length,
+      itemCount: deliveries.length,
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
@@ -57,7 +61,7 @@ class GetReady extends StatelessWidget {
               context: context,
               //CAMBIAR POR LOTE
               builder: (BuildContext context) =>
-                  _buildPopupDialog(context, items[index]),
+                  _buildPopupDialog(context, deliveries[index]),
             );
           },
           child: Card(
@@ -66,8 +70,8 @@ class GetReady extends StatelessWidget {
               children: [
                 ListTile(
                   leading: Icon(Icons.arrow_right),
-                  title: Text('${items[index]}'),
-                  subtitle: Text('Pick up day: ${items[index]}'),
+                  title: Text('${deliveries[index].businessItem.userName}'),
+                  subtitle: Text('Pick up day: ${deliveries[index].deliveryDate}'),
                 )
               ],
             ),
@@ -80,11 +84,12 @@ class GetReady extends StatelessWidget {
 
 class PickUp extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
+  final List<Delivery> deliveries = DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
   final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: items.length,
+      itemCount: deliveries.length,
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
@@ -92,7 +97,7 @@ class PickUp extends StatelessWidget {
               context: context,
               //CAMBIAR POR LOTE
               builder: (BuildContext context) =>
-                  _buildPopupDialog(context, items[index]),
+                  _buildPopupDialog(context, deliveries[index]),
             );
           },
           child: Card(
@@ -101,8 +106,8 @@ class PickUp extends StatelessWidget {
               children: [
                 ListTile(
                   leading: Icon(Icons.av_timer),
-                  title: Text('${items[index]}'),
-                  subtitle: Text('Pick up day: ${items[index]}'),
+                  title: Text('${deliveries[index].businessItem.userName}'),
+                  subtitle: Text('Pick up day: ${deliveries[index].deliveryDate}'),
                 )
               ],
             ),
@@ -113,7 +118,7 @@ class PickUp extends StatelessWidget {
   }
 }
 
-Widget _buildPopupDialog(BuildContext context, String item) {
+Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
   final bool value;
   final Function onChange;
 
@@ -124,7 +129,7 @@ Widget _buildPopupDialog(BuildContext context, String item) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text('Items to add:'),
-       /*  CheckboxListTile(
+        /*  CheckboxListTile(
           title: Text('nombre de items'),
           secondary: Text('numero de items'),
           value: value,

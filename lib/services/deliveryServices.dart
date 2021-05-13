@@ -7,19 +7,19 @@ class DeliveryServices {
   Dio dio = new Dio();
   var url = "http://localhost:4000/api/delivery/";
 
-  getdeliveriesUser(String id) async {
+  getDeliveriesUser(String id) async {
     print(id);
     try {
       final resp = await dio.post(url + id + '/deliveries/',
           data: {"id": id},
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
-     
+
       final List<Delivery> deliverylist;
-      deliverylist = (resp.data as List)
-          .map((i) => Delivery.fromJson(i))
-          .toList();
-      print(deliverylist[0].id);
+      deliverylist =
+          (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
+
+      return deliverylist;
       /*  =
           resp.data.map((obj) => Delivery.fromJson(obj)).toList();
       print(deliverylist[0].id); */
