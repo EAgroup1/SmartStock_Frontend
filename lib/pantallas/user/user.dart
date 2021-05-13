@@ -4,6 +4,7 @@ import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 
 class UserPage extends StatelessWidget {
   final Aux aux;
@@ -49,7 +50,12 @@ class UserPage extends StatelessWidget {
                 leading: Icon(Icons.motorcycle),
                 title: Text('Productos para entregar'),
                 onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeliveryMenu(id: aux.id)),
+                        );
+                 // MyNavigator.goToUserDeliveryMenu(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),

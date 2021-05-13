@@ -24,7 +24,7 @@ var routes = <String, WidgetBuilder>{
   //"/forgotPassword": (BuildContext context) => ?Page(),
   //"/createNewPassword": (BuildContext context) => ?Page(),
   //"/user": (BuildContext context) => UserPage(),
-  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
+ // "/user/deliveries": (BuildContext context) => DeliveryMenu(id: String id),
 };
 
 class MyNavigator {

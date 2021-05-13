@@ -6,25 +6,81 @@ import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 
 class DeliveryMenu extends StatelessWidget {
+  final String id;
+  DeliveryMenu({required this.id});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DeliveryMenuScreen(),
+      home:Scaffold(
+        appBar: AppBar(
+        title: Text('My Stored Products'),
+        ),
+        drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Perfil',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+                leading: Icon(Icons.add_business_rounded),
+                title: Text('Buscar productos'),
+                onTap: () {
+                  MyNavigator.goToSearchProducts(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.apartment),
+                title: Text('Mis productos almacenados'),
+                onTap: () {
+                  Navigator.of(context).pushNamed("");
+                }),
+            ListTile(
+                leading: Icon(Icons.motorcycle),
+                title: Text('Productos para entregar'),
+                onTap: () {
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeliveryMenu(id: id)),
+                        );
+                 // MyNavigator.goToUserDeliveryMenu(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Configuración'),
+                onTap: () {
+                  MyNavigator.goToConfigUser(context);
+                }),
+          ],
+        ),
+      ),
+        body:DeliveryMenuScreen(id: id),
+    ),
     );
+    
   }
 }
 
 class DeliveryMenuScreen extends StatelessWidget {
+  final String id;
+  DeliveryMenuScreen({required this.id});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Color(0xff5808e5),
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
@@ -35,8 +91,8 @@ class DeliveryMenuScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Center(child: GetReady()),
-              Center(child: PickUp()),
+              Center(child: GetReady(id: id)),
+              Center(child: PickUp(id: id)),
             ],
           ),
         ),
@@ -46,27 +102,33 @@ class DeliveryMenuScreen extends StatelessWidget {
 }
 
 class GetReady extends StatelessWidget {
+  final String id;
+  GetReady({required this.id});
   //CAMBIAR A LISTA DE LOTES
-  late final List<Delivery> deliveries;
+  late var deliveries = <Delivery>[];
   final deliveryService = new DeliveryServices();
 
-  final items = List<String>.generate(3, (i) => "Item $i");
   @override
   Widget build(BuildContext context) {
-    FutureBuilder(
-      future: deliveryService.getDeliveriesUser("609c29591c34f216f043c43d"),
+    return FutureBuilder(
+      future: deliveryService.getDeliveriesUser(id),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(
               title: Text('No hay nada que coincida con lo que has escrito'));
         }
         if (snapshot.hasData) {
-          return this.deliveries = snapshot.data;
+          this.deliveries = snapshot.data;
+          return buildList(context);
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
+  }
+
+  @override
+  Widget buildList(BuildContext context) {
     return ListView.builder(
       itemCount: deliveries.length,
       itemBuilder: (context, index) {
@@ -99,12 +161,34 @@ class GetReady extends StatelessWidget {
 }
 
 class PickUp extends StatelessWidget {
+  final String id;
+  PickUp({required this.id});
   //CAMBIAR A LISTA DE LOTES
-  final List<Delivery> deliveries =
-      DeliveryServices().getDeliveriesUser("609c29591c34f216f043c43d");
-  final items = List<String>.generate(3, (i) => "Item $i");
+  // ignore: deprecated_member_use
+  late var deliveries = <Delivery>[];
+  final deliveryService = new DeliveryServices();
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: deliveryService.getDeliveriesUser(id),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasError) {
+          return ListTile(
+              title: Text('No hay nada que coincida con lo que has escrito'));
+        }
+        if (snapshot.hasData) {
+          this.deliveries = snapshot.data;
+          return buildList(context);
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  }
+
+  @override
+  Widget buildList(BuildContext context) {
     return ListView.builder(
       itemCount: deliveries.length,
       itemBuilder: (context, index) {
