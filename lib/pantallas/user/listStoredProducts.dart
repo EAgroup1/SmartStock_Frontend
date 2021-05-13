@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
  
+//this function doesn't execute again ---> there are NO changes
 void main() => runApp(MyApp());
  
 class MyApp extends StatelessWidget {
@@ -7,7 +8,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'List stored products',
-      home: Scaffold(
+      home: ListProdPage(),
+    );
+  }
+
+  //void _goMySalary() {}
+}
+
+//we define the list
+List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];
+
+//Scaffold Class
+class ListProdPage extends StatelessWidget {
+  //we'll see required or nullable
+  ListProdPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
         appBar: AppBar(
           title: Text('My store products'),
           //At the beginning, we will add the salary button $ on the AppBar
@@ -16,7 +34,7 @@ class MyApp extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.euro_symbol),
-              onPressed: _goMySalary,
+              onPressed: (){},
               )
           ],
         ),
@@ -34,18 +52,34 @@ class MyApp extends StatelessWidget {
 
             //children = array de widgets
             children: <Widget>[
-              Container(
-                color: Colors.grey,
-                height: 100,
-                width: 100,
+
+              // Container(
+              //   color: Colors.grey,
+              //   height: 100,
+              //   width: 100,
+              // ),
+
+              //listView at the beginning
+              //if i have a list we can use builder
+              ListView.builder(
+                itemCount: lots.length,
+                itemBuilder: (BuildContext context, int index){
+                  //return something, in our case we return the info from each lot of the user
+                  final lot = lots[index];
+                  return ListTile(
+                    title: Text(lot), 
+                    leading: Icon(Icons.storage),
+                    onTap: (){
+                      //do something when we click a lot
+                      print(lot);
+                    },
+                  );
+                },
               ),
+
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _goMySalary() {
+      );
   }
 }
