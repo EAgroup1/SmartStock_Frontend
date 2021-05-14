@@ -124,9 +124,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-             //   DeliveryServices().getdeliveriesUser("609c29591c34f216f043c43d");
-          //      UserServices().login(email, password)
-               // MyNavigator.goToTerms(context);
+                 MyNavigator.goToForgotPassword(context);
               },
             ),
           ),

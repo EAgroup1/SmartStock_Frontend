@@ -90,7 +90,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     print(query);
 
     if (query.trim().length == 0) {
-      return Text('No hay valor en el query');
+      return Text('Has clickado enter y no has introducido texto. Para volver a ver los productos haz click derecho');
     }
     final lotservices = new lotServices();
     

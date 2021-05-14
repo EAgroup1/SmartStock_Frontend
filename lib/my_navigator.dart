@@ -21,7 +21,7 @@ var routes = <String, WidgetBuilder>{
   "/TermsConditions": (BuildContext context) => TermsAndConditionsPage(),
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
-  //"/forgotPassword": (BuildContext context) => ?Page(),
+  "/user/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
   //"/createNewPassword": (BuildContext context) => ?Page(),
   //"/user": (BuildContext context) => UserPage(),
  // "/user/deliveries": (BuildContext context) => DeliveryMenu(id: String id),
@@ -71,4 +71,9 @@ class MyNavigator {
   static void goToSearchProducts(BuildContext context) {
     Navigator.pushNamed(context, "/user/searchproducts");
   }
+
+  static void goToForgotPassword(BuildContext context) {
+    Navigator.pushNamed(context, "/user/forgotpassword");
+  }
+
 }

@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 //widgets with state=button (statefulWidget) and NO state= layout (stateless)
 //ok --> this page has 3 widgets (2 stateless & 1 stateful)
  
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
  
-class MyApp extends StatelessWidget {
+class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
