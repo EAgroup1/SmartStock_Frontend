@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
-import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
+import 'package:rlbasic/pantallas/bankData.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   var name, email, password, conpassword, token, id;
-  User user = User('', '', '');
+  User user = User('', '', '', '', '');
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -122,14 +122,20 @@ class _RegisterPageState extends State<RegisterPage> {
                     //print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
-                      Aux aux = new Aux(val.data['_id'], val.data['token'],
-                          val.data['userName']);
+                        Aux aux = new Aux(val.data['_id'], val.data['token'],
+                            val.data['userName']);
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserPage(aux: aux)),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BankDataPage(aux: aux)),
                         );
-                      //  MyNavigator.goToUser(context, );
+
+                        
+                        //MyNavigator.goToUser(context);
+                        Fluttertoast.showToast(
+                            msg: 'Logged successfully',
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',

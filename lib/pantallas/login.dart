@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/services/userServices.dart';
+import 'package:rlbasic/pantallas/bankData.dart';
 import 'user/user.dart';
 import 'splashScreen.dart';
 
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '');
+  User user = User('', '', '', '', '');
   Dio dioerror = new Dio();
 
   @override
@@ -84,10 +85,11 @@ class _LoginPageState extends State<LoginPage> {
                         Aux aux = new Aux(val.data['_id'], val.data['token'],
                             val.data['userName']);
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserPage(aux: aux)),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserPage(aux: aux)),
                         );
+
                         //MyNavigator.goToUser(context);
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',

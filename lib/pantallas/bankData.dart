@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:rlbasic/models/_aux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
 
 class BankDataPage extends StatefulWidget {
+  final Aux aux;
+  BankDataPage({required this.aux});
   @override
-  _BankDataPageState createState() => _BankDataPageState();
+  _BankDataPageState createState() => _BankDataPageState(aux: aux);
 }
 
 class _BankDataPageState extends State<BankDataPage> {
   var IBAN;
   var role;
+  Aux aux;
+  _BankDataPageState({required this.aux});
   bool _businessChecked = false;
   bool _storageChecked = false;
   bool _delivererChecked = false;
@@ -90,7 +95,13 @@ class _BankDataPageState extends State<BankDataPage> {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
                 }
                 else{
+
                   Fluttertoast.showToast(msg: "Envio falso de momento");
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserPage(aux: aux)),
+                        );
                 }
                 if (IBAN == null && !_businessChecked){
                   Fluttertoast.showToast(msg: "Introduce tu IBAN");

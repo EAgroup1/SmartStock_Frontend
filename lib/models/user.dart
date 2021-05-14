@@ -8,8 +8,9 @@ class User {
   String email;
   @JsonKey(name: '_id')
   String id;
-
-  User(this.id, this.userName, this.email);
+  String bank;
+  String role;
+  User(this.id, this.userName, this.email, this.bank, this.role);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
