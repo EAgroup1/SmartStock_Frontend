@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rlbasic/models/_aux.dart';
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/delivery.dart';
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 
+GlobalData globalData = GlobalData.getInstance()!;
+
 class DeliveryMenu extends StatelessWidget {
-  final String id;
-  DeliveryMenu({required this.id});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Scaffold(
-        appBar: AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: Text('My Stored Products'),
-        ),
-        drawer: Drawer(
+      ),
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -47,12 +47,7 @@ class DeliveryMenu extends StatelessWidget {
                 leading: Icon(Icons.motorcycle),
                 title: Text('Productos para entregar'),
                 onTap: () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DeliveryMenu(id: id)),
-                        );
-                 // MyNavigator.goToUserDeliveryMenu(context);
+                  MyNavigator.goToUserDeliveryMenu(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),
@@ -63,16 +58,12 @@ class DeliveryMenu extends StatelessWidget {
           ],
         ),
       ),
-        body:DeliveryMenuScreen(id: id),
-    ),
+      body: DeliveryMenuScreen(),
     );
-    
   }
 }
 
 class DeliveryMenuScreen extends StatelessWidget {
-  final String id;
-  DeliveryMenuScreen({required this.id});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -91,8 +82,8 @@ class DeliveryMenuScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Center(child: GetReady(id: id)),
-              Center(child: PickUp(id: id)),
+              Center(child: GetReady()),
+              Center(child: PickUp()),
             ],
           ),
         ),
@@ -102,8 +93,6 @@ class DeliveryMenuScreen extends StatelessWidget {
 }
 
 class GetReady extends StatelessWidget {
-  final String id;
-  GetReady({required this.id});
   //CAMBIAR A LISTA DE LOTES
   late var deliveries = <Delivery>[];
   final deliveryService = new DeliveryServices();
@@ -111,7 +100,7 @@ class GetReady extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: deliveryService.getDeliveriesUser(id),
+      future: deliveryService.getDeliveriesUser(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(
@@ -138,7 +127,7 @@ class GetReady extends StatelessWidget {
               context: context,
               //CAMBIAR POR LOTE
               builder: (BuildContext context) =>
-                  _buildPopupDialog(context, deliveries[index]),
+                  _buildPopupDialog(context, deliveries[index].lot),
             );
           },
           child: Card(
@@ -161,8 +150,6 @@ class GetReady extends StatelessWidget {
 }
 
 class PickUp extends StatelessWidget {
-  final String id;
-  PickUp({required this.id});
   //CAMBIAR A LISTA DE LOTES
   // ignore: deprecated_member_use
   late var deliveries = <Delivery>[];
@@ -171,7 +158,7 @@ class PickUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: deliveryService.getDeliveriesUser(id),
+      future: deliveryService.getDeliveriesUser(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(
@@ -198,7 +185,7 @@ class PickUp extends StatelessWidget {
               context: context,
               //CAMBIAR POR LOTE
               builder: (BuildContext context) =>
-                  _buildPopupDialog(context, deliveries[index]),
+                  _buildPopupDialog(context, deliveries[index].lot),
             );
           },
           child: Card(
@@ -220,7 +207,7 @@ class PickUp extends StatelessWidget {
   }
 }
 
-Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
+Widget _buildPopupDialog(BuildContext context, Lot lot) {
   final bool value;
   final Function onChange;
 
@@ -231,14 +218,12 @@ Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text('Items to add:'),
-        /*  CheckboxListTile(
-          title: Text('nombre de items'),
-          secondary: Text('numero de items'),
-          value: value,
-          onChanged: (bool? newValue) {
-            onChanged(newValue);
-          },
-        ) */
+        ListTile(
+          leading: Icon(Icons.add_circle_outline),
+          title: Text(lot.name),
+          subtitle: Text(lot.info),
+          trailing: Text(lot.qty.toString()),
+        )
       ],
     ),
     actions: <Widget>[
@@ -254,14 +239,11 @@ Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
 }
 
 class Menu extends StatelessWidget {
-  final Aux aux = new Aux("id", "token", "userName");
-  //final Aux aux;
-  // DeliveryMenu({required this.aux});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(aux.userName, semanticsLabel: "Bienvenido"),
+        title: Text(globalData.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(

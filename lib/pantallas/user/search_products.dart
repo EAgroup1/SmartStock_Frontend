@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/lot.dart';
-import 'package:rlbasic/models/user.dart';
 import 'dart:core';
-import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/services/lotServices.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SearchProductsPage extends StatefulWidget {
   @override

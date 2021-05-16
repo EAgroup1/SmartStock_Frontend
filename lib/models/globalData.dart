@@ -1,0 +1,30 @@
+class GlobalData {
+  static GlobalData? instance;
+
+  late String id;
+  late String token;
+  late String userName;
+
+  static GlobalData? getInstance() {
+    if (instance == null) {
+      instance = GlobalData();
+    }
+    return instance;
+  }
+
+  String getId() => this.id;
+  String getToken() => this.token;
+  String getUserName() => this.userName;
+
+  setId(String id) {
+    this.id = id;
+  }
+
+  setToken(String token) {
+    this.token = token;
+  }
+
+  setUserName(String userName) {
+    this.userName = userName;
+  }
+}

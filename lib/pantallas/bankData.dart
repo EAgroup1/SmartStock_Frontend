@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BankDataPage extends StatefulWidget {
