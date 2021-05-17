@@ -158,11 +158,11 @@ class PickUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: deliveryService.getDeliveriesUser(globalData.getId()),
+      future: deliveryService.getReadyDeliveries(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(
-              title: Text('No hay nada que coincida con lo que has escrito'));
+              title: Text('Se ha producido un error :('));
         }
         if (snapshot.hasData) {
           this.deliveries = snapshot.data;

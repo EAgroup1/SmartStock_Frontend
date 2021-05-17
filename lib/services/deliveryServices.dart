@@ -29,4 +29,27 @@ class DeliveryServices {
       return [];
     }
   }
+
+  getReadyDeliveries(String id) async {
+    print(id);
+    try {
+      final resp = await dio.post(url + id + '/readydeliveries/',
+          data: {"id": id},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+
+      final List<Delivery> deliverylist;
+      deliverylist =
+          (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
+
+      return deliverylist;
+      /*  =
+          resp.data.map((obj) => Delivery.fromJson(obj)).toList();
+      print(deliverylist[0].id); */
+      // return deliverylist.map((obj) => Delivery.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
 }
