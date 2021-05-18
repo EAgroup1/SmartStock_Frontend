@@ -217,63 +217,6 @@ class _GetReadyState extends State<GetReady> {
   }
 }
 
-class GettReady extends StatelessWidget {
-  //CAMBIAR A LISTA DE LOTES
-  late var deliveries = <Delivery>[];
-  final deliveryService = new DeliveryServices();
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: deliveryService.getDeliveriesUser(globalData.getId()),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasError) {
-          return ListTile(title: Text('Ha habido un error :('));
-        }
-        if (snapshot.hasData) {
-          this.deliveries = snapshot.data;
-          return buildList(context);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
-  }
-
-  Widget buildList(BuildContext context) {
-    if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
-    } else {
-      return ListView.builder(
-        itemCount: deliveries.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-/*               showDialog(
-                context: context,
-                builder: (BuildContext context) => _buildPopupDialog(
-                    context, deliveries[index].lot, deliveries[index].id),
-              ); */
-            },
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.arrow_right),
-                    title: Text('${deliveries[index].businessItem.userName}'),
-                    subtitle:
-                        Text('Pick up day: ${deliveries[index].deliveryDate}'),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    }
-  }
-}
 
 class PickUp extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
@@ -361,60 +304,6 @@ class PickUp extends StatelessWidget {
                     }),
               ])
         ],
-      ),
-    );
-  }
-}
-
-class Menu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(globalData.userName, semanticsLabel: "Bienvenido"),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Perfil',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(Icons.add_business_rounded),
-                title: Text('Buscar productos'),
-                onTap: () {
-                  MyNavigator.goToSearchProducts(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.apartment),
-                title: Text('Mis productos almacenados'),
-                onTap: () {
-                  Navigator.of(context).pushNamed("");
-                }),
-            ListTile(
-                leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
-                onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Configuración'),
-                onTap: () {
-                  MyNavigator.goToConfigUser(context);
-                }),
-          ],
-        ),
       ),
     );
   }
