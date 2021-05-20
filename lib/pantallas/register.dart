@@ -13,6 +13,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   var name, email, password, conpassword, token, id;
+  bool termsAccepted = false;
   User user = User('', '', '', '', '');
   final _formKey = GlobalKey<FormState>();
   @override
@@ -89,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    termsAndConditions() {
+    termsAndConditions(){
       return ButtonBar(
         children: <Widget>[
           Container(
@@ -108,6 +109,21 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
+    termsAndConditionsCheckbox() {
+      return Center(
+        child: CheckboxListTile(
+          title: const Text('Terms and Conditions'),
+          value: termsAccepted,
+          onChanged: (bool? value) {
+            setState(() { termsAccepted = value!; });
+          },
+          controlAffinity: 
+            ListTileControlAffinity.leading
+        ),
+      );
+      
+    }
+
     createRegisterButton(BuildContext context) {
       return Container(
           padding: const EdgeInsets.only(top: 30),
@@ -117,6 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onPressed: () {
               try {
+                if(termsAccepted){
                 if (_formKey.currentState!.validate()) {
                   UserServices().register(name, email, password).then((val) {
                     //print(val.data);
@@ -151,6 +168,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
                   });
                 }
+                }else{
+                  Fluttertoast.showToast(msg: "Debes aceptar los términos y condiciones");
+                }
               } catch (err) {
                 print(err);
                 Fluttertoast.showToast(
@@ -184,6 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 12.0),
                           createConPasswordInput(),
                           termsAndConditions(),
+                          termsAndConditionsCheckbox(),
                           createRegisterButton(context)
                         ])))));
   }
