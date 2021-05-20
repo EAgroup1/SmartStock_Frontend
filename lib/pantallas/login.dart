@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setId(val.data['_id']);
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
+                        globalData.setEMail(email);
                         MyNavigator.goToUser(context);
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',

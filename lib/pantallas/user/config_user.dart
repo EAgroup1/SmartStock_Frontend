@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 import '../../my_navigator.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/services/userServices.dart';
 import './user.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class ConfigUserPage extends StatefulWidget {
   @override
@@ -43,13 +46,13 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
         stack(),
         ListTile(
             leading: Icon(Icons.house),
-            title: Text('Nombre'),
+            title: Text(globalData.userName),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
         ListTile(
             leading: Icon(Icons.email),
-            title: Text('E-mail'),
+            title: Text(globalData.email),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),

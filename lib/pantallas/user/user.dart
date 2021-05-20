@@ -13,7 +13,7 @@ class UserPage extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text(globalData.userName, semanticsLabel: "Bienvenido"),
+        title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(

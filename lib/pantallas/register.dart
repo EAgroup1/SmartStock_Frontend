@@ -6,6 +6,7 @@ import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
+import '../my_navigator.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -99,10 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: TextButton(
               child: Text('Términos y condiciones'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => TermsAndConditionsPage()),
-                );
+                MyNavigator.goToTerms(context);
               },
             ),
           ),
