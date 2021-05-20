@@ -124,15 +124,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       globalData.setId(val.data['_id']);
                       globalData.setToken(val.data['token']);
                       globalData.setUserName(val.data['userName']);
-                      MyNavigator.goToUser(context);
+                      MyNavigator.goToBankData(context);
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
-                     
-                    } 
-                    else {
+                    } else {
                       Fluttertoast.showToast(
                           msg: val.status,
                           toastLength: Toast.LENGTH_SHORT,
