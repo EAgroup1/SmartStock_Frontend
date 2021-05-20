@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:rlbasic/models/_aux.dart';
-import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
-import 'package:rlbasic/pantallas/user/delivery_menu.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class UserPage extends StatelessWidget {
-  final Aux aux;
-  UserPage({required this.aux});
 
   @override
   Widget build(BuildContext context) {
     //menu lateral
     return MaterialApp(
         home: Scaffold(
-        appBar: AppBar(
-        title: Text(aux.userName, semanticsLabel: "Bienvenido"),
-        ),
+      appBar: AppBar(
+        title: Text(globalData.userName, semanticsLabel: "Bienvenido"),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -50,12 +47,7 @@ class UserPage extends StatelessWidget {
                 leading: Icon(Icons.motorcycle),
                 title: Text('Productos para entregar'),
                 onTap: () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DeliveryMenu(id: aux.id)),
-                        );
-                 // MyNavigator.goToUserDeliveryMenu(context);
+                  MyNavigator.goToUserDeliveryMenu(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),
@@ -67,6 +59,5 @@ class UserPage extends StatelessWidget {
         ),
       ),
     ));
-    
-    }
+  }
 }

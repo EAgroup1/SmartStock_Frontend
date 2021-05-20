@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
+import '../../my_navigator.dart';
+
 class CompanyPage extends StatefulWidget {
   @override
   _CompanyPageState createState() => _CompanyPageState();
@@ -12,12 +14,12 @@ class _CompanyPageState extends State<CompanyPage> {
      return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('¡Bienvenido tienda!'),
+        title: Text('¡Bienvenido tienda!'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children:  <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -38,11 +40,16 @@ class _CompanyPageState extends State<CompanyPage> {
             ListTile(
               leading: Icon(Icons.motorcycle),
               title: Text('Enviar productos'),
-            ),
+              onTap: () {
+                  MyNavigator.goToSendProducts(context);
+                }),
+
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Configuración'),
-            )
+              onTap: () {
+                  MyNavigator.goToConfigCompany(context);
+                }),
           ],
         ),
       ),

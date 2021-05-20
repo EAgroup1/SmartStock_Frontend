@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
+import '../../my_navigator.dart';
 import 'package:rlbasic/services/userServices.dart';
 import './user.dart';
 
@@ -62,7 +63,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             leading: Icon(Icons.security),
             title: Text('Cambia la contraseña'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToForgotPassword(context);
             }),
         ListTile(
             leading: Icon(Icons.info),
@@ -86,7 +87,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             leading: Icon(Icons.info),
             title: Text('Términos y Condiciones'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToTerms(context);
             }),
         ListTile(
             leading: Icon(Icons.account_balance),

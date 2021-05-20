@@ -1,17 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:rlbasic/models/_aux.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
-import 'package:rlbasic/services/deliveryServices.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/services/userServices.dart';
-import 'package:rlbasic/pantallas/bankData.dart';
 import 'user/user.dart';
 import 'splashScreen.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -82,15 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        Aux aux = new Aux(val.data['_id'], val.data['token'],
-                            val.data['userName']);
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserPage(aux: aux)),
-                        );
-
-                        //MyNavigator.goToUser(context);
+                        globalData.setId(val.data['_id']);
+                        globalData.setToken(val.data['token']);
+                        globalData.setUserName(val.data['userName']);
+                        MyNavigator.goToUser(context);
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
@@ -126,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-                 MyNavigator.goToForgotPassword(context);
+                MyNavigator.goToForgotPassword(context);
               },
             ),
           ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
@@ -96,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             padding: const EdgeInsets.all(16.0),
             child: TextButton(
-              child: Text('Terms and Conditions'),
+              child: Text('Términos y condiciones'),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -112,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
     termsAndConditionsCheckbox() {
       return Center(
         child: CheckboxListTile(
-          title: const Text('Terms and Conditions'),
+          title: const Text('Acepto los términos y condiciones'),
           value: termsAccepted,
           onChanged: (bool? value) {
             setState(() { termsAccepted = value!; });
@@ -136,20 +137,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 if(termsAccepted){
                 if (_formKey.currentState!.validate()) {
                   UserServices().register(name, email, password).then((val) {
-                    //print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
-                        Aux aux = new Aux(val.data['_id'], val.data['token'],
-                            val.data['userName']);
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BankDataPage(aux: aux)),
-                        );
-
-                        
-                        //MyNavigator.goToUser(context);
-                        Fluttertoast.showToast(
+                      globalData.setId(val.data['_id']);
+                      globalData.setToken(val.data['token']);
+                      globalData.setUserName(val.data['userName']);
+                      MyNavigator.goToBankData(context);
+                      Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
@@ -158,9 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           msg: 'Email o contraseña incorrectos',
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
-                     
-                    } 
-                    else {
+                    } else {
                       Fluttertoast.showToast(
                           msg: val.status,
                           toastLength: Toast.LENGTH_SHORT,

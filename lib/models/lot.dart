@@ -1,6 +1,3 @@
-import 'dart:html';
-
-import 'package:rlbasic/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'lot.g.dart';
@@ -25,14 +22,4 @@ class Lot {
 
   Map<String, dynamic> toJson() => _$LotToJson(this);
 
-  /* static Lot fromJson(Map json) {
-    return Lot(
-        name: json['name'], quantity: json['quantity'], price: json['price'], id: json['_id'], info: json['info']);
-  }
-
-  @override
-  String toString() {
-    // TODO: implement toString
-    return 'Instance of Lot : $name';
-  } */
 }

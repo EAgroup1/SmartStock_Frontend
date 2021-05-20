@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:rlbasic/pantallas/bankData.dart';
 import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
+import 'package:rlbasic/pantallas/company/send_products.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
@@ -9,8 +11,8 @@ import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
-import 'package:rlbasic/pantallas/createNewPassword.dart';
 import 'package:rlbasic/pantallas/user/search_products.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
 
 var routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => LoginPage(),
@@ -23,8 +25,11 @@ var routes = <String, WidgetBuilder>{
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
   "/user/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
   //"/createNewPassword": (BuildContext context) => ?Page(),
-  //"/user": (BuildContext context) => UserPage(),
- // "/user/deliveries": (BuildContext context) => DeliveryMenu(id: String id),
+  "/user": (BuildContext context) => UserPage(),
+ "/user/deliveries": (BuildContext context) => DeliveryMenu(),
+ "/bankdata": (BuildContext context) => BankDataPage(),
+ "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+ 
 };
 
 class MyNavigator {
@@ -60,6 +65,10 @@ class MyNavigator {
     Navigator.pushNamed(context, "/register");
   }
 
+   static void goToBankData(BuildContext context) {
+    Navigator.pushNamed(context, "/bankdata");
+  }
+
   static void goToTerms(BuildContext context) {
     Navigator.pushNamed(context, "/TermsConditions");
   }
@@ -74,6 +83,10 @@ class MyNavigator {
 
   static void goToForgotPassword(BuildContext context) {
     Navigator.pushNamed(context, "/user/forgotpassword");
+  }
+
+   static void goToSendProducts(BuildContext context) {
+    Navigator.pushNamed(context, "/company/sendproducts");
   }
 
 }
