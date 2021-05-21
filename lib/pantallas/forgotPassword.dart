@@ -33,12 +33,11 @@ class ForgotPasswordPage extends StatelessWidget {
                 'assets/images/logoSmartStock.jpeg',
                 height: 80,
               ),
-              Text("We will send you a email to reset your password"),
+              Text("Vamos a enviarte un email para cambiar tu contraseña"),
               TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Enter email',
+                  labelText: 'Introduce el correo',
                 ),
               ),
 
@@ -47,7 +46,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 onPressed: (){
                   //respond to button press
                 },
-                child: Text("Reset password"),
+                child: Text("Cambia tu contraseña"),
               )
             ],
           ),
