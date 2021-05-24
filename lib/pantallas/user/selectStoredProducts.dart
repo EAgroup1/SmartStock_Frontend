@@ -1,12 +1,10 @@
 //a example for this
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../my_navigator.dart';
 
-//statefulWidget contains 2 classes
+//on first, view deleted!!! --- will be a pop up
 
-//only focus on the dynamic parts!!
-
-//class SelectedProduct
-//draw on the screen
 class SelProd extends StatefulWidget{
 
   //constructor
