@@ -1,15 +1,22 @@
 //'mateapp' creates a template of our static view (stateless) 
-import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
- 
+import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_socket_io/flutter_socket_io.dart';
+import 'package:flutter_socket_io/socket_io_manager.dart';
+import '../../my_navigator.dart';
+
+//import the models
+import '../../models/user.dart';
+import '../../models/message.dart';
+
 // void main() => runApp(MyApp());
  
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'MaterialApp', home: MyWebPage());
-  }
-}
+// class MyWebPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(title: 'MaterialApp', home: MyWebPage());
+//   }
+// }
 
 //on the other 'statefulW' create a statefull widget (reactive)
 //statefull widget only takes one class

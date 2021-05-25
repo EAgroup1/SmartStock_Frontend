@@ -7,17 +7,17 @@ import '../../my_navigator.dart';
 
 class SelProd extends StatefulWidget{
 
-  //constructor
-  const SelProd({
-    required Key key,
-    required this.name,
-    required this.quantity,
-    required this.priceUnit,
-    required this.companyUser,
-  }) : super(key: key);
+  // //constructor
+  // const SelProd({
+  //   required Key key,
+  //   required this.name,
+  //   required this.quantity,
+  //   required this.priceUnit,
+  //   required this.companyUser,
+  // }) : super(key: key);
   
-  //params
-  final Widget name, quantity, priceUnit, companyUser;
+  // //params
+  // final Widget name, quantity, priceUnit, companyUser;
 
   //overwrite method ---> return the state
   _SelProdState createState() => _SelProdState();

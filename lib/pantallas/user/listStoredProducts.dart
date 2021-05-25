@@ -4,17 +4,17 @@ import '../../my_navigator.dart';
  
 //listView items/lots of user logged
  
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'List stored products',
-      home: ListProdPage(),
-    );
-  }
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'List stored products',
+//       home: ListProdPage(),
+//     );
+//   }
 
-  //void _goMySalary() {}
-}
+//   //void _goMySalary() {}
+// }
 
 //we define the list
 List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];

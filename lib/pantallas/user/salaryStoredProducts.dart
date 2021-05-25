@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import '../../my_navigator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
+import '../../my_navigator.dart';
 
 //this is the data graph
  
-class salaryProductsGraph extends StatefulWidget {
-  salaryProductsGraph({Key? key}) : super(key: key);
+class SalaryProductsGraph extends StatefulWidget {
+  SalaryProductsGraph({Key? key}) : super(key: key);
 
   @override
-  _salaryProductsGraphState createState() => _salaryProductsGraphState();
+  _SalaryProductsGraphState createState() => _SalaryProductsGraphState();
 }
 
-class _salaryProductsGraphState extends State<salaryProductsGraph> {
+class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
 
 //for the moment generate my data, after use the API
 
