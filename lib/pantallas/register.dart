@@ -37,6 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(filled: true, hintText: 'Email'),
+        controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
