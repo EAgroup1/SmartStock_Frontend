@@ -78,6 +78,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
     //actions for appbar
+    //
     return [
       IconButton(
           icon: Icon(Icons.clear),
