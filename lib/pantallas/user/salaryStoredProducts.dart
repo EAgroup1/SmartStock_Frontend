@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../my_navigator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+//import 'package:charts_flutter/flutter.dart' as charts;
 import '../../my_navigator.dart';
 
 //this is the data graph
