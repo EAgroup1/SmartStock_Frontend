@@ -32,7 +32,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
     //show when someone searches for something
     final allLots = new lotServices();
     return FutureBuilder(
-      future: allLots.getAllLots(),
+      future: allLots.getAllLotsSorted(),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);

@@ -34,7 +34,7 @@ class lotServices {
     }
   }
 
-  getAllLots() async {
+  getAllLotsSorted() async {
     try {
       final resp = await dio.get(url);
       final List<dynamic> lotlist = resp.data;
