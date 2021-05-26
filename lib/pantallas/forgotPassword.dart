@@ -33,11 +33,12 @@ class ForgotPasswordPage extends StatelessWidget {
                 width: 300.00,
                 height: 240,
               ),
-              Text("Vamos a enviarte un email para cambiar tu contraseña"),
+              Text("We will send you a email to reset your password"),
               TextField(
+                obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Introduce el correo',
+                  labelText: 'Enter email',
                 ),
               ),
 
@@ -47,7 +48,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   //go to the reset password for the moment
                   MyNavigator.goToCreateNewPassword(context);
                 },
-                child: Text("Cambia tu contraseña"),
+                child: Text("Reset password"),
               )
             ],
           ),
