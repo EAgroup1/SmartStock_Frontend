@@ -23,7 +23,7 @@ class lotServices {
   getLotUser(String id) async{
     try {
       final resp = await dio.post(url,
-        data:{"id":id},
+        data:{"_id":id},
         options: Options(contentType: Headers.formUrlEncodedContentType)      
       );
       print(resp.data);
