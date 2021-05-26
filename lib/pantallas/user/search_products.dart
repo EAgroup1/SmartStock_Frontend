@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
@@ -109,7 +110,6 @@ class DataSearch extends SearchDelegate<Lot?> {
       return Text('Introduce un producto para filtrar');
     }
     final lotservices = new lotServices();
-
     return FutureBuilder(
       future: lotservices.getLot(query),
       builder: (context, AsyncSnapshot snapshot) {
@@ -118,7 +118,28 @@ class DataSearch extends SearchDelegate<Lot?> {
               title: Text('No hay nada que coincida con lo que has escrito'));
         }
         if (snapshot.hasData) {
-          return _showLots(snapshot.data);
+          //return _showLots(snapshot.data);
+          
+          lots = lotservices
+              .getLot(query)
+              .where((element) => element.startsWith(query))
+              .toList();
+
+// view a list view with the search result
+          return Container(
+            margin: EdgeInsets.all(20),
+            child: ListView(
+                padding: EdgeInsets.only(top: 8, bottom: 8),
+                scrollDirection: Axis.vertical,
+                children: List.generate(lots.length, (index) {
+                  var item = lots[index];
+                  return Card(
+                    color: Colors.white,
+                    child: Container(
+                        padding: EdgeInsets.all(16), child: Text(item)),
+                  );
+                })),
+          );
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
@@ -180,37 +201,37 @@ class DataSearch extends SearchDelegate<Lot?> {
       },
     );
   }
-}
 
-Widget _buildPopupDialog(BuildContext context, Lot lot) {
-  final bool value;
-  final Function onChange;
+  Widget _buildPopupDialog(BuildContext context, Lot lot) {
+    final bool value;
+    final Function onChange;
 
-  return new AlertDialog(
-    title: const Text('Información detallada del producto'),
-    content: new SingleChildScrollView(
-      // mainAxisSize: MainAxisSize.min,
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      child: ListBody(
-        children: <Widget>[
-          Text("Nombre del producto: " + lot.name),
-          Text("Descripción: " + lot.info),
-          Text("Cantidad: " + lot.qty.toString()),
-          Text("Precio/unidad: " + lot.price.toString()),
-          Text("Cantidad minima: " + lot.minimumQty.toString())
-          // Text("Compañia: " + .info),
-          //trailing: Text("Cantidad: " + lot.qty.toString()),
-        ],
+    return new AlertDialog(
+      title: const Text('Información detallada del producto'),
+      content: new SingleChildScrollView(
+        // mainAxisSize: MainAxisSize.min,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListBody(
+          children: <Widget>[
+            Text("Nombre del producto: " + lot.name),
+            Text("Descripción: " + lot.info),
+            Text("Cantidad: " + lot.qty.toString()),
+            Text("Precio/unidad: " + lot.price.toString()),
+            Text("Cantidad minima: " + lot.minimumQty.toString())
+            // Text("Compañia: " + .info),
+            //trailing: Text("Cantidad: " + lot.qty.toString()),
+          ],
+        ),
       ),
-    ),
-    actions: <Widget>[
-      new FlatButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('Cerrar'),
-      ),
-    ],
-  );
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
 }
