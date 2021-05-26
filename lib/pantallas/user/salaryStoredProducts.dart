@@ -1,10 +1,12 @@
 //mateapp to design a standard project ---> tree of widgets
 //now for this view we need different dependencies: fonts & charts
 import 'package:flutter/material.dart';
-import '../../my_navigator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import '../../my_navigator.dart';
+
+//graph imports
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 //this is the data graph
  

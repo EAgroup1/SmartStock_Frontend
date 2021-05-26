@@ -1,6 +1,6 @@
 //'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+// import 'package:scoped_model/scoped_model.dart';
 //i think for the moment navigator is not essential because pageroute
 //import '../../my_navigator.dart';
 
@@ -24,7 +24,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ScopedModel.of<ChatModel>(context, rebuildOnChange: false).init();
+    // ScopedModel.of<ChatModel>(context, rebuildOnChange: false).init();
   }
 
   void friendClicked(User friend){
@@ -38,22 +38,22 @@ class _AllChatsPageState extends State<AllChatsPage> {
     );
   }
 
-  Widget buildAllChatList(){
-    return ScopedModelDescendant<ChatModel>(
-      builder: (context,child, model){
-        return ListView.builder(
-          itemCount: model.friendList.length, 
-          itemBuilder: (BuildContext context, int index){
-            User friend = model.friendList[index];
-            return ListTile(
-              title: Text(friend.userName),
-              onTap: () => friendClicked(friend),
-            );
-          },
-        );
-      },
-    );
-  }
+  // Widget buildAllChatList(){
+  //   return ScopedModelDescendant<ChatModel>(
+  //     builder: (context,child, model){
+  //       return ListView.builder(
+  //         itemCount: model.friendList.length, 
+  //         itemBuilder: (BuildContext context, int index){
+  //           User friend = model.friendList[index];
+  //           return ListTile(
+  //             title: Text(friend.userName),
+  //             onTap: () => friendClicked(friend),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
       appBar: AppBar(
         title: Text('All Chats'),
       ),
-      body: buildAllChatList(),
+      // body: buildAllChatList(),
     );
   }
 }

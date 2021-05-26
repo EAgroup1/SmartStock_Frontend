@@ -1,6 +1,6 @@
 //'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+// import 'package:scoped_model/scoped_model.dart';
 //here we don't need the navigator
 //import '../../my_navigator.dart';
 
@@ -34,52 +34,52 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  //chat
-  Widget buildChatList(){
-    return ScopedModelDescendant<ChatModel>(
-      builder: (context, child, model){
-        //receive the list of messages from one user with X id = ChatID
-        List<Message> messages = model.getMessagesForChatID(widget.friend.id);
+  // //chat
+  // Widget buildChatList(){
+  //   return ScopedModelDescendant<ChatModel>(
+  //     builder: (context, child, model){
+  //       //receive the list of messages from one user with X id = ChatID
+  //       List<Message> messages = model.getMessagesForChatID(widget.friend.id);
 
-        return Container(
-          height: MediaQuery.of(context).size.height*0.75,
-          child: ListView.builder(
-            itemCount: messages.length,
-            itemBuilder: (BuildContext context, int index){
-              return buildSingleMessage(messages[index]);
-            },
-          ),
-        );
-      },
-    );
-  }
+  //       return Container(
+  //         height: MediaQuery.of(context).size.height*0.75,
+  //         child: ListView.builder(
+  //           itemCount: messages.length,
+  //           itemBuilder: (BuildContext context, int index){
+  //             return buildSingleMessage(messages[index]);
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
-  Widget buildChatArea(){
-    return ScopedModelDescendant<ChatModel>(
-      builder: (context, child, model){
-        return Container(
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width*0.8,
-                child: TextField(
-                  controller: textEditingController,
-                ),
-              ),
-              SizedBox(width: 10.0),
-              FloatingActionButton(
-                onPressed: (){
-                  model.sendMessage(textEditingController.text, widget.friend.id);
-                },
-                elevation: 0,
-                child: Icon(Icons.send),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Widget buildChatArea(){
+  //   return ScopedModelDescendant<ChatModel>(
+  //     builder: (context, child, model){
+  //       return Container(
+  //         child: Row(
+  //           children: <Widget>[
+  //             Container(
+  //               width: MediaQuery.of(context).size.width*0.8,
+  //               child: TextField(
+  //                 controller: textEditingController,
+  //               ),
+  //             ),
+  //             SizedBox(width: 10.0),
+  //             FloatingActionButton(
+  //               onPressed: (){
+  //                 model.sendMessage(textEditingController.text, widget.friend.id);
+  //               },
+  //               elevation: 0,
+  //               child: Icon(Icons.send),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   //build all areas
   @override
@@ -90,9 +90,9 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: ListView(
         children: <Widget>[
-          //something
-          buildChatList(),
-          buildChatArea(),
+          //DO something
+          // buildChatList(),
+          // buildChatArea(),
         ],
       ),
     );
