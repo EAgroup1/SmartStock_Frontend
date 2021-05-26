@@ -6,10 +6,9 @@ part 'message.g.dart';
 class Message {
   String text;
   String senderID;
-  @JsonKey(name: '_id')
-  String id;
+  //finally we don't include the id for the qty of messages
   String receiverID;
-  Message(this.id, this.text, this.senderID, this.receiverID);
+  Message(this.text, this.senderID, this.receiverID);
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 

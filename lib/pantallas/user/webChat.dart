@@ -1,153 +1,99 @@
-import 'dart:convert';
+//'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
-import '../../my_navigator.dart';
+import 'package:scoped_model/scoped_model.dart';
+//here we don't need the navigator
+//import '../../my_navigator.dart';
+
+//import two models: user with chatmodel (sockets) & messages (webChat) 
+import '../../models/user.dart';
+import '../../models/chatmodel.dart';
+//also import the model of message
+import '../../models/message.dart';
 
 class ChatPage extends StatefulWidget {
+  final User friend;
+  ChatPage(this.friend);
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late SocketIO socketIO;
-  late List<String> messages;
-  late double height, width;
-  late TextEditingController textController;
-  late ScrollController scrollController;
 
-  @override
-  void initState() {
-    //Initializing the message list
-    messages = <String>[];
-    //Initializing the TextEditingController and ScrollController
-    textController = TextEditingController();
-    scrollController = ScrollController();
-    //Creating the socket
-    socketIO = SocketIOManager().createSocketIO(
-      'http://localhost:3000',
+  final TextEditingController textEditingController = TextEditingController();
 
-
-      
-      '/',
-    );
-    //Call init before doing anything with socket
-    socketIO.init();
-    //Subscribe to an event to listen to
-    socketIO.subscribe('receive_message', (jsonData) {
-      //Convert the JSON data received into a Map
-      Map<String, dynamic> data = json.decode(jsonData);
-      this.setState(() => messages.add(data['message']));
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 600),
-        curve: Curves.ease,
-      );
-    });
-    //Connect to the socket
-    socketIO.connect();
-    super.initState();
-  }
-
-  Widget buildSingleMessage(int index) {
+  //one widget
+  Widget buildSingleMessage(Message message){
     return Container(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        margin: const EdgeInsets.only(bottom: 20.0, left: 20.0),
-        decoration: BoxDecoration(
-          color: Colors.deepPurple,
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Text(
-          messages[index],
-          style: TextStyle(color: Colors.white, fontSize: 15.0),
-        ),
-      ),
+      alignment: message.senderID == widget.friend.id
+        ? Alignment.centerLeft
+        : Alignment.centerRight,
+      padding: EdgeInsets.all(10.0),
+      margin: EdgeInsets.all(10.0),
+      child: Text(message.text),
     );
   }
 
-  Widget buildMessageList() {
-    return Container(
-      height: height * 0.8,
-      width: width,
-      child: ListView.builder(
-        controller: scrollController,
-        itemCount: messages.length,
-        itemBuilder: (BuildContext context, int index) {
-          return buildSingleMessage(index);
-        },
-      ),
-    );
-  }
+  //chat
+  Widget buildChatList(){
+    return ScopedModelDescendant<ChatModel>(
+      builder: (context, child, model){
+        //receive the list of messages from one user with X id = ChatID
+        List<Message> messages = model.getMessagesForChatID(widget.friend.id);
 
-  Widget buildChatInput() {
-    return Container(
-      width: width * 0.7,
-      padding: const EdgeInsets.all(2.0),
-      margin: const EdgeInsets.only(left: 40.0),
-      child: TextField(
-        decoration: InputDecoration.collapsed(
-          hintText: 'Send a message...',
-        ),
-        controller: textController,
-      ),
-    );
-  }
-
-  Widget buildSendButton() {
-    return FloatingActionButton(
-      backgroundColor: Colors.deepPurple,
-      onPressed: () {
-        //Check if the textfield has text or not
-        if (textController.text.isNotEmpty) {
-          //Send the message as JSON data to send_message event
-          socketIO.sendMessage(
-              'send_message', json.encode({'message': textController.text}));
-          //Add the message to the list
-          this.setState(() => messages.add(textController.text));
-          textController.text = '';
-          //Scrolldown the list to show the latest message
-          scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 600),
-            curve: Curves.ease,
-          );
-        }
+        return Container(
+          height: MediaQuery.of(context).size.height*0.75,
+          child: ListView.builder(
+            itemCount: messages.length,
+            itemBuilder: (BuildContext context, int index){
+              return buildSingleMessage(messages[index]);
+            },
+          ),
+        );
       },
-      child: Icon(
-        Icons.send,
-        size: 30,
-      ),
     );
   }
 
-  Widget buildInputArea() {
-    return Container(
-      height: height * 0.1,
-      width: width,
-      child: Row(
-        children: <Widget>[
-          buildChatInput(),
-          buildSendButton(),
-        ],
-      ),
+  Widget buildChatArea(){
+    return ScopedModelDescendant<ChatModel>(
+      builder: (context, child, model){
+        return Container(
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width*0.8,
+                child: TextField(
+                  controller: textEditingController,
+                ),
+              ),
+              SizedBox(width: 10.0),
+              FloatingActionButton(
+                onPressed: (){
+                  model.sendMessage(textEditingController.text, widget.friend.id);
+                },
+                elevation: 0,
+                child: Icon(Icons.send),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
+  //build all areas
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: height * 0.1),
-            buildMessageList(),
-            buildInputArea(),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text(widget.friend.userName)
+      ),
+      body: ListView(
+        children: <Widget>[
+          //something
+          buildChatList(),
+          buildChatArea(),
+        ],
       ),
     );
   }

@@ -14,7 +14,7 @@ import 'package:rlbasic/pantallas/forgotPassword.dart';
 import 'package:rlbasic/pantallas/createNewPassword.dart';
 //user webchat views
 import 'package:rlbasic/pantallas/user/webChatHomepage.dart';
-import 'package:rlbasic/pantallas/user/webChat.dart';
+//import 'package:rlbasic/pantallas/user/webChat.dart';
 //main list & subviews of this
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/salaryStoredProducts.dart';
@@ -33,8 +33,8 @@ var routes = <String, WidgetBuilder>{
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
   "/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
   "/createnewpassword": (BuildContext context) => CreateNewPassword(),
-  "/user/chathomepage": (BuildContext context) => MyWebPage(),
-  "/user/chathomepage/webchat": (BuildContext context) => ChatPage(),
+  "/user/chathomepage": (BuildContext context) => AllChatsPage(),
+  //"/user/chathomepage/webchat": (BuildContext context) => ChatPage(),
   "/user/lotlist": (BuildContext context) => ListProdPage(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
@@ -106,9 +106,9 @@ class MyNavigator {
     Navigator.pushNamed(context, "/user/chathomepage");
   }
 
-  static void goToWebChat(BuildContext context) {
-    Navigator.pushNamed(context, "/user/chathomepage/webchat");
-  }
+  // static void goToWebChat(BuildContext context) {
+  //   Navigator.pushNamed(context, "/user/chathomepage/webchat");
+  // }
 
   static void goToLotList(BuildContext context) {
     Navigator.pushNamed(context, "/user/lotlist");

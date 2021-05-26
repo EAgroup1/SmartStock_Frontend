@@ -1,49 +1,67 @@
 //'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';
-import 'package:flutter_socket_io/socket_io_manager.dart';
-import '../../my_navigator.dart';
+//i think for the moment navigator is not essential because pageroute
+//import '../../my_navigator.dart';
 
-//import the models
+//import two models: user with chatmodel (sockets) & messages (webChat) 
 import '../../models/user.dart';
-import '../../models/message.dart';
-
-// void main() => runApp(MyApp());
- 
-// class MyWebPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(title: 'MaterialApp', home: MyWebPage());
-//   }
-// }
+import '../../models/chatmodel.dart';
+//webChat = ChatPage
+import './webChat.dart';
 
 //on the other 'statefulW' create a statefull widget (reactive)
 //statefull widget only takes one class
-//two implementations: three widgets & 
-class MyWebPage extends StatefulWidget {
-  MyWebPage({Key? key}) : super(key: key);
+class AllChatsPage extends StatefulWidget {
+  AllChatsPage({Key? key}) : super(key: key);
 
-//return the state of our widget
   @override
-  _MyWebPage createState() => _MyWebPage();
+  _AllChatsPageState createState() => _AllChatsPageState();
 }
 
-class _MyWebPage extends State<MyWebPage> {
+class _AllChatsPageState extends State<AllChatsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ScopedModel.of<ChatModel>(context, rebuildOnChange: false).init();
+  }
+
+  void friendClicked(User friend){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context){
+          //we look this probem after
+          return ChatPage(friend);
+        },
+      ),
+    );
+  }
+
+  Widget buildAllChatList(){
+    return ScopedModelDescendant<ChatModel>(
+      builder: (context,child, model){
+        return ListView.builder(
+          itemCount: model.friendList.length, 
+          itemBuilder: (BuildContext context, int index){
+            User friend = model.friendList[index];
+            return ListTile(
+              title: Text(friend.userName),
+              onTap: () => friendClicked(friend),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
-
-void initSocket(){
-  try{
-    //connect the client to the socket
-    // //socket = IO.io('https://localhost:3001',
-    //   <String, dynamic>{
-    //     'transports': ['websocket'],
-    //   });
-  } catch(e){
-    print(e);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('All Chats'),
+      ),
+      body: buildAllChatList(),
+    );
   }
 }
