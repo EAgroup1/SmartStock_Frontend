@@ -2,10 +2,6 @@
 //now for this view we need different dependencies: fonts & charts
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-<<<<<<< HEAD
-=======
-//import 'package:charts_flutter/flutter.dart' as charts;
->>>>>>> 3c92ee777005ea6871c710f84fafe82093c741ab
 import '../../my_navigator.dart';
 
 //graph imports

@@ -28,7 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.5.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -176,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  decimal:
-    dependency: transitive
-    description:
-      name: decimal
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   dio:
     dependency: "direct main"
     description:
@@ -223,16 +216,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
-=======
-  flutter_charts:
-    dependency: "direct main"
-    description:
-      name: flutter_charts
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
->>>>>>> 3c92ee777005ea6871c710f84fafe82093c741ab
   flutter_svg:
     dependency: "direct main"
     description:
@@ -307,7 +290,7 @@ packages:
     source: hosted
     version: "4.0.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -481,17 +464,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-<<<<<<< HEAD
-  rikulo_commons:
-    dependency: transitive
-=======
-  rational:
-    dependency: transitive
-    description:
-      name: rational
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0+1"
   rikulo_commons:
     dependency: transitive
     description:
@@ -499,18 +471,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.3"
-  scoped_model:
-    dependency: "direct main"
->>>>>>> 3c92ee777005ea6871c710f84fafe82093c741ab
-    description:
-      name: rikulo_commons
-      url: "https://pub.dartlang.org"
-    source: hosted
-<<<<<<< HEAD
-    version: "5.0.3"
-=======
-    version: "2.0.0-nullsafety.0"
->>>>>>> 3c92ee777005ea6871c710f84fafe82093c741ab
   shared_preferences:
     dependency: "direct main"
     description:
@@ -705,8 +665,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
-<<<<<<< HEAD
-=======
   test_core:
     dependency: transitive
     description:
@@ -714,7 +672,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.19"
->>>>>>> a990d7cda18bafe2b103aad39fafb793fd8843ad
   timing:
     dependency: transitive
     description:
