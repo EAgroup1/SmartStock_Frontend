@@ -14,7 +14,6 @@ Lot _$LotFromJson(Map<String, dynamic> json) {
     json['_id'] as String,
     json['info'] as String,
     json['minimumQty'] as int,
-    User.fromJson(json['businessItem'] as Map<String, dynamic>),
   )
     ..dimensions = json['dimensions'] as String
     ..weight = json['weight'] as int
@@ -31,5 +30,4 @@ Map<String, dynamic> _$LotToJson(Lot instance) => <String, dynamic>{
       'info': instance.info,
       '_id': instance.id,
       'minimumQty': instance.minimumQty,
-      'businessItem': instance.businessItem,
     };
