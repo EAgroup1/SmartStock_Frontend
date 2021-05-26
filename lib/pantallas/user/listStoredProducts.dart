@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../my_navigator.dart';
  
-//this function doesn't execute again ---> there are NO changes
-void main() => runApp(MyApp());
+//listView items/lots of user logged
  
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'List stored products',
-      home: ListProdPage(),
-    );
-  }
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'List stored products',
+//       home: ListProdPage(),
+//     );
+//   }
 
-  //void _goMySalary() {}
-}
+//   //void _goMySalary() {}
+// }
 
 //we define the list
 List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];

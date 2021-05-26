@@ -11,6 +11,14 @@ import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
+import 'package:rlbasic/pantallas/createNewPassword.dart';
+//user webchat views
+import 'package:rlbasic/pantallas/user/webChatHomepage.dart';
+//import 'package:rlbasic/pantallas/user/webChat.dart';
+//main list & subviews of this
+import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
+import 'package:rlbasic/pantallas/user/salaryStoredProducts.dart';
+import 'package:rlbasic/pantallas/user/selectStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/search_products.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 
@@ -23,8 +31,13 @@ var routes = <String, WidgetBuilder>{
   "/TermsConditions": (BuildContext context) => TermsAndConditionsPage(),
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
-  "/user/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
-  //"/createNewPassword": (BuildContext context) => ?Page(),
+  "/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
+  "/createnewpassword": (BuildContext context) => CreateNewPassword(),
+  "/user/chathomepage": (BuildContext context) => AllChatsPage(),
+  //"/user/chathomepage/webchat": (BuildContext context) => ChatPage(),
+  "/user/lotlist": (BuildContext context) => ListProdPage(),
+  "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
+  "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
   "/user": (BuildContext context) => UserPage(),
  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
  "/bankdata": (BuildContext context) => BankDataPage(),
@@ -83,6 +96,30 @@ class MyNavigator {
 
   static void goToForgotPassword(BuildContext context) {
     Navigator.pushNamed(context, "/user/forgotpassword");
+  }
+
+  static void goToCreateNewPassword(BuildContext context) {
+    Navigator.pushNamed(context, "/user/createnewpassword");
+  }
+
+  static void goToWebChatHomepage(BuildContext context) {
+    Navigator.pushNamed(context, "/user/chathomepage");
+  }
+
+  // static void goToWebChat(BuildContext context) {
+  //   Navigator.pushNamed(context, "/user/chathomepage/webchat");
+  // }
+
+  static void goToLotList(BuildContext context) {
+    Navigator.pushNamed(context, "/user/lotlist");
+  }
+
+  static void goToChartsLotList(BuildContext context) {
+    Navigator.pushNamed(context, "/user/lotlist/charts");
+  }
+
+  static void goToSelecteOneLotList(BuildContext context) {
+    Navigator.pushNamed(context, "/user/lotlist/selectedone");
   }
 
    static void goToSendProducts(BuildContext context) {
