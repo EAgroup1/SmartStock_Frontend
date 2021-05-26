@@ -132,7 +132,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     //show when someone searches for something
     final allLots = new lotServices();
     return FutureBuilder(
-      future: allLots.getAllLots(),
+      future: allLots.getAllLotsSorted(),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
@@ -196,8 +196,9 @@ Widget _buildPopupDialog(BuildContext context, Lot lot) {
           Text("Nombre del producto: " + lot.name),
           Text("Descripción: " + lot.info),
           Text("Cantidad: " + lot.qty.toString()),
-          Text("Precio/unidad: " + lot.price.toString()),
-          Text("Cantidad minima: " + lot.minimumQty.toString())
+          Text("Precio/unidad: " + lot.price.toString() + "€"),
+          Text("Cantidad minima: " + lot.minimumQty.toString()),
+          Text("Empresa del producto: " + lot.businessItem.userName) 
           // Text("Compañia: " + .info),
           //trailing: Text("Cantidad: " + lot.qty.toString()),
         ],
