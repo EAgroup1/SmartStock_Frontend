@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
+import '../../my_navigator.dart';
+
 class DelivererPage extends StatefulWidget {
   @override
   _DelivererPageState createState() => _DelivererPageState();
@@ -17,7 +19,7 @@ class _DelivererPageState extends State<DelivererPage> {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children:  <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -35,6 +37,12 @@ class _DelivererPageState extends State<DelivererPage> {
               title: Text('Entregas'),
              
             ),
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Configuración'),

@@ -43,7 +43,12 @@ class _CompanyPageState extends State<CompanyPage> {
               onTap: () {
                   MyNavigator.goToSendProducts(context);
                 }),
-
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Configuración'),
