@@ -81,6 +81,23 @@ class UserServices {
     }
   }
 
+
+  //NUEVA; AUN NO VA
+  sendBankRole(String id, String bank, String role) async{
+    try{
+      final resp = await dio.put(url,
+        data:{"id": id, "role": role, "bank":bank},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+
+  }
+
   register(name, email, password) async {
     try {
       return await dio.post(url + 'signUp',

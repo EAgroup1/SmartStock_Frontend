@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/_aux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 
 import '../my_navigator.dart';
@@ -11,8 +12,7 @@ class BankDataPage extends StatefulWidget {
 }
 
 class _BankDataPageState extends State<BankDataPage> {
-  var IBAN;
-  var role;
+  var bank; var role;
   bool _businessChecked = false;
   bool _storageChecked = false;
   bool _delivererChecked = false;
@@ -75,7 +75,7 @@ class _BankDataPageState extends State<BankDataPage> {
           }
         },
         onChanged: (val) {
-          IBAN = val;
+          bank = val;
         },
       );
     }
@@ -105,6 +105,7 @@ class _BankDataPageState extends State<BankDataPage> {
                 } else if (sum == 0) {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
                 } else {
+                  UserServices().sendBankRole(globalData.getId(), bank, role).then((val){}); //NO FUNCIONA AUN
                   //Fluttertoast.showToast(msg: "Envio falso de momento");
                   if (_delivererChecked) {
                     MyNavigator.goToDeliverer(context);
@@ -115,7 +116,7 @@ class _BankDataPageState extends State<BankDataPage> {
                     MyNavigator.goToUser(context);
                   }
                 }
-                if (IBAN == null && !_businessChecked) {
+                if (bank == null && !_businessChecked) {
                   Fluttertoast.showToast(msg: "Introduce tu IBAN");
                 }
               }));
