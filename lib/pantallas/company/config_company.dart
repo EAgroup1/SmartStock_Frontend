@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
+import '../../my_navigator.dart';
+import 'package:rlbasic/models/globalData.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class ConfigCompanyPage extends StatefulWidget {
   @override
@@ -40,19 +44,13 @@ Widget stack() {
         stack(),
         ListTile(
             leading: Icon(Icons.house),
-            title: Text('Nombre de la tienda'),
+            title: Text(globalData.userName),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
         ListTile(
             leading: Icon(Icons.email),
-            title: Text('E-mail'),
-            onTap: () {
-              Navigator.of(context).pushNamed("");
-            }),
-        ListTile(
-            leading: Icon(Icons.home_repair_service),
-            title: Text('Dirección'),
+            title: Text(globalData.email),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
@@ -60,7 +58,7 @@ Widget stack() {
             leading: Icon(Icons.security),
             title: Text('Cambia la contraseña'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToForgotPassword(context);
             }),
         ListTile(
             leading: Icon(Icons.info),
@@ -84,7 +82,7 @@ Widget stack() {
             leading: Icon(Icons.info),
             title: Text('Términos y Condiciones'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToTerms(context);
             })
       ],
     ));
