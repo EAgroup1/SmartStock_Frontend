@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.2
   google_maps_flutter: ^2.0.6
   location: ^4.1.1
+  google_maps_webservice: ^0.0.19
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,7 @@ flutter:
   assets:
    - assets/images/smartstock.jpeg
    - assets/images/logoSmartStock.jpeg
+   - assets/images/car_icon.png
    #- images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

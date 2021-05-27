@@ -17,6 +17,7 @@ class Delivery {
   User businessItem;
   late User userItem;
   String description;
+  late User bussinessItem;
 
   Delivery(this.lot, this.id, this.deliveryDate, this.businessItem,
       this.description);
