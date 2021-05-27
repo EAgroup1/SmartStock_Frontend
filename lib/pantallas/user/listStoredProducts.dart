@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
- 
-//this function doesn't execute again ---> there are NO changes
-void main() => runApp(MyApp());
- 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'List stored products',
-      home: ListProdPage(),
-    );
-  }
+import 'dart:async';
+import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../services/lotServices.dart';
+//import '../../services/userServices.dart';
+import '../../my_navigator.dart';
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/models/lot.dart';
+import 'dart:core';
+import 'package:rlbasic/services/lotServices.dart';
 
-  //void _goMySalary() {}
-}
-
-//we define the list
-List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];
+//we define a fake list ---> commented
+//List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];
 
 //Scaffold Class
 class ListProdPage extends StatelessWidget {
@@ -25,61 +20,37 @@ class ListProdPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('My store products'),
-          //At the beginning, we will add the salary button $ on the AppBar
-          //possibly max. 3 or 4 icon buttons
-          //also we find leading button to go back
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.euro_symbol),
-              onPressed: (){},
-              )
-          ],
-        ),
-        //ok, when we arrive to the body we create 2 divs or containers
-        //one for the list sort or grid sort ---> we'll see...
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-
-            //some styles to render
-            //spaces on the conatiners or vertical alignment on them
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //horizontal alignment 
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-
-            //children = array de widgets
-            children: <Widget>[
-
-              // Container(
-              //   color: Colors.grey,
-              //   height: 100,
-              //   width: 100,
-              // ),
-
-              //listView at the beginning
-              //if i have a list we can use builder
-              ListView.builder(
-                itemCount: lots.length,
-                itemBuilder: (BuildContext context, int index){
-                  //return something, in our case we return the info from each lot of the user
-                  final lot = lots[index];
-                  return ListTile(
-                    title: Text(lot), 
-                    leading: Icon(Icons.storage),
-                    onTap: (){
-                      //do something when we click a lot
-                      print(lot);
-                    },
-                  );
-                },
-              ),
-
-            ],
-          ),
-        ),
-      );
+    return new MaterialApp(
+      title: 'My Products',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new MyProdPage(title: 'My Lot List'),
+    );
   }
 }
+
+class MyProdPage extends StatefulWidget {
+  MyProdPage({Key? key, required this.title}) : super(key: key);
+
+  //variable title
+  final String title;
+
+  @override
+  _MyProdPageState createState() => _MyProdPageState();
+}
+
+class _MyProdPageState extends State<MyProdPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text(widget.title),
+      ),
+      body: Container (
+      ),
+    );
+  }
+}
+
+

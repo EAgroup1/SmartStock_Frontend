@@ -5,6 +5,7 @@ class GlobalData {
   late String token;
   late String userName;
   late String email;
+  late String role;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -17,6 +18,7 @@ class GlobalData {
   String getToken() => this.token;
   String getUserName() => this.userName;
   String getEMail() => this.email;
+  String getRole() => this.role;
 
   setId(String id) {
     this.id = id;
@@ -32,6 +34,10 @@ class GlobalData {
 
   setEMail(String email){
     this.email = email;
+  }
+
+  setRole(String role){
+    this.role = role;
   }
 
 }
