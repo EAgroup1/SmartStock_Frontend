@@ -74,6 +74,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   final cosas2 = ["Zapatos", "20"]; */
 
   //DataSearch(this.searchFieldLabel, this.historialot);
+  late List<Lot?> lot;
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -115,12 +116,13 @@ class DataSearch extends SearchDelegate<Lot?> {
     return FutureBuilder(
       future: lotservices.getLot(query),
       builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
+        lot = snapshot.data;
+        if (lot.isNotEmpty) {
+          return _showLots(snapshot.data);
+        }
+        if (lot.isEmpty) {
           return ListTile(
               title: Text('No hay nada que coincida con lo que has escrito'));
-        }
-        if (snapshot.hasData) {
-          return _showLots(snapshot.data);
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
