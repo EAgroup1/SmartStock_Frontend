@@ -73,7 +73,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   final cosas2 = ["Zapatos", "20"]; */
 
   //DataSearch(this.searchFieldLabel, this.historialot);
-
+  late List<Lot?> lot = [];
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -104,27 +104,24 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
     //show some result based on the selction
-    print(query);
-
-    if (query.trim().length == 0) {
-      return Text('Introduce un producto para filtrar');
-    }
     final lotservices = new lotServices();
+    print(query);
+    if (query.trim().length == 0) {
+      return ListTile(title: Text('Introduce un producto para filtrar'));
+    }
 
     return FutureBuilder(
-      future: lotservices.getLot(query),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return ListTile(
-              title: Text('No hay nada que coincida con lo que has escrito'));
-        }
-        if (snapshot.hasData) {
-          return _showLots(snapshot.data);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
+        future: lotservices.getLot(query),
+        builder: (context, AsyncSnapshot snapshot) {
+          lot = snapshot.data;
+          if (lot.isNotEmpty) {
+            return _showLots(lot);
+          } else if (lot.isEmpty) {
+            return ListTile(title: Text('Este producto no está en la lista'));
+          } else {
+            return Center(child: CircularProgressIndicator(strokeWidth: 4));
+          }
+        });
   }
 
   @override
@@ -134,7 +131,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     final allLots = new lotServices();
     return FutureBuilder(
       future: allLots.getAllLotsSorted(),
-      builder: (_, AsyncSnapshot snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
         } else {
@@ -199,7 +196,7 @@ Widget _buildPopupDialog(BuildContext context, Lot lot) {
           Text("Cantidad: " + lot.qty.toString()),
           Text("Precio/unidad: " + lot.price.toString() + "€"),
           Text("Cantidad minima: " + lot.minimumQty.toString()),
-          Text("Empresa del productos: " ) 
+          Text("Empresa del productos: ")
           // Text("Compañia: " + .info),
           //trailing: Text("Cantidad: " + lot.qty.toString()),
         ],
