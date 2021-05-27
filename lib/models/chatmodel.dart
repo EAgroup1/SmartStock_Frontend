@@ -2,7 +2,7 @@
 // import 'package:scoped_model/scoped_model.dart'; -- NO NULL SAFETY
 // import 'package:flutter_socket_io/flutter_socket_io.dart'; -- NO NULL SAFETY
 // import 'package:flutter_socket_io/socket_io_manager.dart'; -- NO NULL SAFETY
-// import 'package:flutter_socket_io/socket_io_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 import 'dart:convert';
@@ -35,9 +35,15 @@ class ChatModel /*extends Model*/{
 
 
     //create the socket trough URL 4000 or 3000? server port?
-    // socketIO = SocketIOManager().createSocketIO(
-    //   'http://localhost:4000', '/',
-    //   query: 'id=${currentUser.id}');
+     IO.Socket socket = IO.io('http://localhost:4000');
+     socket.onConnect((_) {
+       print('socket connected');
+       socket.emit('msg','test');
+     });
+     
+     //socketIO = SocketIOClient().createSocketIO(
+     //  'http://localhost:4000', '/',
+     //  query: 'id=${currentUser.id}');
 
 
     //init the socket
@@ -45,6 +51,20 @@ class ChatModel /*extends Model*/{
     
 
     //add subscribers to the same socket
+
+    //____________________________ NEW NEW ____________________________
+
+    /* //ESTO DE AQUI ES DEL SOCKET_IO NUEVO
+    socket.subs!('receive_message', (jsonData) {
+        Map<String, dynamic> data = json.decode(jsonData);
+        messages.add(Message(data['content'], data['senderChatID'], data['receiverChatID']));
+       //notifyListeners();
+     });*/
+
+
+    //____________________________ NEW NEW ____________________________
+
+
     // socketIO.subscribe('receive_message', (jsonData) {
     //   //Convert the JSON data received into a Map
     //   Map<String, dynamic> data = json.decode(jsonData);
