@@ -85,7 +85,7 @@ class UserServices {
   //NUEVA; AUN NO VA
   sendBankRole(String id, String bank, String role) async{
     try{
-      final resp = await dio.put(url,
+      final resp = await dio.put(url+id,
         data:{"id": id, "role": role, "bank":bank},
         options: Options(contentType: Headers.formUrlEncodedContentType)
       );

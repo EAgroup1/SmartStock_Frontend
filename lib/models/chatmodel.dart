@@ -1,6 +1,9 @@
-// import 'package:scoped_model/scoped_model.dart';
-// import 'package:flutter_socket_io/flutter_socket_io.dart';
-// import 'package:flutter_socket_io/socket_io_manager.dart';
+
+// import 'package:scoped_model/scoped_model.dart'; -- NO NULL SAFETY
+// import 'package:flutter_socket_io/flutter_socket_io.dart'; -- NO NULL SAFETY
+// import 'package:flutter_socket_io/socket_io_manager.dart'; -- NO NULL SAFETY
+// import 'package:flutter_socket_io/socket_io_client.dart';
+
 
 import 'dart:convert';
 import './user.dart';
