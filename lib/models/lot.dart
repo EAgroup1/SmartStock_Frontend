@@ -24,4 +24,6 @@ class Lot {
   factory Lot.fromJson(Map<String, dynamic> json) => _$LotFromJson(json);
 
   Map<String, dynamic> toJson() => _$LotToJson(this);
+
+
 }
