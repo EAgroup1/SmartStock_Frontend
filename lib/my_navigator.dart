@@ -18,7 +18,6 @@ import 'package:rlbasic/pantallas/webChat.dart';
 //main list & subviews of this
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/salaryStoredProducts.dart';
-import 'package:rlbasic/pantallas/user/selectStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/search_products.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 
@@ -37,7 +36,6 @@ var routes = <String, WidgetBuilder>{
   //"/chathomepage/webchat": (BuildContext context) => ChatPage(),
   "/user/lotlist": (BuildContext context) => MyProdPage(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
-  "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
   "/user": (BuildContext context) => UserPage(),
  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
  "/bankdata": (BuildContext context) => BankDataPage(),
@@ -116,10 +114,6 @@ class MyNavigator {
 
   static void goToChartsLotList(BuildContext context) {
     Navigator.pushNamed(context, "/user/lotlist/charts");
-  }
-
-  static void goToSelecteOneLotList(BuildContext context) {
-    Navigator.pushNamed(context, "/user/lotlist/selectedone");
   }
 
    static void goToSendProducts(BuildContext context) {
