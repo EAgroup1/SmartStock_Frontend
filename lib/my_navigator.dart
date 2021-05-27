@@ -22,6 +22,9 @@ import 'package:rlbasic/pantallas/user/selectStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/search_products.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 
+import 'models/user.dart';
+
+
 var routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => LoginPage(),
   "/company": (BuildContext context) => CompanyPage(),
@@ -34,7 +37,7 @@ var routes = <String, WidgetBuilder>{
   "/forgotpassword": (BuildContext context) => ForgotPasswordPage(),
   "/createnewpassword": (BuildContext context) => CreateNewPassword(),
   "/chathomepage": (BuildContext context) => AllChatsPage(),
-  //"/chathomepage/webchat": (BuildContext context) => ChatPage(),
+  "/chathomepage/webchat": (BuildContext context) => ChatPage(),
   "/user/lotlist": (BuildContext context) => ListProdPage(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
@@ -106,9 +109,9 @@ class MyNavigator {
     Navigator.pushNamed(context, "/chathomepage");
   }
 
-  // static void goToWebChat(BuildContext context) {
-  //   Navigator.pushNamed(context, "/chathomepage/webchat");
-  // }
+   static void goToWebChat(BuildContext context) {
+     Navigator.pushNamed(context, "/chathomepage/webchat");
+   }
 
   static void goToLotList(BuildContext context) {
     Navigator.pushNamed(context, "/user/lotlist");
