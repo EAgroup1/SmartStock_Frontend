@@ -1,3 +1,5 @@
+import 'user.dart';
+
 class GlobalData {
   static GlobalData? instance;
 
@@ -6,6 +8,7 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late User friend;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -19,6 +22,7 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
+  User getFriend() => this.friend;
 
   setId(String id) {
     this.id = id;
@@ -38,6 +42,10 @@ class GlobalData {
 
   setRole(String role){
     this.role = role;
+  }
+
+  setFriend(User friend){
+    this.friend = friend;
   }
 
 }
