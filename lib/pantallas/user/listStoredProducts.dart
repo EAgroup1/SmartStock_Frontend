@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../services/lotServices.dart';
-//import '../../services/userServices.dart';
 import '../../my_navigator.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
@@ -10,25 +7,92 @@ import 'package:rlbasic/services/lotServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
 
-//we define a fake list ---> commented
-//List <String> lots = ["zapatillas", "gorra", "camisa", "polo"];
+class MyProdPageMenu extends StatelessWidget {
+  const MyProdPageMenu({Key? key}) : super(key: key);
 
-// //Scaffold Class
-// class ListProdPage extends StatelessWidget {
-//   //we'll see required or nullable
-//   ListProdPage({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    //lateral menu
+    return MaterialApp(
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text("Tu lista de Lotes"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.euro_symbol),
+            onPressed: (){
+              MyNavigator.goToChartsLotList(context);
+            },
+          )
+        ]
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Perfil',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+                leading: Icon(Icons.add_business_rounded),
+                title: Text('Buscar productos'),
+                onTap: () {
+                  MyNavigator.goToSearchProducts(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.apartment),
+                title: Text('Mis productos almacenados'),
+                onTap: () {
+                  //we comment this because this is the list of lots about one user
+                  MyNavigator.goToLotList(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.motorcycle),
+                title: Text('Productos para entregar'),
+                onTap: () {
+                  MyNavigator.goToUserDeliveryMenu(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Configuración'),
+                onTap: () {
+                  MyNavigator.goToConfigUser(context);
+                }),
+          ],
+        ),
+      ),
+      body: MyProdPage(),
+    ));
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return new MaterialApp(
-//       title: 'My Products',
-//       theme: new ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: new MyProdPage(title: 'My Lot List'),
-//     );
-//   }
-// }
+//another stateless widget to indicate the behavior of the view
+class MyProdPageMenuScreen extends StatelessWidget {
+  const MyProdPageMenuScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //we need sort here
+      child: MyProdPage(),
+    );
+  }
+}
 
 class MyProdPage extends StatefulWidget {
   MyProdPage({Key? key}) : super(key: key);
@@ -39,60 +103,82 @@ class MyProdPage extends StatefulWidget {
 
 class _MyProdPageState extends State<MyProdPage> {
 
-  //we use these variables
-  Lot? selectedLot;
-
-  List<Lot> lotHistory = [];
-
-  //DataSearch search = new DataSearch();
-
   late var lots = <Lot>[];
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  GlobalData globalData = GlobalData.getInstance()!;
+  final lotService = new LotServices();
 
-  //widgets
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: lotService.getLotListByUser(globalData.getId()),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasError) {
+          return ListTile(title: Text('Ha habido un error :('));
+        }
+        if (snapshot.hasData) {
+          this.lots = snapshot.data;
+          if (lots.isEmpty) {
+            return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
+          } else
+            return buildList(context);
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  }
 
-  //show list of products jona
-  Widget _showLots(List<dynamic> lots) {
-    return ListView.builder(
-      itemCount: lots.length,
-      itemBuilder: (context, i) {
-        return GestureDetector(
+  Widget buildList(BuildContext context) {
+    if (lots.isEmpty) {
+      return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
+    } else {
+      return ListView.builder(
+        itemCount: lots.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) =>
-                    _buildPopupDialog(context, lots[i]),
+                builder: (BuildContext context) => _buildPopupDialog(context, lots[index]),
               );
             },
             child: Card(
-                clipBehavior: Clip.antiAlias,
-                child: Column(children: [
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
                   ListTile(
-                    leading: Icon(Icons.arrow_right),
-                    title: Text('${lots[i].name}'),
-                    subtitle: Text('Informacion: ${lots[i].info}'),
+                    //move_to_inbox(lots in house) or inbox or al_inbox(command)
+                    leading: Icon(Icons.inbox),
+                    title: Text('${lots[index].name}'),
+                    subtitle:
+                        Text('${lots[index].qty}'),
                   )
-                ])));
-      },
-    );
-  }  
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
 
-
-  //pop-up jona
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final bool value;
     final Function onChange;
 
     return new AlertDialog(
-      title: const Text('Información del lote'),
+      title: const Text('Info del lote almacenado'),
       content: new SingleChildScrollView(
         child: ListBody(
           children: <Widget>[
             Text("Nombre del lote: " + lot.name),
             Text("Cantidad: " + lot.qty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
-            Text("Compañia: " + lot.businessItem.toString())
+            Text("Compañía: " + lot.businessItem.userName.toString())
           ],
         ),
       ),
@@ -105,30 +191,6 @@ class _MyProdPageState extends State<MyProdPage> {
           child: const Text('Cerrar'),
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //implement two widgets that we have created
-    //first we put the top structure
-    return MaterialApp(
-      title: 'List stored products',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My store products'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.euro_symbol),
-              onPressed: (){
-                MyNavigator.goToChartsLotList(context);
-              }
-            ),
-            _showLots(lots),
-            _buildPopupDialog(context, selectedLot!),
-          ]
-        )
-      )
     );
   }
 }

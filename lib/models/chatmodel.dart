@@ -1,16 +1,14 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_socket_io/flutter_socket_io.dart';// -- NO NULL SAFETY
-import 'package:flutter_socket_io/socket_io_manager.dart';// -- NO NULL SAFETY
+// import 'package:scoped_model/scoped_model.dart';
+// import 'package:flutter_socket_io/flutter_socket_io.dart';// -- NO NULL SAFETY
+// import 'package:flutter_socket_io/socket_io_manager.dart';// -- NO NULL SAFETY
 //import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 
 import 'dart:convert';
 import './user.dart';
 import './message.dart';
 
-class ChatModel extends Model with ChangeNotifier {
+class ChatModel /*extends Model with ChangeNotifier*/ {
 
   //fake list users this.id, this.userName, this.email, this.bank, this.role
   List<User>? users = [
@@ -27,7 +25,7 @@ class ChatModel extends Model with ChangeNotifier {
   List<Message>? messages = <Message>[];
 
    //socket for connections
-   late SocketIO? socketIO;
+  //  late SocketIO? socketIO;
 
   void init() {
     //prove with the current user is the number 1
@@ -42,13 +40,15 @@ class ChatModel extends Model with ChangeNotifier {
        socket.emit('msg','test');
      });*/
      
-     socketIO = SocketIOManager().createSocketIO(
-       'http://localhost:4000', '/',
-       query: 'id=${currentUser?.id}');
+
+    //  socketIO = SocketIOManager().createSocketIO(
+    //    'http://localhost:4000', '/',
+    //    query: 'id=${currentUser?.id}');
+
 
 
     //init the socket
-    socketIO?.init();
+    // socketIO?.init();
     
 
     //add subscribers to the same socket
@@ -66,29 +66,29 @@ class ChatModel extends Model with ChangeNotifier {
     //____________________________ NEW NEW ____________________________
 
 
-     socketIO?.subscribe('receive_message', (jsonData) {
-       //Convert the JSON data received into a Map
-       Map<String, dynamic> data = json.decode(jsonData);
-       messages?.add(Message(
-         data['content'], data['senderChatID'], data['receiverChatID']));
-       notifyListeners();
-     });
+    //  socketIO?.subscribe('receive_message', (jsonData) {
+    //    //Convert the JSON data received into a Map
+    //    Map<String, dynamic> data = json.decode(jsonData);
+    //    messages?.add(Message(
+    //      data['content'], data['senderChatID'], data['receiverChatID']));
+    //    notifyListeners();
+    //  });
 
 
-    socketIO?.connect();
+    // socketIO?.connect();
   }
 
   void sendMessage(String text, String receiverChatID) {
     messages?.add(Message(text, currentUser!.id, receiverChatID));
-     socketIO?.sendMessage(
-       'send_message',
-       json.encode({
-         'receiverChatID': receiverChatID,
-         'senderChatID': currentUser?.id,
-         'content': text,
-       }),
-     );
-     notifyListeners();
+    //  socketIO?.sendMessage(
+    //    'send_message',
+    //    json.encode({
+    //      'receiverChatID': receiverChatID,
+    //      'senderChatID': currentUser?.id,
+    //      'content': text,
+    //    }),
+    //  );
+    //  notifyListeners();
   }
   
 

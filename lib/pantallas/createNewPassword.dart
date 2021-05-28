@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //initially, NOT required
 import '../my_navigator.dart';
-import '../../models/user.dart';
+// import '../../models/user.dart';
 import '../../services/userServices.dart';
 import 'package:fluttertoast/fluttertoast.dart';
  
@@ -169,8 +169,7 @@ class _ResetPassState extends State<ResetPass> {
             },
           ));
     }
-
-
+    
     return Material(
         child: Form(
             key: _formKey,

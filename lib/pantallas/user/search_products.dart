@@ -109,7 +109,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     if (query.trim().length == 0) {
       return Text('Introduce un producto para filtrar');
     }
-    final lotservices = new lotServices();
+    final lotservices = new LotServices();
 
     return FutureBuilder(
       future: lotservices.getLot(query),
@@ -131,7 +131,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLots = new lotServices();
+    final allLots = new LotServices();
     return FutureBuilder(
       future: allLots.getAllLots(),
       builder: (_, AsyncSnapshot snapshot) {

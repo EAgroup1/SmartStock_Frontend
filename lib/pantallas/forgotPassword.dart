@@ -1,7 +1,6 @@
 //first essential package for the widgets!!
 import 'package:flutter/material.dart';
-import '../my_navigator.dart';
-import '../../models/user.dart';
+//import '../../models/user.dart';
 import '../../services/userServices.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

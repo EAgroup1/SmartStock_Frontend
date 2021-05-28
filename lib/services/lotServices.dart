@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:rlbasic/models/lot.dart';
 
-class lotServices {
+class LotServices {
   Dio dio = new Dio();
   var url = "http://localhost:4000/api/lots/";
 

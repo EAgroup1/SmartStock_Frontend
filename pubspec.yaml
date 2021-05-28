@@ -29,9 +29,6 @@ dependencies:
   flutter_svg: ^0.22.0
   shared_preferences: ^2.0.5
   json_annotation: ^4.0.0
-  #package to deleted
-  #flutter_socket_io: ^0.6.0
-  #scoped_model: ^1.0.1
   socket_io_client: ^1.0.1
   socket_io: ^1.0.0
   # new package about graphs
@@ -41,8 +38,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   http: ^0.13.3
-  flutter_socket_io: ^0.6.0
-  scoped_model: ^2.0.0-nullsafety.0
+  #flutter_socket_io: ^0.6.0
+  #scoped_model: ^2.0.0-nullsafety.0
 
 dev_dependencies:
   flutter_test:
