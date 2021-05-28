@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+//initially, NOT required
+import '../my_navigator.dart';
+import '../../models/user.dart';
+import '../../services/userServices.dart';
  
-void main() => runApp(MyApp());
- 
-class MyApp extends StatelessWidget {
+class CreateNewPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
               //be careful with the size of the top image
               Image.asset(
                 'assets/images/logoSmartStock.jpeg',
-                height: 80,
+                width: 300.00,
+                height: 240,
               ),
               TextField(
                 obscureText: true,
@@ -45,6 +48,7 @@ class MyApp extends StatelessWidget {
               TextButton(
                 onPressed: (){
                   //respond to button press
+                  createNewPass();
                 },
                 child: Text("Login"),
               )
@@ -54,4 +58,8 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+void createNewPass(){
+//here we introduce the two passwords & we call to the API
 }

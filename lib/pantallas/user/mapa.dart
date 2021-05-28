@@ -20,8 +20,10 @@ Circle? circle;
 Location _locationTracker = Location();
 StreamSubscription? _locationSubscription;
 
+var tmp = Set<Marker>();
+
   static final CameraPosition initialLocation = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(41.2789, 1.97924),
     zoom: 14.4746,
   );
 
@@ -30,28 +32,32 @@ StreamSubscription? _locationSubscription;
     return byteData.buffer.asUint8List();
   }
     Set<Marker> _createMarkers() {
-    var tmp = Set<Marker>();
-
     tmp.add(
       Marker(
-        markerId: MarkerId("home"),
-        position: widget.fromPoint,
-        infoWindow: InfoWindow(title: "Pizzeria"),
-      ),
-    );
+          markerId: MarkerId("toDestination"),
+          position: LatLng(41.2757, 1.98712),          
+/*           draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5, 0.5), */
+          infoWindow: InfoWindow(title: "Destination"),
+
+         // icon: BitmapDescriptor.fromBytes(imageData)
+          )
+    );/* 
     tmp.add(
       Marker(
         markerId: MarkerId("toPoint"),
-        position: widget.toPoint,
+        position: LatLng(41.2757, 1.98712),
         infoWindow: InfoWindow(title: "Roca 123"),
       ),
-    );
+    ); */
     return tmp;
   }
     void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
     LatLng latlng = LatLng(newLocalData.latitude!, newLocalData.longitude!);
     this.setState(() {
-      marker = Marker(
+      tmp.add( Marker(
           markerId: MarkerId("home"),
           position: latlng,
           rotation: newLocalData.heading!,
@@ -59,7 +65,8 @@ StreamSubscription? _locationSubscription;
           zIndex: 2,
           flat: true,
           anchor: Offset(0.5, 0.5),
-          icon: BitmapDescriptor.fromBytes(imageData));
+          icon: BitmapDescriptor.fromBytes(imageData)
+          ));
       circle = Circle(
           circleId: CircleId("car"),
           radius: newLocalData.accuracy!,
@@ -138,12 +145,12 @@ StreamSubscription? _locationSubscription;
       body: GoogleMap(
         mapType: MapType.hybrid,
         initialCameraPosition: initialLocation,        
-        markers: Set.of((marker != null) ? [marker!] : []),
+        //markers: Set.of((marker != null) ? [marker!] : []),
         circles: Set.of((circle != null) ? [circle!] : []),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
         },
-       // markers: _createMarkers(),
+        markers: _createMarkers(),
       ),
       floatingActionButton: FloatingActionButton(        
         child: Icon(Icons.directions_boat),

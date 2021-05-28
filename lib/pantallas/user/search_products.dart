@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
@@ -180,37 +181,37 @@ class DataSearch extends SearchDelegate<Lot?> {
       },
     );
   }
-}
 
-Widget _buildPopupDialog(BuildContext context, Lot lot) {
-  final bool value;
-  final Function onChange;
+  Widget _buildPopupDialog(BuildContext context, Lot lot) {
+    final bool value;
+    final Function onChange;
 
-  return new AlertDialog(
-    title: const Text('Información detallada del producto'),
-    content: new SingleChildScrollView(
-      // mainAxisSize: MainAxisSize.min,
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      child: ListBody(
-        children: <Widget>[
-          Text("Nombre del producto: " + lot.name),
-          Text("Descripción: " + lot.info),
-          Text("Cantidad: " + lot.qty.toString()),
-          Text("Precio/unidad: " + lot.price.toString()),
-          Text("Cantidad minima: " + lot.minimumQty.toString())
-          // Text("Compañia: " + .info),
-          //trailing: Text("Cantidad: " + lot.qty.toString()),
-        ],
+    return new AlertDialog(
+      title: const Text('Información detallada del producto'),
+      content: new SingleChildScrollView(
+        // mainAxisSize: MainAxisSize.min,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListBody(
+          children: <Widget>[
+            Text("Nombre del producto: " + lot.name),
+            Text("Descripción: " + lot.info),
+            Text("Cantidad: " + lot.qty.toString()),
+            Text("Precio/unidad: " + lot.price.toString()),
+            Text("Cantidad minima: " + lot.minimumQty.toString())
+            // Text("Compañia: " + .info),
+            //trailing: Text("Cantidad: " + lot.qty.toString()),
+          ],
+        ),
       ),
-    ),
-    actions: <Widget>[
-      new FlatButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('Cerrar'),
-      ),
-    ],
-  );
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cerrar'),
+        ),
+      ],
+    );
+  }
 }

@@ -5,7 +5,7 @@ import 'package:rlbasic/models/user.dart';
 
 class UserServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/users/";
+  var url = "http://10.0.2.2:4000/api/users/";
   late DioExceptions dioExceptions;
 
   login(email, password) async {
@@ -19,6 +19,45 @@ class UserServices {
       if (e is DioError) {
         Fluttertoast.showToast(
             msg: 'No estás registrado o la contraseña es incorrecta',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+  //we need a forgotPass & resetPass function
+  forgotPass(email) async {
+    print(email);
+    try {
+      return await dio.put(url + 'forgotPassword',
+          data: {"email": email},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'Este usuario no existe',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+  //resetPass
+  resetPass(resetLink, newPass, confNewPass) async {
+    try {
+      return await dio.put(url + 'resetPassword',
+          data: {
+            "resetLink": resetLink,
+            "newPass": newPass,
+            "confNewPass": confNewPass,
+          },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'Las contraseñas no coinciden vuelva a intentarlo',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
@@ -40,6 +79,23 @@ class UserServices {
       print(e);
       return [];
     }
+  }
+
+
+  //NUEVA; AUN NO VA
+  sendBankRole(String id, String bank, String role) async{
+    try{
+      final resp = await dio.put(url+id,
+        data:{"id": id, "role": role, "bank":bank},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+
   }
 
   register(name, email, password) async {

@@ -18,10 +18,12 @@ class lotServices {
       return [];
     }
   }
+
+  //this function return only lot for one user
   getLotUser(String id) async{
     try {
       final resp = await dio.post(url,
-        data:{"id":id},
+        data:{"_id":id},
         options: Options(contentType: Headers.formUrlEncodedContentType)      
       );
       print(resp.data);
@@ -37,6 +39,18 @@ class lotServices {
   getAllLots() async {
     try {
       final resp = await dio.get(url);
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  //Lot List of one user trough id
+  getLotListByUser(String id) async {
+    try {
+      final resp = await dio.get('$url'+'getByUser/'+'$id');
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {

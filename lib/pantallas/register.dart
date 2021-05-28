@@ -8,6 +8,7 @@ import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
 import '../my_navigator.dart';
 
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -37,7 +38,6 @@ class _RegisterPageState extends State<RegisterPage> {
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(filled: true, hintText: 'Email'),
-        controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
@@ -140,6 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       globalData.setId(val.data['_id']);
                       globalData.setToken(val.data['token']);
                       globalData.setUserName(val.data['userName']);
+                      globalData.setEMail(email);
                       MyNavigator.goToBankData(context);
                       Fluttertoast.showToast(
                             msg: 'Logged successfully',

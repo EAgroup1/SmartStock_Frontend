@@ -50,6 +50,12 @@ class UserPage extends StatelessWidget {
                   MyNavigator.goToUserDeliveryMenu(context);
                 }),
             ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
+            ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text('Configuración'),
                 onTap: () {
