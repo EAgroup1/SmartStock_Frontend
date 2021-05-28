@@ -6,12 +6,12 @@ import 'package:rlbasic/models/delivery.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/delivery/";
+ // var url = "http://localhost:4000/api/delivery/";
+  var url = "http://10.0.2.2:4000/api/delivery/";
 
   getDeliveriesUser(String id) async {
     try {
-      final resp = await dio.post(url + id + '/deliveries/',
-          data: {"id": id},
+      final resp = await dio.get(url + id + '/deliveries/',
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
 
@@ -20,20 +20,23 @@ class DeliveryServices {
           (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
 
       return deliverylist;
-      /*  =
-          resp.data.map((obj) => Delivery.fromJson(obj)).toList();
-      print(deliverylist[0].id); */
-      // return deliverylist.map((obj) => Delivery.fromJson(obj)).toList();
     } catch (e) {
       print(e);
-      return [];
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist=[];
+      return deliverylist;
     }
   }
 
   getReadyDeliveries(String id) async {
     try {
-      final resp = await dio.post(url + id + '/readydeliveries/',
-          data: {"id": id},
+      final resp = await dio.get(url + id + '/readydeliveries/',
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
 
@@ -42,20 +45,25 @@ class DeliveryServices {
           (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
 
       return deliverylist;
-      /*  =
-          resp.data.map((obj) => Delivery.fromJson(obj)).toList();
-      print(deliverylist[0].id); */
-      // return deliverylist.map((obj) => Delivery.fromJson(obj)).toList();
     } catch (e) {
       print(e);
-      return [];
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist=[];
+      return deliverylist;
     }
   }
 
   setReadyDelivery(String id) async {
+          print(id);
+
     try {
-      return await dio.post(url + 'readydelivery',
-          data: {"id": id},
+      return await dio.put(url + 'readydelivery/'+id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {

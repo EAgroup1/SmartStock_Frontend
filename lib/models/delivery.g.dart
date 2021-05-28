@@ -13,10 +13,7 @@ Delivery _$DeliveryFromJson(Map<String, dynamic> json) {
     json['deliveryDate'] as String,
     User.fromJson(json['businessItem'] as Map<String, dynamic>),
     json['description'] as String,
-  )
-    ..userItem = User.fromJson(json['userItem'] as Map<String, dynamic>)
-    ..bussinessItem =
-        User.fromJson(json['bussinessItem'] as Map<String, dynamic>);
+  )..userItem = User.fromJson(json['userItem'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
@@ -26,5 +23,4 @@ Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
       'businessItem': instance.businessItem,
       'userItem': instance.userItem,
       'description': instance.description,
-      'bussinessItem': instance.bussinessItem,
     };

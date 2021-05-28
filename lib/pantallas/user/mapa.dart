@@ -153,7 +153,7 @@ var tmp = Set<Marker>();
         markers: _createMarkers(),
       ),
       floatingActionButton: FloatingActionButton(        
-        child: Icon(Icons.directions_boat),
+        child: Icon(Icons.directions),
         onPressed: () {
             getCurrentLocation();
           }),

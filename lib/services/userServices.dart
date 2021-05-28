@@ -6,6 +6,8 @@ import 'package:rlbasic/models/user.dart';
 class UserServices {
   Dio dio = new Dio();
   var url = "http://10.0.2.2:4000/api/users/";
+  //var url = "http://localhost:4000/api/users/";
+
   late DioExceptions dioExceptions;
 
   login(email, password) async {
