@@ -52,4 +52,25 @@ class lotServices {
 
       }
     }
+
+    addNewLotToUser(String id, String userID) async {
+      print(id + 'id LOTE');
+      print(userID + 'id userItem');
+      try {
+      final resp = await dio.put('$url' + '$id',
+          data: {"userItem": userID},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.statusCode);
+      print(resp.data);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha podido añadir este lote al usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+    }
   }
+
+
+

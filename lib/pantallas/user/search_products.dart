@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
@@ -149,10 +151,13 @@ class DataSearch extends SearchDelegate<Lot?> {
             onTap: () {
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 //CAMBIAR POR LOTE
                 builder: (BuildContext context) =>
                     _buildPopupDialog(context, lots[i]),
-              );
+              ).then((result) {
+                print(result);
+              });
             },
             child: Card(
                 clipBehavior: Clip.antiAlias,
@@ -181,9 +186,10 @@ class DataSearch extends SearchDelegate<Lot?> {
 }
 
 Widget _buildPopupDialog(BuildContext context, Lot lot) {
+  //print(globalData.id);
   final bool value;
   final Function onChange;
-
+  final addUserIntoLot = new lotServices();
   return new AlertDialog(
     title: const Text('Información detallada del producto'),
     content: new SingleChildScrollView(
@@ -196,20 +202,33 @@ Widget _buildPopupDialog(BuildContext context, Lot lot) {
           Text("Cantidad: " + lot.qty.toString()),
           Text("Precio/unidad: " + lot.price.toString() + "€"),
           Text("Cantidad minima: " + lot.minimumQty.toString()),
-          Text("Empresa del productos: ")
+          Text("Empresa: " )
           // Text("Compañia: " + .info),
           //trailing: Text("Cantidad: " + lot.qty.toString()),
         ],
       ),
     ),
     actions: <Widget>[
+      Text("¿Quieres guardar este lote en tu almacen?"),
       new FlatButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          
+        addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+        Navigator.of(context).pop('Accept');
+        MyNavigator.goToSearchProducts(context);
         },
         textColor: Theme.of(context).primaryColor,
-        child: const Text('Cerrar'),
+        child: const Text('Accept'),
+      ),
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop('Cancel');
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Cancel'),
       ),
     ],
-  );
+  ); 
 }
+
+  
