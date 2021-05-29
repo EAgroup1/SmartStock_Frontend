@@ -61,15 +61,25 @@ class lotServices {
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.statusCode);
       print(resp.data);
-    } catch (e) {
+      } catch (e) {
       Fluttertoast.showToast(
           msg: 'No se ha podido añadir este lote al usuario',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 3);
+      }
     }
+  
+
+  //Lot List of one user trough id
+  getLotListByUser(String id) async {
+    try {
+      final resp = await dio.get('$url'+'getByUser/'+'$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
-
-
-
+}

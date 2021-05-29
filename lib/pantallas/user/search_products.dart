@@ -183,9 +183,8 @@ class DataSearch extends SearchDelegate<Lot?> {
       },
     );
   }
-}
 
-Widget _buildPopupDialog(BuildContext context, Lot lot) {
+  Widget _buildPopupDialog(BuildContext context, Lot lot) {
   //print(globalData.id);
   final bool value;
   final Function onChange;
@@ -229,6 +228,5 @@ Widget _buildPopupDialog(BuildContext context, Lot lot) {
       ),
     ],
   ); 
+  }
 }
-
-  

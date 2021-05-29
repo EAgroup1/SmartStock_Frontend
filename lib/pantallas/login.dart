@@ -85,11 +85,19 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
-                        MyNavigator.goToUser(context);
+                        globalData.setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
+
+                        if (globalData.getRole() == "Business"){
+                          MyNavigator.goToCompany(context);
+                        }else if (globalData.getRole() == "Storage"){
+                          MyNavigator.goToDeliverer(context);
+                        }else{
+                          MyNavigator.goToUser(context);
+                        }
                       } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
                             msg: 'Email o contraseña incorrectos',
