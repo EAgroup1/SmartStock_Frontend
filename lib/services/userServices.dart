@@ -1,6 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rlbasic/my_navigator.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: [
+    'email',
+    'profile',
+  ],
+);
 import 'package:rlbasic/models/user.dart';
 
 class UserServices {
@@ -69,7 +78,7 @@ class UserServices {
     try {
       final resp = await dio.post(url,
         data:{"id":id},
-        options: Options(contentType: Headers.formUrlEncodedContentType)      
+        options: Options(contentType: Headers.formUrlEncodedContentType)
       );
       print(resp.data);
       final List<dynamic> lotlist = resp.data;
@@ -96,6 +105,29 @@ class UserServices {
       return [];
     }
 
+  }
+
+  Future<void> loginGoogle() async {
+    try {
+      await _googleSignIn.signIn();
+      print(_googleSignIn.currentUser!.email);
+      print(_googleSignIn.currentUser!.displayName);
+      print(_googleSignIn.currentUser!.photoUrl);
+      try {
+        await dio.post(url + 'logInGoogle',
+            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "avatar": _googleSignIn.currentUser!.photoUrl},
+            options: Options(contentType: Headers.formUrlEncodedContentType));
+        MyNavigator.goTo
+      } on DioError catch (e) {
+        Fluttertoast.showToast(
+            msg: e.response?.data['msg'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+    } catch (error) {
+      print(error);
+    }
   }
 
   register(name, email, password) async {

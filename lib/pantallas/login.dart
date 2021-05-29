@@ -188,7 +188,17 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text('Entrar con Google', textAlign: TextAlign.center),
               )
             ]),
-            onPressed: () {},
+            onPressed: () {
+              try {
+                  UserServices().loginGoogle();
+              } catch (err) {
+                print(err);
+                Fluttertoast.showToast(
+                    msg: err.toString(),
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 6);
+              }
+            }
           ));
     }
 

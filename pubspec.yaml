@@ -36,9 +36,14 @@ dependencies:
   socket_io: ^1.0.0
   # new package about graphs
   syncfusion_flutter_charts: ^19.1.65
+  google_sign_in_platform_interface: ^2.0.1
+  google_sign_in_web: ^0.10.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  http: ^0.13.2
+  google_sign_in: ^5.0.4
   cupertino_icons: ^1.0.3
   http: ^0.13.3
 
