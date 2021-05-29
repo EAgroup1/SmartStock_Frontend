@@ -202,7 +202,7 @@ Widget _buildPopupDialog(BuildContext context, Lot lot) {
           Text("Cantidad: " + lot.qty.toString()),
           Text("Precio/unidad: " + lot.price.toString() + "€"),
           Text("Cantidad minima: " + lot.minimumQty.toString()),
-          Text("Empresa: " )
+          Text("Empresa: " + lot.businessItem.userName)
           // Text("Compañia: " + .info),
           //trailing: Text("Cantidad: " + lot.qty.toString()),
         ],

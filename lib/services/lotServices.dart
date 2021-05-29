@@ -49,7 +49,6 @@ class lotServices {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
-
       }
     }
 

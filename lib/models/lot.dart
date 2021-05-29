@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-//import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/user.dart';
 
 part 'lot.g.dart';
 
@@ -16,10 +16,10 @@ class Lot {
   @JsonKey(name: '_id')
   String id;
   int minimumQty;
-  //User businessItem;
+  User businessItem;
   //late User userItem;
 
-  Lot(this.name, this.qty, this.price, this.id, this.info, this.minimumQty);
+  Lot(this.name, this.qty, this.price, this.id, this.info, this.minimumQty, this.businessItem);
 
   factory Lot.fromJson(Map<String, dynamic> json) => _$LotFromJson(json);
 

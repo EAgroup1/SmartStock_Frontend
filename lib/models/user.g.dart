@@ -13,7 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['email'] as String,
     json['bank'] as String,
     json['role'] as String,
-      );
+  );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
