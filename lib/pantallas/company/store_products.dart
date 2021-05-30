@@ -26,7 +26,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       body: _lotsadded(lots),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //MyNavigator.goToStoreProductsAdd(context);
+            MyNavigator.goToStoreProductsAdd(context);
           },
           child: const Icon(Icons.add)),
     );
