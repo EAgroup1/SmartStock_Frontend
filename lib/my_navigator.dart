@@ -4,6 +4,8 @@ import 'package:rlbasic/pantallas/bankData.dart';
 import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
+import 'package:rlbasic/pantallas/company/store_products.dart';
+import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
@@ -42,6 +44,8 @@ var routes = <String, WidgetBuilder>{
  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
  "/bankdata": (BuildContext context) => BankDataPage(),
  "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+ "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
+ "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
  
 };
 
@@ -124,6 +128,14 @@ class MyNavigator {
 
    static void goToSendProducts(BuildContext context) {
     Navigator.pushNamed(context, "/company/sendproducts");
+  }
+
+   static void goToStoreProducts(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts");
+  }
+
+  static void goToStoreProductsAdd(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts/add");
   }
 
 }

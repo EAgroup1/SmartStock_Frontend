@@ -11,7 +11,7 @@ class Lot {
   int qty;
   int price;
   late bool isFragile;
-  String info;
+  late String info;
   @JsonKey(name:'_id')
   String id;
   int minimumQty;

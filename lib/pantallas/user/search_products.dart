@@ -200,7 +200,8 @@ class DataSearch extends SearchDelegate<Lot?> {
             Text("Descripción: " + lot.info),
             Text("Cantidad: " + lot.qty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
-            Text("Cantidad minima: " + lot.minimumQty.toString())
+            Text("Cantidad minima: " + lot.minimumQty.toString()),
+
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
