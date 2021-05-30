@@ -17,7 +17,7 @@ class Lot {
   String id;
   int minimumQty;
   User businessItem;
-  //late User userItem;
+  late User userItem;
 
   Lot(this.name, this.qty, this.price, this.id, this.info, this.minimumQty, this.businessItem);
 

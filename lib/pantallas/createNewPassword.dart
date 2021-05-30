@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 //initially, NOT required
 import '../my_navigator.dart';
-import '../../models/user.dart';
-import '../../services/userServices.dart';
- 
+
+
 class CreateNewPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

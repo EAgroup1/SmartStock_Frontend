@@ -41,6 +41,7 @@ class lotServices {
     getAllLotsSorted() async {
       try {
         final resp = await dio.get(url);
+        print(resp);
         final List<dynamic> lotlist = resp.data;
         return lotlist.map((obj) => Lot.fromJson(obj)).toList();
       } catch (e) {
