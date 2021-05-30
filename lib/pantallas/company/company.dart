@@ -12,15 +12,15 @@ class CompanyPage extends StatefulWidget {
 class _CompanyPageState extends State<CompanyPage> {
   @override
   Widget build(BuildContext context) {
-     return MaterialApp(
+    return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('¡Bienvenido tienda '+ globalData.getUserName()+'!'),
+        title: Text('¡Bienvenido tienda ' + globalData.getUserName() + '!'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children:  <Widget>[
+          children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -36,12 +36,14 @@ class _CompanyPageState extends State<CompanyPage> {
             ListTile(
               leading: Icon(Icons.business),
               title: Text('Productos'),
-             
+              onTap: () {
+                MyNavigator.goToStoreProducts(context);
+              },
             ),
             ListTile(
-              leading: Icon(Icons.motorcycle),
-              title: Text('Enviar productos'),
-              onTap: () {
+                leading: Icon(Icons.motorcycle),
+                title: Text('Enviar productos'),
+                onTap: () {
                   MyNavigator.goToSendProducts(context);
                 }),
             ListTile(
@@ -51,12 +53,11 @@ class _CompanyPageState extends State<CompanyPage> {
                   MyNavigator.goToWebChatHomepage(context);
                 }),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Configuración'),
-              onTap: () {
+                leading: Icon(Icons.settings),
+                title: Text('Configuración'),
+                onTap: () {
                   MyNavigator.goToConfigCompany(context);
-                }
-            ),
+                }),
           ],
         ),
       ),

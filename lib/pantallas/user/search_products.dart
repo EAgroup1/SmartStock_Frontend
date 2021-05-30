@@ -75,7 +75,8 @@ class DataSearch extends SearchDelegate<Lot?> {
   final cosas2 = ["Zapatos", "20"]; */
 
   //DataSearch(this.searchFieldLabel, this.historialot);
-  late List<Lot?> lot = [];
+  late List<Lot?> lot;
+
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -113,17 +114,20 @@ class DataSearch extends SearchDelegate<Lot?> {
     }
 
     return FutureBuilder(
-        future: lotservices.getLot(query),
-        builder: (context, AsyncSnapshot snapshot) {
-          lot = snapshot.data;
-          if (lot.isNotEmpty) {
-            return _showLots(lot);
-          } else if (lot.isEmpty) {
-            return ListTile(title: Text('Este producto no está en la lista'));
-          } else {
-            return Center(child: CircularProgressIndicator(strokeWidth: 4));
-          }
-        });
+      future: lotservices.getLot(query),
+      builder: (context, AsyncSnapshot snapshot) {
+        lot = snapshot.data;
+        if (lot.isNotEmpty) {
+          return _showLots(snapshot.data);
+        }
+        if (lot.isEmpty) {
+          return ListTile(
+              title: Text('No hay nada que coincida con lo que has escrito'));
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
   }
 
   @override
