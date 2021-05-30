@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'dart:core';
 
 import '../../my_navigator.dart';
@@ -14,7 +15,7 @@ class _CompanyPageState extends State<CompanyPage> {
      return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('¡Bienvenido tienda!'),
+        title: Text('¡Bienvenido tienda '+ globalData.getUserName()+'!'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -43,13 +44,19 @@ class _CompanyPageState extends State<CompanyPage> {
               onTap: () {
                   MyNavigator.goToSendProducts(context);
                 }),
-
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Configuración'),
               onTap: () {
                   MyNavigator.goToConfigCompany(context);
-                }),
+                }
+            ),
           ],
         ),
       ),

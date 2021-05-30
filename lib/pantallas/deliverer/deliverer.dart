@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rlbasic/pantallas/deliverer/config_deliverer.dart';
 import 'dart:core';
+
+import '../../my_navigator.dart';
 
 class DelivererPage extends StatefulWidget {
   @override
@@ -12,12 +15,12 @@ class _DelivererPageState extends State<DelivererPage> {
      return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text('¡Bienvenido Transportista!'),
+        title: Text('¡Bienvenido Transportista '+ globalData.getUserName()+'!'),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children:  <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -36,9 +39,18 @@ class _DelivererPageState extends State<DelivererPage> {
              
             ),
             ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
+                }),
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Configuración'),
-            )
+              onTap: () {
+                  MyNavigator.goToConfigDeliverer(context);
+                }
+            ),
           ],
         ),
       ),

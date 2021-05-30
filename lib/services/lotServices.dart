@@ -41,6 +41,7 @@ class lotServices {
     getAllLotsSorted() async {
       try {
         final resp = await dio.get(url);
+        print(resp);
         final List<dynamic> lotlist = resp.data;
         return lotlist.map((obj) => Lot.fromJson(obj)).toList();
       } catch (e) {
@@ -49,7 +50,37 @@ class lotServices {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
-
       }
     }
+
+    addNewLotToUser(String id, String userID) async {
+      print(id + 'id LOTE');
+      print(userID + 'id userItem');
+      try {
+      final resp = await dio.put('$url' + '$id',
+          data: {"userItem": userID},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.statusCode);
+      print(resp.data);
+      } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha podido añadir este lote al usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+      }
+    }
+  
+
+  //Lot List of one user trough id
+  getLotListByUser(String id) async {
+    try {
+      final resp = await dio.get('$url'+'getByUser/'+'$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
+}

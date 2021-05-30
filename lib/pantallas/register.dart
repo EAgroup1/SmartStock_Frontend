@@ -8,6 +8,7 @@ import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
 import '../my_navigator.dart';
 
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -139,6 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       globalData.setId(val.data['_id']);
                       globalData.setToken(val.data['token']);
                       globalData.setUserName(val.data['userName']);
+                      globalData.setEMail(email);
                       MyNavigator.goToBankData(context);
                       Fluttertoast.showToast(
                             msg: 'Logged successfully',
