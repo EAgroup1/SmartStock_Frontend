@@ -94,9 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                         if (globalData.getRole() == "Business"){
                           MyNavigator.goToCompany(context);
                         }else if (globalData.getRole() == "Storage"){
-                          MyNavigator.goToDeliverer(context);
-                        }else{
                           MyNavigator.goToUser(context);
+                        }else{
+                          MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
