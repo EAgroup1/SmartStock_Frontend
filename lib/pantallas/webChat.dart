@@ -1,14 +1,15 @@
 //'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/message.dart';
+import 'package:rlbasic/models/user.dart';
 // import 'package:scoped_model/scoped_model.dart';
 //here we don't need the navigator
 //import '../../my_navigator.dart';
 
 //import two models: user with chatmodel (sockets) & messages (webChat) 
-import '../../models/user.dart';
-import '../../models/chatmodel.dart';
+
 //also import the model of message
-import '../../models/message.dart';
+
 
 class ChatPage extends StatefulWidget {
   final User friend;
