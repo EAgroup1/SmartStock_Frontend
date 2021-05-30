@@ -208,7 +208,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       ),
     ),
     actions: <Widget>[
-      Text("¿Quieres guardar este lote en tu almacen?"),
+      Text("Do you want to store this in your warehouse?"),
       new FlatButton(
         onPressed: () {
           
