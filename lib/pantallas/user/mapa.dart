@@ -9,9 +9,7 @@ import 'package:rlbasic/models/directions_model.dart';
 import 'package:rlbasic/pantallas/user/directions_repository.dart';
 
 class Mapa extends StatefulWidget {
-  final LatLng fromPoint = LatLng(-38.956176, -67.920666);
-  final LatLng toPoint = LatLng(-38.953724, -67.923921);
-  @override
+ @override
   _MapaState createState() => _MapaState();
 }
 
@@ -28,15 +26,15 @@ class _MapaState extends State<Mapa> {
   StreamSubscription? _locationSubscription;
   Directions? _info;
   Marker? _origin;
+  Marker? init;
+
+  //cambiar marcador por el de almacen
   Marker _destination = Marker(
     markerId: MarkerId("toDestination"),
     position: LatLng(41.2757, 1.98712),
     infoWindow: InfoWindow(title: "Destination"),
   );
 
-  //Directions _info;
-
-  var tmp = Set<Marker>();
 
   @override
   void dispose() {
@@ -50,38 +48,10 @@ class _MapaState extends State<Mapa> {
     return byteData.buffer.asUint8List();
   }
 
-  Marker? _createMarkers() {
-    _destination = Marker(
-      markerId: MarkerId("toDestination"),
-      position: LatLng(41.2757, 1.98712),
-      infoWindow: InfoWindow(title: "Destination"),
-    );
-    /*tmp.add(Marker(
-      markerId: MarkerId("toDestination"),
-      position: LatLng(41.2757, 1.98712),
-/*           draggable: false,
-          zIndex: 2,
-          flat: true,
-          anchor: Offset(0.5, 0.5), */
-      infoWindow: InfoWindow(title: "Destination"),
-
-      // icon: BitmapDescriptor.fromBytes(imageData)
-    ));
-     
-    tmp.add(
-      Marker(
-        markerId: MarkerId("toPoint"),
-        position: LatLng(41.2757, 1.98712),
-        infoWindow: InfoWindow(title: "Roca 123"),
-      ),
-    ); */
-    return _destination;
-  }
-
   void updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
     LatLng latlng = LatLng(newLocalData.latitude!, newLocalData.longitude!);
     this.setState(() {
-      _origin=Marker(
+      _origin = Marker(
           markerId: MarkerId("origin"),
           position: latlng,
           rotation: newLocalData.heading!,
@@ -90,6 +60,9 @@ class _MapaState extends State<Mapa> {
           flat: true,
           anchor: Offset(0.5, 0.5),
           icon: BitmapDescriptor.fromBytes(imageData));
+      if (init == null) {
+        init = _origin;
+      }
       circle = Circle(
           circleId: CircleId("car"),
           radius: newLocalData.accuracy!,
@@ -154,18 +127,18 @@ class _MapaState extends State<Mapa> {
   }
 
   @override
-  Widget build(BuildContext context){
-    return new Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         title: const Text('Google Maps'),
         actions: [
-          if (_origin != null)
+          if (init != null)
             TextButton(
               onPressed: () => _controller!.animateCamera(
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
-                    target: _origin!.position,
+                    target: init!.position,
                     zoom: 14.5,
                     tilt: 50.0,
                   ),
@@ -183,7 +156,7 @@ class _MapaState extends State<Mapa> {
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
                     target: _destination.position,
-                    zoom: 20.5,
+                    zoom: 14.5,
                     tilt: 50.0,
                   ),
                 ),
@@ -197,21 +170,21 @@ class _MapaState extends State<Mapa> {
         ],
       ),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.bottomCenter, 
         children: [
           GoogleMap(
+            myLocationButtonEnabled: false,
             mapType: MapType.hybrid,
             zoomControlsEnabled: true,
             initialCameraPosition: initialLocation,
             markers: {
-              if(_origin != null) _origin!,
-              if(_destination != null) _destination
+              if (_origin != null) _origin!,
+              if (_destination != null) _destination
             },
             circles: Set.of((circle != null) ? [circle!] : []),
             onMapCreated: (GoogleMapController controller) {
               _controller = controller;
             },
-            //markers: Set.of((_createMarkers()),
             polylines: {
               if (_info != null)
                 Polyline(
@@ -223,36 +196,67 @@ class _MapaState extends State<Mapa> {
                       .toList(),
                 ),
             },
-          //  onLongPress: _addMarker,
-          ),
-          ButtonBar(
-            children: <Widget>[
-              FloatingActionButton(
-                child: Icon(Icons.location_city),
-                onPressed: () {
-                  getCurrentLocation();
-                }),
-              FloatingActionButton(
-                child: Icon(Icons.directions),
-                onPressed: () {
-                  getDirections();
-                }),
-            ]
-          ),
-        ]
-      ),     
+        ),
+        if (_info != null)
+            Positioned(
+              top: 20.0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6.0,
+                  horizontal: 12.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent,
+                  borderRadius: BorderRadius.circular(20.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 2),
+                      blurRadius: 6.0,
+                    )
+                  ],
+                ),
+                child: Text(
+                  '${_info!.totalDistance}, ${_info!.totalDuration}',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ButtonBar(          
+              children: <Widget>[
+          FloatingActionButton(
+              child: Icon(Icons.location_city),
+              onPressed: () {
+                getCurrentLocation();
+              }),
+          FloatingActionButton(
+              child: Icon(Icons.directions),
+              onPressed: () {
+                getDirections();
+              }),
+        ]),
+          ],
+        ),
 
-      
-      
+        ]),
     );
-
-    
   }
 
-  void getDirections() async{
+  void getDirections() async {
+    if (_origin == null) getCurrentLocation();
 // Get directions
-       final directions = await DirectionsRepository()
-          .getDirections(origin: _origin!.position, destination: _destination.position);
-      setState(() => _info = directions);
+    final directions = await DirectionsRepository().getDirections(
+        origin: init!.position, destination: _destination.position);
+    setState(() => _info = directions);
+     _controller!.animateCamera(
+      CameraUpdate.newCameraPosition(initialLocation),
+    );
   }
 }
