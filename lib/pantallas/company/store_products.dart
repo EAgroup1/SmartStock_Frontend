@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/services/lotServices.dart';
 
-class SendProductsPage extends StatefulWidget {
+class StoreProductsPage extends StatefulWidget {
   @override
-  _SendProductsPageState createState() => _SendProductsPageState();
+  _StoreProductsPageState createState() => _StoreProductsPageState();
 }
 
-class _SendProductsPageState extends State<SendProductsPage> {
+class _StoreProductsPageState extends State<StoreProductsPage> {
   Lot? lotSeleccionado;
 
   List<Lot> historial = [];
@@ -16,23 +17,27 @@ class _SendProductsPageState extends State<SendProductsPage> {
   late var lots = <Lot>[];
 
   GlobalData globalData = GlobalData.getInstance()!;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Envio de productos'),
+        title: Text('Añadir productos'),
       ),
-      body: _lotsended(lots),
+      body: _lotsadded(lots),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            MyNavigator.goToStoreProductsAdd(context);
+          },
+          child: const Icon(Icons.add)),
     );
   }
 
-  Widget _lotsended(List<dynamic> lots){
+  Widget _lotsadded(List<dynamic> lots) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
     final allLots = new lotServices();
     return FutureBuilder(
-      future: allLots.getAllLotsSorted(),
+      future: allLots.getAllLotsSorted()(),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
@@ -80,8 +85,13 @@ class _SendProductsPageState extends State<SendProductsPage> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         child: ListBody(
           children: <Widget>[
-            Text("Recogido: "),
-            Text("Entregado: "),
+            Text("Nombre del producto: " + lot.name),
+            Text("Dimension: " + lot.dimensions),
+            Text("Peso: " + lot.weight.toString()),
+            Text("Cantidad: " + lot.qty.toString()),
+            Text("Cantidad mínima" + lot.minimumQty.toString()),
+            Text("Precio/unidad: " + lot.price.toString()),
+            Text("Frágil: " + lot.isFragile.toString())
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
