@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rlbasic/main.dart';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/models/user.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
@@ -10,7 +12,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
     'profile',
   ],
 );
-import 'package:rlbasic/models/user.dart';
+
 
 class UserServices {
   Dio dio = new Dio();
@@ -107,17 +109,15 @@ class UserServices {
 
   }
 
-  Future<void> loginGoogle() async {
+  Future<Response> loginGoogle() async {
     try {
       await _googleSignIn.signIn();
-      print(_googleSignIn.currentUser!.email);
-      print(_googleSignIn.currentUser!.displayName);
-      print(_googleSignIn.currentUser!.photoUrl);
       try {
-        await dio.post(url + 'logInGoogle',
-            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "avatar": _googleSignIn.currentUser!.photoUrl},
+        final user = await dio.post(url + 'logInGoogle',
+            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "password": _googleSignIn.currentUser!.id, "avatar": _googleSignIn.currentUser!.photoUrl},
             options: Options(contentType: Headers.formUrlEncodedContentType));
-        MyNavigator.goTo
+            print(user);
+            return user;
       } on DioError catch (e) {
         Fluttertoast.showToast(
             msg: e.response?.data['msg'],
@@ -128,6 +128,9 @@ class UserServices {
     } catch (error) {
       print(error);
     }
+    throw (error) {
+      print(error);
+    };
   }
 
   register(name, email, password) async {
