@@ -132,21 +132,6 @@ class DataSearch extends SearchDelegate<Lot?> {
     }
 
     //Aquí abajo hay que recoger todos los lotes disponibles y a través de la query que vamos haciendo que se vaya filtrando la info de los objetos que queremos.
-    return FutureBuilder(
-      future: lotservices.getLotsSameName(query),
-      builder: (context, AsyncSnapshot snapshot) {
-        lot = snapshot.data;
-        if (lot.isNotEmpty) {
-          return _showLots(snapshot.data);
-        }
-        if (lot.isEmpty) {
-          return ListTile(
-              title: Text('No hay nada que coincida con lo que has escrito'));
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
   }
 
   @override

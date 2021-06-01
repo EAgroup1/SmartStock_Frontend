@@ -69,28 +69,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
     //show some result based on the selection
-    final allLotsByBusiness = new lotServices();
-    List<Lot> lot;
-
-    return FutureBuilder(
-      future: allLotsByBusiness.getLotListByBusiness(globalData.id),
-      builder: (context, AsyncSnapshot snapshot) {
-        lot = snapshot.data;
-        if (snapshot.hasData) {
-          query = query.toLowerCase();
-          final suggestions = query.isEmpty
-              ? lot
-              : lot
-                  .where((element) =>
-                      element.name.toLowerCase().contains(query) &&
-                      element.name.startsWith(query))
-                  .toList();
-          return _showLots(suggestions);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
+    return Container();
   }
 
   @override
