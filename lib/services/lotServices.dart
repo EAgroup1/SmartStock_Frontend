@@ -6,7 +6,8 @@ class lotServices {
   Dio dio = new Dio();
   var url = "http://localhost:4000/api/lots/";
 
-  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile) async {
+  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
+      String businessItem) async {
     print(name);
     print(dimensions);
     print(weight);
@@ -14,6 +15,7 @@ class lotServices {
     print(minimumQty);
     print(price);
     print(isFragile);
+    print(businessItem);
 
     try {
       return await dio.post(url,
@@ -25,6 +27,7 @@ class lotServices {
             "price": price,
             "minimumQty": minimumQty,
             "isFragile": isFragile,
+            "businessItem": businessItem
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
@@ -120,6 +123,9 @@ class lotServices {
     }
   }
 
+
+
+
   //Lot List of one user trough id
   getLotListByUser(String id) async {
     try {
@@ -129,6 +135,20 @@ class lotServices {
     } catch (e) {
       Fluttertoast.showToast(
           msg: 'No hay ningún lote de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+  getLotListByBusiness(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getByCompany/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No hay ningún lote de esta compañia',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 3);

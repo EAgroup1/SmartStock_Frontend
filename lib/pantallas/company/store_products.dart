@@ -24,7 +24,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       appBar: AppBar(
         title: Text('Añadir productos'),
       ),
-      body: _showLots(lots),
+      body: buildSuggestions(context),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             MyNavigator.goToStoreProductsAdd(context);
@@ -48,6 +48,22 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
   //     },
   //   );
   // }
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    //show when someone searches for something
+    final allLots = new lotServices();
+    return FutureBuilder(
+      future: allLots.getLotListByBusiness(globalData.id),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return _showLots(snapshot.data);
+        } else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  }
 
   Widget _showLots(List<dynamic> lots) {
     return ListView.builder(

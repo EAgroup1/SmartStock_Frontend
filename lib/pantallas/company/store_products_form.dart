@@ -151,12 +151,11 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
                   if (_formKey.currentState!.validate()) {
                     lotServices()
                         .postLot(name, dimensions, weight, qty, minimumQty,
-                            price, isFragile)
+                            price, isFragile, globalData.id)
                         .then((val) {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        globalData.setId(globalData.id);
                         globalData.setName(name);
                         globalData.setDimensions(dimensions);
                         globalData.setWeight(weight);
