@@ -217,7 +217,6 @@ class DataSearch extends SearchDelegate<Lot?> {
       Text("Do you want to store this in your warehouse?"),
       new FlatButton(
         onPressed: () {
-          
         addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
         Navigator.of(context).pop('Accept');
         MyNavigator.goToSearchProducts(context);

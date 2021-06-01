@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/models/user.dart';
@@ -9,6 +13,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/userServices.dart';
 
+import '../../my_navigator.dart';
+
 GlobalData globalData = GlobalData.getInstance()!;
 
 class StoreProductsForm extends StatefulWidget {
@@ -17,7 +23,8 @@ class StoreProductsForm extends StatefulWidget {
 }
 
 class _StoreProductsFormState extends State<StoreProductsForm> {
-  var name, id, dimensions, weight, qty, minimumQty, price;
+  var name, id, dimensions, info, weight, qty, minimumQty, price, businessItem;
+
   bool isFragile = false;
   bool _isLoading = false;
   TextEditingController _nameController = TextEditingController();
@@ -26,8 +33,8 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
   TextEditingController _qtyController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final addCompanyIntoLot = new lotServices();
   var splashScreen = SplashScreen();
-  //Lot lot = Lot('', '', '', '', '', '');
   Dio dioerror = new Dio();
 
   @override
@@ -35,13 +42,13 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createNameInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Nombre'),
-        //controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un nombre';
           }
         },
         onChanged: (val) {
+          print(val);
           name = val;
         },
       );
@@ -50,7 +57,6 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createDimensionsInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Dimensiones'),
-        //controller: _passController,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce las dimensiones del producto';
@@ -65,7 +71,6 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createPriceInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Precio'),
-        //controller: _passController,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce el precio';
@@ -80,13 +85,13 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createWeightInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Peso'),
-        //controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce el peso';
           }
         },
         onChanged: (val) {
+          print(val);
           weight = val;
         },
       );
@@ -95,7 +100,6 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createQuantityInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Cantidad'),
-        //controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una cantidad';
@@ -110,7 +114,6 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     createMinQuantityInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Cantidad mínima'),
-        //controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una cantidad';
@@ -147,26 +150,25 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
                 try {
                   if (_formKey.currentState!.validate()) {
                     lotServices()
-                        .postLot(id, name, dimensions, weight, qty, minimumQty,
+                        .postLot(name, dimensions, weight, qty, minimumQty,
                             price, isFragile)
                         .then((val) {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        globalData.setIdlot(val.data['_id']);
-                        //globalData.setToken(val.data['token']);
-                        globalData.setName(val.data['name']);
-                        globalData.setDimensions(val.data['dimensions']);
-                        globalData.setWeight(val.data['weight']);
-                        globalData.setQuantity(val.data['qty']);
-                        globalData.setMinQuantity(val.data['minimumQty']);
-                        globalData.setPrice(val.data['price']);
-                        globalData.setisFragile(val.data['isFragile']);
-                        Navigator.pop(context);
+                        globalData.setId(globalData.id);
+                        globalData.setName(name);
+                        globalData.setDimensions(dimensions);
+                        globalData.setWeight(weight);
+                        globalData.setQuantity(qty);
+                        globalData.setMinQuantity(minimumQty);
+                        globalData.setPrice(price);
+                        globalData.setisFragile(isFragile);
                         Fluttertoast.showToast(
                             msg: 'Creado correctamente',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
+                        MyNavigator.goToStoreProducts(context);
                       } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
                             msg: 'Error',
@@ -174,7 +176,7 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
                             timeInSecForIosWeb: 6);
                       } else {
                         Fluttertoast.showToast(
-                            msg: val.status,
+                            msg: 'Algo no va bien',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
                       }

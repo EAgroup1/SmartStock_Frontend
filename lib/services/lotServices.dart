@@ -6,19 +6,26 @@ class lotServices {
   Dio dio = new Dio();
   var url = "http://localhost:4000/api/lots/";
 
-  postLot(id, name, dimensions, weight, qty, minimumQty, price, isFragile) async {
-    print(id);
+  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile) async {
     print(name);
     print(dimensions);
     print(weight);
     print(qty);
-    print (minimumQty);
+    print(minimumQty);
     print(price);
     print(isFragile);
+
     try {
       return await dio.post(url,
-          data: {"_id": id, "name": name, "dimensions": dimensions, "weight": weight, 
-          "qty": qty, "price": price, "minimumQty": minimumQty, "isFragile": isFragile},
+          data: {
+            "name": name,
+            "dimensions": dimensions,
+            "weight": weight,
+            "qty": qty,
+            "price": price,
+            "minimumQty": minimumQty,
+            "isFragile": isFragile,
+          },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -31,7 +38,6 @@ class lotServices {
     }
   }
 
-
   getLot(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');
@@ -40,63 +46,79 @@ class lotServices {
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
-        Fluttertoast.showToast(
-            msg: 'El lote no está',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3);
+      Fluttertoast.showToast(
+          msg: 'El lote no está',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
     }
   }
-    // getLotUser(String id) async {
-    //   try {
-    //     final resp = await dio.post(url,
-    //         data: {"id": id},
-    //         options: Options(contentType: Headers.formUrlEncodedContentType));
-    //     print(resp.data);
-    //     final List<dynamic> lotlist = resp.data;
-    //     return lotlist.map((obj) => Lot.fromJson(obj)).toList();
-    //   } catch (e) {
-    //     Fluttertoast.showToast(
-    //         msg: 'No hay ningún lote de este usuario',
-    //         toastLength: Toast.LENGTH_SHORT,
-    //         gravity: ToastGravity.BOTTOM,
-    //         timeInSecForIosWeb: 3);
-    //   }
-    // }
+  // getLotUser(String id) async {
+  //   try {
+  //     final resp = await dio.post(url,
+  //         data: {"id": id},
+  //         options: Options(contentType: Headers.formUrlEncodedContentType));
+  //     print(resp.data);
+  //     final List<dynamic> lotlist = resp.data;
+  //     return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+  //   } catch (e) {
+  //     Fluttertoast.showToast(
+  //         msg: 'No hay ningún lote de este usuario',
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.BOTTOM,
+  //         timeInSecForIosWeb: 3);
+  //   }
+  // }
 
-    getAllLotsSorted() async {
-      try {
-        final resp = await dio.get(url);
-        print(resp);
-        final List<dynamic> lotlist = resp.data;
-        return lotlist.map((obj) => Lot.fromJson(obj)).toList();
-      } catch (e) {
-        Fluttertoast.showToast(
-            msg: 'El email ya existe',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3);
-      }
+  getAllLotsSorted() async {
+    try {
+      final resp = await dio.get(url);
+      print(resp);
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Error',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
     }
+  }
 
-    addNewLotToUser(String id, String userID) async {
-      print(id + 'id LOTE');
-      print(userID + 'id userItem');
-      try {
+  //   addNewLotToCompany(String businessItem) async {
+  //   print(businessItem + 'id businessItem');
+  //   try {
+  //     final resp = await dio.post('$url' + '$id',
+  //         data: {"businessItem": businessItem},
+  //         options: Options(contentType: Headers.formUrlEncodedContentType));
+  //     print(resp.statusCode);
+  //     print(resp.data);
+  //   } catch (e) {
+  //     Fluttertoast.showToast(
+  //         msg: 'No se ha podido añadir este lote a la compañia',
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.BOTTOM,
+  //         timeInSecForIosWeb: 3);
+  //   }
+  // }
+
+  addNewLotToUser(String id, String userID) async {
+    print(id + 'id LOTE');
+    print(userID + 'id userItem');
+    try {
       final resp = await dio.put('$url' + '$id',
           data: {"userItem": userID},
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.statusCode);
       print(resp.data);
-      } catch (e) {
+    } catch (e) {
       Fluttertoast.showToast(
           msg: 'No se ha podido añadir este lote al usuario',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 3);
-      }
     }
-  
+  }
 
   //Lot List of one user trough id
   getLotListByUser(String id) async {
@@ -106,10 +128,10 @@ class lotServices {
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
       Fluttertoast.showToast(
-            msg: 'No hay ningún lote de este usuario',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3);
+          msg: 'No hay ningún lote de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
     }
   }
 }

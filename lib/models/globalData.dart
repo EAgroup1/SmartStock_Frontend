@@ -13,11 +13,12 @@ class GlobalData {
   late String name;
   late String idlot;
   late String dimensions;
-  late int weight;
-  late int minimumQty;
-  late int qty;
-  late int price;
+  late String weight;
+  late String minimumQty;
+  late String qty;
+  late String price;
   late bool isFragile;
+  late String info;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -37,11 +38,12 @@ class GlobalData {
   String getName() => this.name;
   String getIdlot() => this.idlot;
   String getDimensions() => this.dimensions;
-  int getWeight() => this.weight;
-  int getQuantity() => this.qty;
-  int getMinQuantity() => this.minimumQty;
-  int getPrice() => this.price;
+  String getWeight() => this.weight;
+  String getQuantity() => this.qty;
+  String getMinQuantity() => this.minimumQty;
+  String getPrice() => this.price;
   bool getisFragile() => this.isFragile;
+  String getInfo() => this.info;
 
 //USER
   setId(String id) {
@@ -77,23 +79,28 @@ class GlobalData {
     this.dimensions = dimensions;
   }
 
-  setWeight(int weight) {
+  setWeight(String weight) {
     this.weight = weight;
   }
 
- setQuantity(int qty) {
+  setQuantity(String qty) {
     this.qty = qty;
-  } 
+  }
 
-  setMinQuantity(int minimumQty) {
+  setMinQuantity(String minimumQty) {
     this.minimumQty = minimumQty;
   }
 
-  setPrice(int price) {
+  setPrice(String price) {
     this.price = price;
   }
 
   setisFragile(bool isFragile) {
     this.isFragile = isFragile;
   }
+
+   setInfo(String info) {
+    this.info = info;
+  }
+
 }

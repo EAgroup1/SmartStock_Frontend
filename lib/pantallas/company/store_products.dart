@@ -9,12 +9,13 @@ class StoreProductsPage extends StatefulWidget {
   _StoreProductsPageState createState() => _StoreProductsPageState();
 }
 
+
 class _StoreProductsPageState extends State<StoreProductsPage> {
   Lot? lotSeleccionado;
-
   List<Lot> historial = [];
 
   late var lots = <Lot>[];
+  final addCompanyIntoLot = new lotServices();
 
   GlobalData globalData = GlobalData.getInstance()!;
   @override
@@ -23,7 +24,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       appBar: AppBar(
         title: Text('Añadir productos'),
       ),
-      body: _lotsadded(lots),
+      body: _showLots(lots),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             MyNavigator.goToStoreProductsAdd(context);
@@ -32,21 +33,21 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
     );
   }
 
-  Widget _lotsadded(List<dynamic> lots) {
-    // TODO: implement buildSuggestions
-    //show when someone searches for something
-    final allLots = new lotServices();
-    return FutureBuilder(
-      future: allLots.getAllLotsSorted(),
-      builder: (_, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return _showLots(snapshot.data);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
-  }
+  // Widget _lotsadded(List<dynamic> lots) {
+  //   // TODO: implement buildSuggestions
+  //   //show when someone searches for something
+  //   final allLots = new lotServices();
+  //   return FutureBuilder(
+  //     future: allLots.getAllLotsSorted(),
+  //     builder: (_, AsyncSnapshot snapshot) {
+  //       if (snapshot.hasData) {
+  //         return _showLots(snapshot.data);
+  //       } else {
+  //         return Center(child: CircularProgressIndicator(strokeWidth: 4));
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget _showLots(List<dynamic> lots) {
     return ListView.builder(
@@ -87,7 +88,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
           children: <Widget>[
             Text("Nombre del producto: " + lot.name),
             Text("Dimension: " + lot.dimensions),
-            Text("Peso: " + lot.weight.toString()),
+            Text("Peso: " + lot.weight),
             Text("Cantidad: " + lot.qty.toString()),
             Text("Cantidad mínima" + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
@@ -108,4 +109,5 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       ],
     );
   }
+
 }
