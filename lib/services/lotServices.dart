@@ -17,8 +17,16 @@ class lotServices {
     print(isFragile);
     try {
       return await dio.post(url,
-          data: {"_id": id, "name": name, "dimensions": dimensions, "weight": weight, 
-          "qty": qty, "price": price, "minimumQty": minimumQty, "isFragile": isFragile},
+          data: {
+            "_id": id, 
+            "name": name, 
+            "dimensions": dimensions, 
+            "weight": weight, 
+            "qty": qty, 
+            "price": price, 
+            "minimumQty": minimumQty, 
+            "isFragile": isFragile
+          },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -32,7 +40,7 @@ class lotServices {
   }
 
 
-  getLot(String name) async {
+  getLotsSameName(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');
       print(resp.data);
@@ -72,7 +80,7 @@ class lotServices {
         return lotlist.map((obj) => Lot.fromJson(obj)).toList();
       } catch (e) {
         Fluttertoast.showToast(
-            msg: 'El email ya existe',
+            msg: 'error',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
@@ -112,4 +120,20 @@ class lotServices {
             timeInSecForIosWeb: 3);
     }
   }
+
+  getLotListByBusiness(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getByBusiness/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No hay ningún lote de esta compañia',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+
 }

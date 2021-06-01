@@ -113,8 +113,9 @@ class DataSearch extends SearchDelegate<Lot?> {
       return ListTile(title: Text('Introduce un producto para filtrar'));
     }
 
+    //Aquí abajo hay que recoger todos los lotes disponibles y a través de la query que vamos haciendo que se vaya filtrando la info de los objetos que queremos.
     return FutureBuilder(
-      future: lotservices.getLot(query),
+      future: lotservices.getLotsSameName(query),
       builder: (context, AsyncSnapshot snapshot) {
         lot = snapshot.data;
         if (lot.isNotEmpty) {
