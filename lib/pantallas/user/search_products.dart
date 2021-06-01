@@ -76,7 +76,6 @@ class DataSearch extends SearchDelegate<Lot?> {
 
   //DataSearch(this.searchFieldLabel, this.historialot);
   late List<Lot?> lot;
-
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
@@ -111,6 +110,25 @@ class DataSearch extends SearchDelegate<Lot?> {
     print(query);
     if (query.trim().length == 0) {
       return ListTile(title: Text('Introduce un producto para filtrar'));
+    } else {
+      return FutureBuilder(
+          future: lotservices.getLotsSameName(query),
+          builder: (context, AsyncSnapshot snapshot) {
+            lot = snapshot.data;
+            // final sugglist = lot
+            //     .where((element) =>
+            //         element.toString().toLowerCase().contains(query) &&
+            //         element.toString().startsWith(query))
+            //     .toList();
+
+            if (lot.isNotEmpty) {
+              return _showLots(lot);
+            } else if (lot.isEmpty) {
+              return ListTile(title: Text('Este producto no está en la lista'));
+            } else {
+              return Center(child: CircularProgressIndicator(strokeWidth: 4));
+            }
+          });
     }
 
     //Aquí abajo hay que recoger todos los lotes disponibles y a través de la query que vamos haciendo que se vaya filtrando la info de los objetos que queremos.
@@ -216,7 +234,6 @@ class DataSearch extends SearchDelegate<Lot?> {
       Text("Do you want to store this in your warehouse?"),
       new FlatButton(
         onPressed: () {
-          
         addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
         Navigator.of(context).pop('Accept');
         MyNavigator.goToSearchProducts(context);
