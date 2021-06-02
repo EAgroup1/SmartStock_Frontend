@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:rlbasic/models/globalData.dart';
-import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
 
-GlobalData globalData = GlobalData.getInstance()!;
-
-class UserPage extends StatelessWidget {
-
+class Mejoras extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //menu lateral
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
+        title: Text('Ayudanos a mejorar'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -50,26 +43,33 @@ class UserPage extends StatelessWidget {
                   MyNavigator.goToUserDeliveryMenu(context);
                 }),
             ListTile(
-                leading: Icon(Icons.message),
-                title: Text('Chat'),
-                onTap: () {
-                  MyNavigator.goToWebChatHomepage(context);
-                }),
-            ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text('Configuración'),
                 onTap: () {
                   MyNavigator.goToConfigUser(context);
                 }),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Ayudanos a mejorar'),
-              onTap: () {
-                MyNavigator.goToMejoras(context);
-              }),
+                leading: Icon(Icons.account_circle),
+                title: Text('Ayudanos a mejorar'),
+                onTap: () {
+                  MyNavigator.goToMejoras(context);
+                }),
           ],
         ),
       ),
-    ));
+      body: MejorasPage(),
+    );
+  }
+}
+
+class MejorasPage extends StatefulWidget {
+  @override
+  _MejorasPageState createState() => _MejorasPageState();
+}
+
+class _MejorasPageState extends State<MejorasPage> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(title: Text('de momento funciona'));
   }
 }

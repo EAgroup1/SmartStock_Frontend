@@ -12,6 +12,7 @@ import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
 import 'package:rlbasic/pantallas/createNewPassword.dart';
+import 'package:rlbasic/pantallas/user/mejoras.dart';
 //user webchat views
 import 'package:rlbasic/pantallas/webChatHomepage.dart';
 import 'package:rlbasic/pantallas/webChat.dart';
@@ -42,6 +43,7 @@ var routes = <String, WidgetBuilder>{
  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
  "/bankdata": (BuildContext context) => BankDataPage(),
  "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+ "/user/mejoras":(BuildContext context) => Mejoras(),
  
 };
 
@@ -125,5 +127,9 @@ class MyNavigator {
    static void goToSendProducts(BuildContext context) {
     Navigator.pushNamed(context, "/company/sendproducts");
   }
+  static void goToMejoras(BuildContext context) {
+    Navigator.pushNamed(context, "/user/mejoras");
+  }
+
 
 }
