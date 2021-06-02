@@ -232,7 +232,7 @@ class _MapaState extends State<Mapa> {
             ButtonBar(          
               children: <Widget>[
           FloatingActionButton(
-              child: Icon(Icons.location_city),
+              child: Icon(Icons.attribution),
               onPressed: () {
                 getCurrentLocation();
               }),
