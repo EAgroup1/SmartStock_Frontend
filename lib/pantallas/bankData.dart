@@ -105,6 +105,7 @@ class _BankDataPageState extends State<BankDataPage> {
                 } else if (sum == 0) {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
                 } else {
+                  globalData.setRole(role);
                   UserServices().sendBankRole(globalData.getId(), bank, role).then((val){}); //NO FUNCIONA AUN
                   //Fluttertoast.showToast(msg: "Envio falso de momento");
                   if (_delivererChecked) {

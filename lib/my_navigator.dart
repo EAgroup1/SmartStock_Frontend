@@ -10,6 +10,9 @@ import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
+//DELETE
+import 'package:rlbasic/pantallas/delete.dart';
+//DELETE
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
@@ -48,6 +51,7 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
+  "/delete":(BuildContext context) => DeletePage(),
  
 };
 
@@ -101,7 +105,7 @@ class MyNavigator {
   }
 
   static void goToForgotPassword(BuildContext context) {
-    Navigator.pushNamed(context, "/user/forgotpassword");
+    Navigator.pushNamed(context, "/forgotpassword");
   }
 
   static void goToCreateNewPassword(BuildContext context) {
@@ -112,6 +116,9 @@ class MyNavigator {
     Navigator.pushNamed(context, "/chathomepage");
   }
 
+  static void goDelete(BuildContext context) {
+    Navigator.pushNamed(context, "/delete");
+  }
   // static void goToWebChat(BuildContext context) {
   //   Navigator.pushNamed(context, "/chathomepage/webchat");
   // }

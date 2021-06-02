@@ -93,7 +93,20 @@ class UserServices {
   }
 
 
-  //NUEVA; AUN NO VA
+  eliminateUser(String id) async{
+    try{
+      final resp = await dio.delete(url+id,
+        data:{"id": id},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   sendBankRole(String id, String bank, String role) async{
     try{
       final resp = await dio.put(url+id,

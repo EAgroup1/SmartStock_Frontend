@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/userServices.dart';
+
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -61,6 +64,12 @@ class UserPage extends StatelessWidget {
                 onTap: () {
                   MyNavigator.goToConfigUser(context);
                 }),
+            ListTile(
+                leading: Icon(Icons.trending_down_sharp),
+                title: Text('Eliminar mi cuenta'),
+                onTap: () { 
+                  MyNavigator.goDelete(context);
+                }), 
           ],
         ),
       ),
