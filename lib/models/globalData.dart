@@ -8,6 +8,8 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late bool privacity;
+  late bool notifications;
 
 //LOTE
   late String name;
@@ -33,6 +35,8 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
+  bool getPrivacity() => this.privacity;
+  bool getNotifications() => this.notifications;
 
 //LOTS
   String getName() => this.name;
@@ -99,8 +103,15 @@ class GlobalData {
     this.isFragile = isFragile;
   }
 
-   setInfo(String info) {
+  setInfo(String info) {
     this.info = info;
   }
 
+  setPrivacity(bool privacity) {
+    this.privacity = privacity;
+  }
+
+  setNotifications(bool notifications) {
+    this.notifications = notifications;
+  }
 }

@@ -8,6 +8,8 @@ class User {
   String email;
   @JsonKey(name: '_id')
   String id;
+  late bool privacity;
+  late bool notifications;
   String bank;
   String role;
   User(this.id, this.userName, this.email, this.bank, this.role);

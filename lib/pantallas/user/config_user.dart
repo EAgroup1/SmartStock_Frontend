@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/services/lotServices.dart';
 import 'dart:core';
 import '../../my_navigator.dart';
 import 'package:rlbasic/models/globalData.dart';
@@ -13,11 +17,13 @@ class ConfigUserPage extends StatefulWidget {
 }
 
 class _ConfigUserPageState extends State<ConfigUserPage> {
+  UserServices user = new UserServices();
+
   Widget stack() {
-   return Stack(
+    return Stack(
       alignment: Alignment.topLeft,
       children: [
-       CircleAvatar(
+        CircleAvatar(
           backgroundImage: AssetImage('assets/images/smartstock.jpeg'),
           radius: 100,
         ),
@@ -54,7 +60,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             leading: Icon(Icons.email),
             title: Text(globalData.email),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToChangeEmail(context);
             }),
         ListTile(
             leading: Icon(Icons.home_repair_service),
@@ -74,12 +80,28 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
-        ListTile(
-            leading: Icon(Icons.info),
-            title: Text('Políticas de privacidad'),
-            onTap: () {
-              Navigator.of(context).pushNamed("");
-            }),
+        SwitchListTile(
+          title: Text('Privacidad'),
+          value: globalData.privacity,
+          onChanged: (bool val) {
+            setState(() {
+              globalData.privacity = val;
+            });
+            user.updateUser(globalData.id);
+          },
+          secondary: Icon(Icons.info),
+        ),
+        SwitchListTile(
+          title: Text('Notificaciones'),
+          value: globalData.notifications,
+          onChanged: (bool val) {
+            setState(() {
+              globalData.notifications = val;
+            });
+            user.updateUser(globalData.id);
+          },
+          secondary: Icon(Icons.info),
+        ),
         ListTile(
             leading: Icon(Icons.info),
             title: Text('Soporte'),

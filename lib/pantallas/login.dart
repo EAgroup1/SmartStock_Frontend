@@ -84,18 +84,21 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setId(val.data['_id']);
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
+                        globalData.setPrivacity(globalData.privacity);
+                        globalData.setNotifications(globalData.notifications);
                         globalData.setEMail(email);
-                        globalData.setRole(val.data['role']); //Para que mire rol
+                        globalData
+                            .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
 
-                        if (globalData.getRole() == "Business"){
+                        if (globalData.getRole() == "Business") {
                           MyNavigator.goToCompany(context);
-                        }else if (globalData.getRole() == "Storage"){
+                        } else if (globalData.getRole() == "Storage") {
                           MyNavigator.goToUser(context);
-                        }else{
+                        } else {
                           MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {

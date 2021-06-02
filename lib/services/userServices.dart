@@ -65,67 +65,84 @@ class UserServices {
     }
   }
 
-  getUser(String id) async{
+  getUser(String id) async {
     try {
       final resp = await dio.post(url,
-        data:{"id":id},
-        options: Options(contentType: Headers.formUrlEncodedContentType)      
-      );
+          data: {"id": id},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => User.fromJson(obj)).toList();
-
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-
-  //NUEVA; AUN NO VA
-  sendBankRole(String id, String bank, String role) async{
-    try{
-      final resp = await dio.put(url+id,
-        data:{"id": id, "role": role, "bank":bank},
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
-      print(resp.data);
-    }
-    catch (e) {
-      print(e);
-      return [];
-    }
-
-  }
-
-  register(name, email, password) async {
+  updateUser(String id) async {
     try {
-      return await dio.post(url + 'signUp',
-          data: {
-            "userName": name,
-            "email": email,
-            "password": password,
-          },
-          options: Options(contentType: Headers.formUrlEncodedContentType));
+      final resp = await dio.put('$url' + '$id');
+      print(resp.data);
+      final List<dynamic> user = resp.data;
+      return user.map((obj) => User.fromJson(obj)).toList();
     } catch (e) {
       if (e is DioError) {
         Fluttertoast.showToast(
-            msg: 'El email ya existe',
+            msg: 'No se puede actualizar',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-
-      // if (e.response!.statusCode == 409) {
-      //   Fluttertoast.showToast(
-      //     msg: e.response!.statusMessage!,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1);
-      // }
     }
   }
-}
+
+  //NUEVA; AUN NO VA
+  sendBankRole(String id, String bank, String role) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"id": id, "role": role, "bank": bank},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'No se puede actualizar',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+    register(name, email, password) async {
+      try {
+        return await dio.post(url + 'signUp',
+            data: {
+              "userName": name,
+              "email": email,
+              "password": password,
+            },
+            options: Options(contentType: Headers.formUrlEncodedContentType));
+      } catch (e) {
+        if (e is DioError) {
+          Fluttertoast.showToast(
+              msg: 'El email ya existe',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 3);
+        }
+
+        // if (e.response!.statusCode == 409) {
+        //   Fluttertoast.showToast(
+        //     msg: e.response!.statusMessage!,
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.BOTTOM,
+        //     timeInSecForIosWeb: 1);
+        // }
+      }
+    }
+  }
+
 
 class DioExceptions implements Exception {
   DioExceptions.fromDioError(DioError dioError) {

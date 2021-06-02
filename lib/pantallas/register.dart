@@ -8,7 +8,6 @@ import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
 import '../my_navigator.dart';
 
-
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -92,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    termsAndConditions(){
+    termsAndConditions() {
       return ButtonBar(
         children: <Widget>[
           Container(
@@ -111,16 +110,15 @@ class _RegisterPageState extends State<RegisterPage> {
     termsAndConditionsCheckbox() {
       return Center(
         child: CheckboxListTile(
-          title: const Text('Acepto los términos y condiciones'),
-          value: termsAccepted,
-          onChanged: (bool? value) {
-            setState(() { termsAccepted = value!; });
-          },
-          controlAffinity: 
-            ListTileControlAffinity.leading
-        ),
+            title: const Text('Acepto los términos y condiciones'),
+            value: termsAccepted,
+            onChanged: (bool? value) {
+              setState(() {
+                termsAccepted = value!;
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading),
       );
-      
     }
 
     createRegisterButton(BuildContext context) {
@@ -132,35 +130,38 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onPressed: () {
               try {
-                if(termsAccepted){
-                if (_formKey.currentState!.validate()) {
-                  UserServices().register(name, email, password).then((val) {
-                    print(val.statusCode);
-                    if (val.statusCode == 200) {
-                      globalData.setId(val.data['_id']);
-                      globalData.setToken(val.data['token']);
-                      globalData.setUserName(val.data['userName']);
-                      globalData.setEMail(email);
-                      MyNavigator.goToBankData(context);
-                      Fluttertoast.showToast(
+                if (termsAccepted) {
+                  if (_formKey.currentState!.validate()) {
+                    UserServices().register(name, email, password).then((val) {
+                      print(val.statusCode);
+                      if (val.statusCode == 200) {
+                        globalData.setId(val.data['_id']);
+                        globalData.setToken(val.data['token']);
+                        globalData.setUserName(val.data['userName']);
+                        globalData.setPrivacity(val.data['privacity']);
+                        globalData.setNotifications(val.data['notifications']);
+                        globalData.setEMail(email);
+                        MyNavigator.goToBankData(context);
+                        Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
-                    } else if (val.statusCode == 401) {
-                      Fluttertoast.showToast(
-                          msg: 'Email o contraseña incorrectos',
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 6);
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: val.status,
-                          toastLength: Toast.LENGTH_SHORT,
-                          timeInSecForIosWeb: 6);
-                    }
-                  });
-                }
-                }else{
-                  Fluttertoast.showToast(msg: "Debes aceptar los términos y condiciones");
+                      } else if (val.statusCode == 401) {
+                        Fluttertoast.showToast(
+                            msg: 'Email o contraseña incorrectos',
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: val.status,
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
+                      }
+                    });
+                  }
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Debes aceptar los términos y condiciones");
                 }
               } catch (err) {
                 print(err);

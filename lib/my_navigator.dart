@@ -11,6 +11,7 @@ import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
+import 'package:rlbasic/pantallas/user/change_email.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
@@ -48,6 +49,7 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
+  "/user/configuser/changeemail": (BuildContext context) => ChangeEmailPage(),
  
 };
 
@@ -142,6 +144,10 @@ class MyNavigator {
 
   static void goToStoreProductsAdd(BuildContext context) {
     Navigator.pushNamed(context, "/company/storeproducts/add");
+  }
+
+    static void goToChangeEmail(BuildContext context) {
+    Navigator.pushNamed(context, "/user/configuser/changeemail");
   }
 
 }
