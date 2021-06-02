@@ -41,7 +41,19 @@ class lotServices {
     }
   }
 
-
+  deleteUserOfLot(id) async  {
+    try{
+      final resp = await dio.put(url+id,
+        data:{"userItem": "deleted"},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+  }
   getLotsSameName(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');

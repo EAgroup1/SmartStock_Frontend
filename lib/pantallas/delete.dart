@@ -4,6 +4,13 @@ import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/services/userServices.dart';
+import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/services/lotServices.dart';
+import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
+import 'package:rlbasic/models/delivery.dart';
+
+
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -39,7 +46,35 @@ class _DeletePageState extends State<DeletePage> {
                 'Sí',
               ),
               onPressed: () {
-                try {
+                try {/*
+                  try{
+                    List<Lot> lots = lotServices().getLotListByUser(globalData.getId());
+                    for(var i = 0; i< lots.length; i++){
+                      var id = lots[i].id;
+                      lotServices().deleteUserOfLot(id);
+                    }
+                    Fluttertoast.showToast(msg: "Usuario eliminado de lotes");
+                    try{
+                      List<Delivery> deliveries = DeliveryServices().getDeliveriesUser(globalData.getId());
+                      for(var i = 0; i< deliveries.length; i++){
+                        var id = deliveries[i].id;
+                        DeliveryServices().deleteUserOfDelivery(id);
+                      }
+                      Fluttertoast.showToast(msg: "Usuario eliminado de entregas");
+
+                    }
+                    catch(err){
+                      print(err);
+                      Fluttertoast.showToast(msg: "No está asignado a ninguna entrega");
+                    }
+                  }
+                  catch(err){
+                    print(err);
+                    Fluttertoast.showToast(msg: "No está asignado a ningún lote");
+                  }
+                  */
+                  
+                  
                   UserServices().eliminateUser(globalData.getId());
                   globalData = new GlobalData();
                   Fluttertoast.showToast(msg: "Hasta luego :(");
