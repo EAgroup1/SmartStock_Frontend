@@ -8,6 +8,7 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late int badges;
 
 //LOTE
   late String name;
@@ -33,6 +34,7 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
+  int getBadges() => this.badges;
 
 //LOTS
   String getName() => this.name;
@@ -64,6 +66,10 @@ class GlobalData {
 
   setRole(String role) {
     this.role = role;
+  }
+
+  setBadges(int badges) {
+    this.badges = badges;
   }
 
   //LOTS

@@ -8,6 +8,28 @@ class UserServices {
   var url = "http://localhost:4000/api/users/";
   late DioExceptions dioExceptions;
 
+
+
+  getBadges(String id) async {
+    try {
+      final resp = await dio.get(url + 'badges/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      final badges = resp.data;
+      return badges;
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Error',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+
+
+
+
   login(email, password) async {
     print(email);
     print(password);

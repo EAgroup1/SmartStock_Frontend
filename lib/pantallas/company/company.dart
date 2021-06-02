@@ -35,6 +35,13 @@ class _CompanyPageState extends State<CompanyPage> {
             ),
             ListTile(
               leading: Icon(Icons.business),
+              title: Text('Datos ' + globalData.getUserName()),
+              onTap: () {
+                MyNavigator.goToDataUserGeneric(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.business),
               title: Text('Productos'),
               onTap: () {
                 MyNavigator.goToStoreProducts(context);

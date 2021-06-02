@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '', '', '');
+  User user = User('', '', '', '', '', 0);
   Dio dioerror = new Dio();
 
   @override

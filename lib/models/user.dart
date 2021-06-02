@@ -10,7 +10,8 @@ class User {
   String id;
   String bank;
   String role;
-  User(this.id, this.userName, this.email, this.bank, this.role);
+  int badges;
+  User(this.id, this.userName, this.email, this.bank, this.role, this.badges);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

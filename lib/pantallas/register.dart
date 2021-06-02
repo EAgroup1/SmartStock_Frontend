@@ -15,9 +15,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  var name, email, password, conpassword, token, id;
+  var name, email, password, conpassword, token, id, badges;
   bool termsAccepted = false;
-  User user = User('', '', '', '', '');
+  User user = User('', '', '', '', '', 0);
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

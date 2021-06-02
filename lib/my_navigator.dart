@@ -15,6 +15,7 @@ import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
 import 'package:rlbasic/pantallas/createNewPassword.dart';
+import 'package:rlbasic/pantallas/user/principal_page_User.dart';
 //user webchat views
 import 'package:rlbasic/pantallas/webChatHomepage.dart';
 import 'package:rlbasic/pantallas/webChat.dart';
@@ -48,6 +49,9 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
+  "/dataGenericUser": (BuildContext context) => DataGenericUserPage(),
+  
+
  
 };
 
@@ -142,6 +146,10 @@ class MyNavigator {
 
   static void goToStoreProductsAdd(BuildContext context) {
     Navigator.pushNamed(context, "/company/storeproducts/add");
+  }
+
+  static void goToDataUserGeneric(BuildContext context) {
+    Navigator.pushNamed(context, "/dataGenericUser");
   }
 
 }

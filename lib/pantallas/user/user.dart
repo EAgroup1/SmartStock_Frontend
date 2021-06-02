@@ -32,6 +32,13 @@ class UserPage extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.business),
+              title: Text('Datos ' + globalData.getUserName()),
+              onTap: () {
+                MyNavigator.goToDataUserGeneric(context);
+              },
+            ),
+            ListTile(
                 leading: Icon(Icons.add_business_rounded),
                 title: Text('Buscar productos'),
                 onTap: () {
