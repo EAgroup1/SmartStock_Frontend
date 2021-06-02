@@ -214,6 +214,7 @@ class _GetReadyState extends State<GetReady> {
         ],
       ),
     );
+  
   }
 }
 

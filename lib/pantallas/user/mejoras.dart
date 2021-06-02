@@ -116,8 +116,7 @@ class _MejorasPageState extends State<MejorasPage> {
                                       'Tu sugerencia ha sido enviada. ¡Muchas gracias!',
                                   toastLength: Toast.LENGTH_SHORT,
                                   timeInSecForIosWeb: 10);
-                            
-                            
+                              _buildPopupDialog(context);
                             } else {
                               Fluttertoast.showToast(
                                   msg: val.status,
@@ -138,5 +137,40 @@ class _MejorasPageState extends State<MejorasPage> {
                 )
               ],
             )));
+  }
+
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        //  crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Quieres añadir una nueva sugerencia?'),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                FlatButton(
+                    child: Text('Añadir nueva sugerencia'),
+                    shape: StadiumBorder(),
+                    color: Colors.green,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
+                FlatButton(
+                    child: Text('No añadir mas sugerencias'),
+                    shape: StadiumBorder(),
+                    color: Colors.blueAccent,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      MyNavigator.goToUser(context);
+                      build(context);
+                    }),
+              ])
+        ],
+      ),
+    );
   }
 }
