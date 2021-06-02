@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'SmartStock',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           dividerColor: Colors.grey,
           primarySwatch: Colors.blue,

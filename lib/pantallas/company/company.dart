@@ -41,6 +41,13 @@ class _CompanyPageState extends State<CompanyPage> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.business),
+              title: Text('Mis productos almacenados'),
+              onTap: () {
+                MyNavigator.goToStoreProductsStoredByUsers(context);
+              },
+            ),
+            ListTile(
                 leading: Icon(Icons.motorcycle),
                 title: Text('Enviar productos'),
                 onTap: () {

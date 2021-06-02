@@ -7,7 +7,7 @@ import '../../my_navigator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
-//this is the data graph
+//this is the data graphs
  
 class SalaryProductsGraph extends StatefulWidget {
   SalaryProductsGraph({Key? key}) : super(key: key);
