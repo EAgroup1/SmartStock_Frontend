@@ -10,6 +10,22 @@ class UserServices {
 
   late DioExceptions dioExceptions;
 
+  mejoras(user, mejoras) async {
+    try {
+      return await dio.post('http://10.0.2.2:4000/api/admins/mejora',
+          data: {"userItem": user, "mejora": mejoras},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
   login(email, password) async {
     print(email);
     print(password);
@@ -67,37 +83,31 @@ class UserServices {
     }
   }
 
-  getUser(String id) async{
+  getUser(String id) async {
     try {
       final resp = await dio.post(url,
-        data:{"id":id},
-        options: Options(contentType: Headers.formUrlEncodedContentType)      
-      );
+          data: {"id": id},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => User.fromJson(obj)).toList();
-
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-
   //NUEVA; AUN NO VA
-  sendBankRole(String id, String bank, String role) async{
-    try{
-      final resp = await dio.put(url+id,
-        data:{"id": id, "role": role, "bank":bank},
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
+  sendBankRole(String id, String bank, String role) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"id": id, "role": role, "bank": bank},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return [];
     }
-
   }
 
   register(name, email, password) async {

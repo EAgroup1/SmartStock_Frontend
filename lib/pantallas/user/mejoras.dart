@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/userServices.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class Mejoras extends StatelessWidget {
   @override
@@ -68,8 +73,70 @@ class MejorasPage extends StatefulWidget {
 }
 
 class _MejorasPageState extends State<MejorasPage> {
+  var mejoras;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(title: Text('de momento funciona'));
+    return Material(
+        child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: EdgeInsets.all(30),
+              children: <Widget>[
+                ListTile(title: Text('Nos encanta')),
+                TextFormField(
+                  decoration: InputDecoration(
+                      filled: true, hintText: 'Nombre completo'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, introduce una sugerecia antes de enviar algo';
+                    }
+                  },
+                  onChanged: (val) {
+                    mejoras = val;
+                  },
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: ElevatedButton(
+                    child: Text(
+                      'Enviar',
+                    ),
+                    onPressed: () {
+                      try {
+                        if (_formKey.currentState!.validate()) {
+                          UserServices()
+                              .mejoras(globalData.getId(), mejoras)
+                              .then((val) {
+                            print(val.statusCode);
+                            if (val.statusCode == 200) {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Tu sugerencia ha sido enviada. ¡Muchas gracias!',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  timeInSecForIosWeb: 10);
+                            
+                            
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: val.status,
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  timeInSecForIosWeb: 6);
+                            }
+                          });
+                        }
+                      } catch (err) {
+                        print(err);
+                        Fluttertoast.showToast(
+                            msg: err.toString(),
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
+                      }
+                    },
+                  ),
+                )
+              ],
+            )));
   }
 }
