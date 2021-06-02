@@ -5,6 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //graph imports
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+
+//other imports
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/models/user.dart';
+import 'dart:core';
+import 'package:rlbasic/services/userServices.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
+
  
 class SalaryProductsGraph extends StatefulWidget {
   SalaryProductsGraph({Key? key}) : super(key: key);
@@ -28,9 +37,10 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
               tabs: [
                 //all these graphs are all about me
                 //percentage of stores that i use
-                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Tus empresas"),
+                // Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Tus empresas"),
+                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"User's stats"),
                 //price/unit of all lots that i do or request
-                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Pedidos/Mes"),
+                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Lot's stats"),
                 //in march or july i save x sum(qty) of lots
                 Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Futuros pedidos"),
               ],
@@ -70,16 +80,17 @@ class _ChartPiePageState extends State<ChartPiePage> {
            enable: true
          ),
          title: ChartTitle(
-           text: "Porcentaje de tus tiendas almacenadas"
+          //  text: "Porcentaje de tus tiendas almacenadas"
+          text: "Cantidad de usuarios según su rol"
          ),
          legend: Legend(
            isVisible: true
          ),
          series: <PieSeries>[
-           PieSeries<CompanySales, String>(
+           PieSeries<RoleQty, String>(
              dataSource: getStringData(),
-             xValueMapper: (CompanySales sales,_)=>sales.x,
-             yValueMapper: (CompanySales sales,_)=>sales.y,
+             xValueMapper: (RoleQty qty,_)=>qty.x,
+             yValueMapper: (RoleQty qty,_)=>qty.y,
              dataLabelSettings: DataLabelSettings(
                isVisible: true
              )
@@ -252,23 +263,46 @@ dynamic getHugeData(){
   return hugeData;
 }
 
-//ok, now we put percentages
-class CompanySales{
-  String x;
-  double y;
+// //ok, now we put percentages
+// class CompanySales{
+//   String x;
+//   double y;
 
-  CompanySales(this.x, this.y);
+//   CompanySales(this.x, this.y);
+// }
+
+// //& the method
+// dynamic getStringData(){
+//   List<CompanySales> stringData=<CompanySales>[
+//     CompanySales("Nike", 25),
+//     CompanySales("Adidas", 25),
+//     CompanySales("Lacoste", 12.5),
+//     CompanySales("Puma", 12.5),
+//     CompanySales("Apple", 12.5),
+//     CompanySales("Microsoft", 12.5)
+//   ];
+//   return stringData;
+// }
+
+
+//ok, now we put percentages
+class RoleQty{
+  String x;
+  int y;
+
+  RoleQty(this.x, this.y);
 }
+
+final userService = new UserServices();
+// future: lotService.getLotListByUser(globalData.getId())
 
 //& the method
 dynamic getStringData(){
-  List<CompanySales> stringData=<CompanySales>[
-    CompanySales("Nike", 25),
-    CompanySales("Adidas", 25),
-    CompanySales("Lacoste", 12.5),
-    CompanySales("Puma", 12.5),
-    CompanySales("Apple", 12.5),
-    CompanySales("Microsoft", 12.5)
+  List<RoleQty> stringData=<RoleQty>[
+    //here we return the qty trough role by user
+    RoleQty("User", userService.getNumByRole(globalData.getRole())),
+    RoleQty("Deliverer", userService.getNumByRole("Deliverer")),
+    RoleQty("Company", userService.getNumByRole("Company"))
   ];
   return stringData;
 }
