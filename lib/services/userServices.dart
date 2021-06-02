@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:rlbasic/main.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
@@ -118,6 +119,30 @@ class UserServices {
             options: Options(contentType: Headers.formUrlEncodedContentType));
             print(user);
             return user;
+      } on DioError catch (e) {
+        Fluttertoast.showToast(
+            msg: e.response?.data['msg'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+    } catch (error) {
+      print(error);
+    }
+    throw (error) {
+      print(error);
+    };
+  }
+
+  Future<Response> loginFacebook() async {
+    try {
+      await _googleSignIn.signIn();
+      try {
+        final user = await dio.post(url + 'logInGoogle',
+            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "password": _googleSignIn.currentUser!.id, "avatar": _googleSignIn.currentUser!.photoUrl},
+            options: Options(contentType: Headers.formUrlEncodedContentType));
+        print(user);
+        return user;
       } on DioError catch (e) {
         Fluttertoast.showToast(
             msg: e.response?.data['msg'],

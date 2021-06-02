@@ -7,6 +7,7 @@ import 'package:rlbasic/pantallas/company/send_products.dart';
 import 'package:rlbasic/pantallas/company/store_products.dart';
 import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
+import 'package:rlbasic/pantallas/listStoredFaqs.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
@@ -30,6 +31,7 @@ var routes = <String, WidgetBuilder>{
   "/deliverer": (BuildContext context) => DelivererPage(),
   "/configuser": (BuildContext context) => ConfigUserPage(),
   "/register": (BuildContext context) => RegisterPage(),
+  "/faq": (BuildContext context) => FaqPage(),
   "/TermsConditions": (BuildContext context) => TermsAndConditionsPage(),
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
@@ -88,6 +90,10 @@ class MyNavigator {
 
   static void goToTerms(BuildContext context) {
     Navigator.pushNamed(context, "/TermsConditions");
+  }
+
+  static void goToFaq(BuildContext context) {
+    Navigator.pushNamed(context, "/faq");
   }
 
   static void goToUserDeliveryMenu(BuildContext context) {

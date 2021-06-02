@@ -72,7 +72,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             leading: Icon(Icons.info),
             title: Text('FAQ'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToFaq(context);
             }),
         ListTile(
             leading: Icon(Icons.info),
