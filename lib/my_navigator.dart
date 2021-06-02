@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
 import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
+import 'package:rlbasic/pantallas/company/list_Stored_Products_Company.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
+import 'package:rlbasic/pantallas/company/store_products.dart';
+import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
@@ -39,9 +42,12 @@ var routes = <String, WidgetBuilder>{
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
   "/user": (BuildContext context) => UserPage(),
- "/user/deliveries": (BuildContext context) => DeliveryMenu(),
- "/bankdata": (BuildContext context) => BankDataPage(),
- "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
+  "/bankdata": (BuildContext context) => BankDataPage(),
+  "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+  "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
+  "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
+  "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
  
 };
 
@@ -124,6 +130,18 @@ class MyNavigator {
 
    static void goToSendProducts(BuildContext context) {
     Navigator.pushNamed(context, "/company/sendproducts");
+  }
+
+   static void goToStoreProducts(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts");
+  }
+
+  static void goToStoreProductsStoredByUsers(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproductsstoredbyusers");
+  }
+
+  static void goToStoreProductsAdd(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts/add");
   }
 
 }

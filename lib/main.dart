@@ -3,6 +3,7 @@ import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'my_navigator.dart';
 
+
 late User user;
 void main() {
   runApp(MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'SmartStock',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           dividerColor: Colors.grey,
           primarySwatch: Colors.blue,
