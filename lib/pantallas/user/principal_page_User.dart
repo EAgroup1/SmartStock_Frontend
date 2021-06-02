@@ -31,19 +31,22 @@ class _DataGenericUserPageState
   }
 }
 
-
   @override
   Widget buildSuggestions() {
-    
     return _showDataUser();
-
   }
-
 
 Widget _showDataUser() {
   final userServices = new UserServices();
-  globalData.setBadges(userServices.getBadges(globalData.id));
-  return ListView(
+  return FutureBuilder(
+    future: userServices.getBadges(globalData.id),
+    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+      if (snapshot.hasError) {
+        return ListTile(title: Text('Se ha producido un error :('));
+      }
+      if (snapshot.hasData) {
+        globalData.setBadges(snapshot.data);
+        return ListView(
           children: <Widget>[
             Text("Nombre: " + globalData.userName),
             Text("Email: " + globalData.email),
@@ -51,6 +54,11 @@ Widget _showDataUser() {
             Text("Número de insignias por logearse: " + globalData.badges.toString()),
           ],
         );
+      } else {
+        return Center(child: CircularProgressIndicator(strokeWidth: 4));
+      }
+    },
+  );
 }
 
 

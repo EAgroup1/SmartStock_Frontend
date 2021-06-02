@@ -1,22 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 
 class UserServices {
+
+  GlobalData globalData = GlobalData.getInstance()!;
   Dio dio = new Dio();
   var url = "http://localhost:4000/api/users/";
   late DioExceptions dioExceptions;
 
-
-
-  getBadges(String id) async {
+  updateBadges(String id, int badges) async {
     try {
-      final resp = await dio.get(url + 'badges/' + id,
+      await dio.put(url + 'badgesUpdate/' + id,
+          data: {"badges": badges},
           options: Options(contentType: Headers.formUrlEncodedContentType));
-      print(resp.data);
-      final badges = resp.data;
-      return badges;
     } catch (e) {
       Fluttertoast.showToast(
           msg: 'Error',
@@ -26,9 +25,20 @@ class UserServices {
     }
   }
 
-
-
-
+  getBadges(String id) async {
+    try {
+      final resp = await dio.get(url + 'badges/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      return resp.data;
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Error',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
 
   login(email, password) async {
     print(email);

@@ -25,8 +25,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '', '', '', 0);
+  User user = User('', '', '', '', '');
   Dio dioerror = new Dio();
+  final userServices = new UserServices();
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,9 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
                         globalData.setRole(val.data['role']); //Para que mire rol
+                        globalData.setBadges(val.data['badges']);
+                        globalData.setBadges(globalData.badges + 1);
+                        userServices.updateBadges(globalData.id, globalData.badges);
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,

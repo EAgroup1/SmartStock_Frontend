@@ -13,9 +13,9 @@ class ChatModel /*extends Model*/{
 
   //fake list users this.id, this.userName, this.email, this.bank, this.role
   List<User> users = [
-    User('1', 'user1', 'user1@hotmail.es', 'ES93123', 'user', 0),
-    User('3', 'deliverer2', 'deliverer2@hotmail.es', 'ES93789', 'deliverer', 0),
-    User('4', 'store1', 'store1@hotmail.es', 'ES94123', 'store', 0),
+    User('1', 'user1', 'user1@hotmail.es', 'ES93123', 'user'),
+    User('3', 'deliverer2', 'deliverer2@hotmail.es', 'ES93789', 'deliverer'),
+    User('4', 'store1', 'store1@hotmail.es', 'ES94123', 'store'),
   ];
   
   //actual user, property late
