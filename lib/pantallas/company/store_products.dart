@@ -106,9 +106,11 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
             Text("Dimension: " + lot.dimensions),
             Text("Peso: " + lot.weight),
             Text("Cantidad: " + lot.qty.toString()),
-            Text("Cantidad mínima" + lot.minimumQty.toString()),
+            Text("Cantidad mínima: " + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
-            Text("Frágil: " + lot.isFragile.toString())
+            Text("Frágil: " + lot.isFragile.toString()),
+            Text("Almacenado: " + lot.stored.toString())
+
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],

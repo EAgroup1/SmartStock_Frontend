@@ -36,8 +36,9 @@ class _DelivererPageState extends State<DelivererPage> {
             ListTile(
               leading: Icon(Icons.motorcycle),
               title: Text('Entregas'),
-             
-            ),
+              onTap: () {
+                  MyNavigator.goToDeliverPage(context);
+                }),
             ListTile(
                 leading: Icon(Icons.message),
                 title: Text('Chat'),

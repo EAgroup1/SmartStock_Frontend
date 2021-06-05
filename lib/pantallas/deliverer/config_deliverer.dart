@@ -90,6 +90,12 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
             title: Text('Cuenta bancaria'),
             onTap: () {
               Navigator.of(context).pushNamed("");
+            }),
+            ListTile(
+            leading: Icon(Icons.arrow_circle_down_rounded),
+            title: Text('Cerrar sesión'),
+            onTap: () {
+              MyNavigator.goToLogin(context);
             })
       ],
     ));
