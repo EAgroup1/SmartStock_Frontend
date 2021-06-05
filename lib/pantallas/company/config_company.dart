@@ -83,7 +83,13 @@ Widget stack() {
             title: Text('Términos y Condiciones'),
             onTap: () {
               MyNavigator.goToTerms(context);
-            })
+            }),
+            ListTile(
+            leading: Icon(Icons.arrow_circle_down_rounded),
+            title: Text('Cerrar sesión'),
+            onTap: () {
+              MyNavigator.goToLogin(context);
+            }),
       ],
     ));
   }

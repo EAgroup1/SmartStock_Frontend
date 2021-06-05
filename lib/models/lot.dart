@@ -18,12 +18,12 @@ class Lot {
   String minimumQty;
   User businessItem;
   //late User userItem;
+  late bool stored;
 
-  Lot(this.name, this.qty, this.price, this.id, this.minimumQty, this.dimensions, this.weight, this.isFragile, this.businessItem);
+  Lot(this.name, this.qty, this.price, this.id, this.minimumQty,
+      this.dimensions, this.weight, this.isFragile, this.businessItem);
 
   factory Lot.fromJson(Map<String, dynamic> json) => _$LotFromJson(json);
 
   Map<String, dynamic> toJson() => _$LotToJson(this);
-
-
 }

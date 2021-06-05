@@ -193,47 +193,47 @@ class DataSearch extends SearchDelegate<Lot?> {
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
-  //print(globalData.id);
-  final bool value;
-  final Function onChange;
-  final addUserIntoLot = new lotServices();
-  return new AlertDialog(
-    title: const Text('Información detallada del producto'),
-    content: new SingleChildScrollView(
-      // mainAxisSize: MainAxisSize.min,
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      child: ListBody(
-        children: <Widget>[
-          Text("Nombre del producto: " + lot.name),
-          Text("Descripción: " + lot.info),
-          Text("Cantidad: " + lot.qty.toString()),
-          Text("Precio/unidad: " + lot.price.toString() + "€"),
-          Text("Cantidad minima: " + lot.minimumQty.toString()),
-          Text("Empresa: " + lot.businessItem.userName)
-          // Text("Compañia: " + .info),
-          //trailing: Text("Cantidad: " + lot.qty.toString()),
-        ],
+    //print(globalData.id);
+    final bool value;
+    final Function onChange;
+    final addUserIntoLot = new lotServices();
+    return new AlertDialog(
+      title: const Text('Información detallada del producto'),
+      content: new SingleChildScrollView(
+        // mainAxisSize: MainAxisSize.min,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListBody(
+          children: <Widget>[
+            Text("Nombre del producto: " + lot.name),
+            Text("Descripción: " + lot.info),
+            Text("Cantidad: " + lot.qty.toString()),
+            Text("Precio/unidad: " + lot.price.toString() + "€"),
+            Text("Cantidad minima: " + lot.minimumQty.toString()),
+            Text("Empresa: " + lot.businessItem.userName)
+            // Text("Compañia: " + .info),
+            //trailing: Text("Cantidad: " + lot.qty.toString()),
+          ],
+        ),
       ),
-    ),
-    actions: <Widget>[
-      Text("Do you want to store this in your warehouse?"),
-      new FlatButton(
-        onPressed: () {
-        addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
-        Navigator.of(context).pop('Accept');
-        MyNavigator.goToSearchProducts(context);
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('Accept'),
-      ),
-      new FlatButton(
-        onPressed: () {
-          Navigator.of(context).pop('Cancel');
-        },
-        textColor: Theme.of(context).primaryColor,
-        child: const Text('Cancel'),
-      ),
-    ],
-  ); 
+      actions: <Widget>[
+        Text("¿Quieres guardarlo en tu casa?"),
+        new FlatButton(
+          onPressed: () {
+            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+            Navigator.of(context).pop('Accept');
+            // MyNavigator.goToSearchProducts(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Accept'),
+        ),
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop('Cancel');
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cancel'),
+        ),
+      ],
+    );
   }
 }

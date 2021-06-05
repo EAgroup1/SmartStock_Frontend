@@ -3,6 +3,7 @@ import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'my_navigator.dart';
 
+
 late User user;
 void main() {
   runApp(MyApp());

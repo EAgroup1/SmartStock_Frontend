@@ -151,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           msg: 'Email o contraseña incorrectos',
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
-                    } else {
+                    } else if (val.statusCode == null){
                       Fluttertoast.showToast(
                           msg: val.status,
                           toastLength: Toast.LENGTH_SHORT,

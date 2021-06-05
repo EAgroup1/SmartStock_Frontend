@@ -19,6 +19,7 @@ class GlobalData {
   late String price;
   late bool isFragile;
   late String info;
+  late bool stored;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -44,6 +45,7 @@ class GlobalData {
   String getPrice() => this.price;
   bool getisFragile() => this.isFragile;
   String getInfo() => this.info;
+  bool getStored() => this.stored;
 
 //USER
   setId(String id) {
@@ -99,8 +101,11 @@ class GlobalData {
     this.isFragile = isFragile;
   }
 
-   setInfo(String info) {
+  setInfo(String info) {
     this.info = info;
   }
 
+  setStored(bool stored) {
+    this.stored = stored;
+  }
 }
