@@ -51,6 +51,12 @@ class _DelivererPageState extends State<DelivererPage> {
                   MyNavigator.goToConfigDeliverer(context);
                 }
             ),
+            ListTile(
+                leading: Icon(Icons.trending_down_sharp),
+                title: Text('Eliminar mi cuenta'),
+                onTap: () { 
+                  MyNavigator.goDelete(context);
+                }),
           ],
         ),
       ),

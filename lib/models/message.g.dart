@@ -11,11 +11,11 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
     json['text'] as String,
     json['senderID'] as String,
     json['receiverID'] as String,
-      );
+  );
 }
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'text': instance.text,
       'senderID': instance.senderID,
-      'bank': instance.receiverID,
+      'receiverID': instance.receiverID,
     };

@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 
+import 'package:rlbasic/models/user.dart';
 // import 'package:scoped_model/scoped_model.dart';
 
 //i think for the moment navigator is not essential because pageroute
 import '../../my_navigator.dart';
 
 //import two models: user with chatmodel (sockets) & messages (webChat) 
-import '../../models/user.dart';
-import '../../models/chatmodel.dart';
+
 //webChat = ChatPage
 import './webChat.dart';
 

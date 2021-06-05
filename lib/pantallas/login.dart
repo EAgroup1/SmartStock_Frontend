@@ -94,9 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                         if (globalData.getRole() == "Business"){
                           MyNavigator.goToCompany(context);
                         }else if (globalData.getRole() == "Storage"){
-                          MyNavigator.goToDeliverer(context);
-                        }else{
                           MyNavigator.goToUser(context);
+                        }else{
+                          MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
@@ -188,7 +188,48 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text('Entrar con Google', textAlign: TextAlign.center),
               )
             ]),
-            onPressed: () {},
+            onPressed: () {
+              try {
+                  UserServices().loginGoogle().then((val) {
+                    if (val.statusCode == 200) {
+                      print(val.data);
+                      print(val.data['_id']);
+                      print(val.data['userName']);
+                      print(val.data['email']);
+                      print(val.data['role']);
+                      globalData.setId(val.data['_id']);
+                      globalData.setUserName(val.data['userName']);
+                      globalData.setEMail(val.data['email']);
+                      if (val.data['role'] == null) {
+                        MyNavigator.goToBankData(context);
+                      }else if (val.data['role'] == "Business"){
+                        MyNavigator.goToCompany(context);
+                      }else if (val.data['role'] == "Storage"){
+                      MyNavigator.goToCompany(context);
+                    }else{
+                      MyNavigator.goToUser(context);
+                    }
+
+                    } else if (val.statusCode == 401) {
+                      Fluttertoast.showToast(
+                          msg: 'Email o contraseña incorrectos',
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Error",
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    }
+                  });
+              } catch (err) {
+                print(err);
+                Fluttertoast.showToast(
+                    msg: err.toString(),
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 6);
+              }
+            }
           ));
     }
 

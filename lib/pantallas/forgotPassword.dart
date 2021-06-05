@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //import '../../models/user.dart';
 import '../../services/userServices.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../my_navigator.dart';
+
 
 //dark works with UpperCamelCase!! ---> never with CamelCase
 //we work with a standard schema and we customize in all categories

@@ -1,7 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rlbasic/main.dart';
+import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: [
+    'email',
+    'profile',
+  ],
+);
+
 
 class UserServices {
   Dio dio = new Dio();
@@ -69,7 +80,7 @@ class UserServices {
     try {
       final resp = await dio.post(url,
         data:{"id":id},
-        options: Options(contentType: Headers.formUrlEncodedContentType)      
+        options: Options(contentType: Headers.formUrlEncodedContentType)
       );
       print(resp.data);
       final List<dynamic> lotlist = resp.data;
@@ -82,7 +93,20 @@ class UserServices {
   }
 
 
-  //NUEVA; AUN NO VA
+  eliminateUser(String id) async{
+    try{
+      final resp = await dio.delete(url+id,
+        data:{"id": id},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   sendBankRole(String id, String bank, String role) async{
     try{
       final resp = await dio.put(url+id,
@@ -96,6 +120,30 @@ class UserServices {
       return [];
     }
 
+  }
+
+  Future<Response> loginGoogle() async {
+    try {
+      await _googleSignIn.signIn();
+      try {
+        final user = await dio.post(url + 'logInGoogle',
+            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "password": _googleSignIn.currentUser!.id, "avatar": _googleSignIn.currentUser!.photoUrl},
+            options: Options(contentType: Headers.formUrlEncodedContentType));
+            print(user);
+            return user;
+      } on DioError catch (e) {
+        Fluttertoast.showToast(
+            msg: e.response?.data['msg'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+      }
+    } catch (error) {
+      print(error);
+    }
+    throw (error) {
+      print(error);
+    };
   }
 
   register(name, email, password) async {

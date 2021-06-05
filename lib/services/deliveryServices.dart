@@ -30,6 +30,19 @@ class DeliveryServices {
     }
   }
 
+  deleteUserOfDelivery(id) async  {
+    try{
+      final resp = await dio.put(url+id,
+        data:{"userItem": "deleted"},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+  }
   getReadyDeliveries(String id) async {
     try {
       final resp = await dio.post(url + id + '/readydeliveries/',

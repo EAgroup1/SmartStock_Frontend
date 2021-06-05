@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
@@ -74,11 +75,12 @@ class DataSearch extends SearchDelegate<Lot?> {
   final cosas2 = ["Zapatos", "20"]; */
 
   //DataSearch(this.searchFieldLabel, this.historialot);
-
+  late List<Lot?> lot;
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
     //actions for appbar
+    //
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -104,27 +106,33 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
     //show some result based on the selction
-    print(query);
-
-    if (query.trim().length == 0) {
-      return Text('Introduce un producto para filtrar');
-    }
     final lotservices = new LotServices();
+    print(query);
+    if (query.trim().length == 0) {
+      return ListTile(title: Text('Introduce un producto para filtrar'));
+    } else {
+      return FutureBuilder(
+          future: lotservices.getLotsSameName(query),
+          builder: (context, AsyncSnapshot snapshot) {
+            lot = snapshot.data;
+            // final sugglist = lot
+            //     .where((element) =>
+            //         element.toString().toLowerCase().contains(query) &&
+            //         element.toString().startsWith(query))
+            //     .toList();
 
-    return FutureBuilder(
-      future: lotservices.getLot(query),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return ListTile(
-              title: Text('No hay nada que coincida con lo que has escrito'));
-        }
-        if (snapshot.hasData) {
-          return _showLots(snapshot.data);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
+            if (lot.isNotEmpty) {
+              return _showLots(lot);
+            } else if (lot.isEmpty) {
+              return ListTile(title: Text('Este producto no está en la lista'));
+            } else {
+              return Center(child: CircularProgressIndicator(strokeWidth: 4));
+            }
+          });
+    }
+    final Lotservices = new LotServices();
+
+    //Aquí abajo hay que recoger todos los lotes disponibles y a través de la query que vamos haciendo que se vaya filtrando la info de los objetos que queremos.
   }
 
   @override
@@ -133,8 +141,8 @@ class DataSearch extends SearchDelegate<Lot?> {
     //show when someone searches for something
     final allLots = new LotServices();
     return FutureBuilder(
-      future: allLots.getAllLots(),
-      builder: (_, AsyncSnapshot snapshot) {
+      future: allLots.getAllLotsSorted(),
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
         } else {
@@ -152,10 +160,13 @@ class DataSearch extends SearchDelegate<Lot?> {
             onTap: () {
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 //CAMBIAR POR LOTE
                 builder: (BuildContext context) =>
                     _buildPopupDialog(context, lots[i]),
-              );
+              ).then((result) {
+                print(result);
+              });
             },
             child: Card(
                 clipBehavior: Clip.antiAlias,
@@ -183,35 +194,47 @@ class DataSearch extends SearchDelegate<Lot?> {
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
-    final bool value;
-    final Function onChange;
-
-    return new AlertDialog(
-      title: const Text('Información detallada del producto'),
-      content: new SingleChildScrollView(
-        // mainAxisSize: MainAxisSize.min,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        child: ListBody(
-          children: <Widget>[
-            Text("Nombre del producto: " + lot.name),
-            Text("Descripción: " + lot.info),
-            Text("Cantidad: " + lot.qty.toString()),
-            Text("Precio/unidad: " + lot.price.toString()),
-            Text("Cantidad minima: " + lot.minimumQty.toString())
-            // Text("Compañia: " + .info),
-            //trailing: Text("Cantidad: " + lot.qty.toString()),
-          ],
-        ),
+  //print(globalData.id);
+  final bool value;
+  final Function onChange;
+  final addUserIntoLot = new LotServices();
+  return new AlertDialog(
+    title: const Text('Información detallada del producto'),
+    content: new SingleChildScrollView(
+      // mainAxisSize: MainAxisSize.min,
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListBody(
+        children: <Widget>[
+          Text("Nombre del producto: " + lot.name),
+          Text("Descripción: " + lot.info),
+          Text("Cantidad: " + lot.qty.toString()),
+          Text("Precio/unidad: " + lot.price.toString() + "€"),
+          Text("Cantidad minima: " + lot.minimumQty.toString()),
+          Text("Empresa: " + lot.businessItem.userName)
+          // Text("Compañia: " + .info),
+          //trailing: Text("Cantidad: " + lot.qty.toString()),
+        ],
       ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Cerrar'),
-        ),
-      ],
-    );
+    ),
+    actions: <Widget>[
+      Text("Do you want to store this in your warehouse?"),
+      new FlatButton(
+        onPressed: () {
+        addUserIntoLot.addNewLotToUser(lot.id, GlobalData.getInstance()!.id);
+        Navigator.of(context).pop('Accept');
+        MyNavigator.goToSearchProducts(context);
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Accept'),
+      ),
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop('Cancel');
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: const Text('Cancel'),
+      ),
+    ],
+  ); 
   }
 }

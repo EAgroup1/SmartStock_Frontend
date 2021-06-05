@@ -19,6 +19,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 //           width: double.infinity,
 //           child: Column(
 
+
+/*class CreateNewPassword extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Change password',
+      home: Scaffold(
+        //on these initial screens there aren't appBar 
+        // appBar: AppBar(
+        //   title: Text('Material App Bar'),
+        // ),
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(*/
+
 //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //             crossAxisAlignment: CrossAxisAlignment.stretch,
 

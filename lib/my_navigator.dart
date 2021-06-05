@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:rlbasic/pantallas/bankData.dart';
 import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
+import 'package:rlbasic/pantallas/company/list_Stored_Products_Company.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
+import 'package:rlbasic/pantallas/company/store_products.dart';
+import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
+//DELETE
+import 'package:rlbasic/pantallas/delete.dart';
+//DELETE
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
@@ -40,9 +46,13 @@ var routes = <String, WidgetBuilder>{
   "/user/lotlist": (BuildContext context) => MyProdPage(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user": (BuildContext context) => UserPage(),
- "/user/deliveries": (BuildContext context) => DeliveryMenu(),
- "/bankdata": (BuildContext context) => BankDataPage(),
- "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+  "/user/deliveries": (BuildContext context) => DeliveryMenu(),
+  "/bankdata": (BuildContext context) => BankDataPage(),
+  "/company/sendproducts": (BuildContext context) => SendProductsPage(),
+  "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
+  "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
+  "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
+  "/delete":(BuildContext context) => DeletePage(),
  
 };
 
@@ -96,7 +106,7 @@ class MyNavigator {
   }
 
   static void goToForgotPassword(BuildContext context) {
-    Navigator.pushNamed(context, "/user/forgotpassword");
+    Navigator.pushNamed(context, "/forgotpassword");
   }
 
   static void goToCreateNewPassword(BuildContext context) {
@@ -110,6 +120,12 @@ class MyNavigator {
    static void goToWebChat(BuildContext context) {
      Navigator.pushNamed(context, "/chathomepage/webchat");
    }
+  static void goDelete(BuildContext context) {
+    Navigator.pushNamed(context, "/delete");
+  }
+  // static void goToWebChat(BuildContext context) {
+  //   Navigator.pushNamed(context, "/chathomepage/webchat");
+  // }
 
   static void goToLotList(BuildContext context) {
     Navigator.pushNamed(context, "/user/lotlist");
@@ -121,6 +137,18 @@ class MyNavigator {
 
    static void goToSendProducts(BuildContext context) {
     Navigator.pushNamed(context, "/company/sendproducts");
+  }
+
+   static void goToStoreProducts(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts");
+  }
+
+  static void goToStoreProductsStoredByUsers(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproductsstoredbyusers");
+  }
+
+  static void goToStoreProductsAdd(BuildContext context) {
+    Navigator.pushNamed(context, "/company/storeproducts/add");
   }
 
 }
