@@ -3,12 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../my_navigator.dart';
-
 //graph imports
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
-//this is the data graph
+//this is the data graphs
  
 class SalaryProductsGraph extends StatefulWidget {
   SalaryProductsGraph({Key? key}) : super(key: key);

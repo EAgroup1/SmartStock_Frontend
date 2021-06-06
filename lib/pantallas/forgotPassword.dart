@@ -1,8 +1,7 @@
 //first essential package for the widgets!!
 import 'package:flutter/material.dart';
 import '../my_navigator.dart';
-import '../../models/user.dart';
-import '../../services/userServices.dart';
+
 
 //dark works with UpperCamelCase!! ---> never with CamelCase
 //we work with a standard schema and we customize in all categories
