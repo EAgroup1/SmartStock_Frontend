@@ -92,6 +92,19 @@ class UserServices {
     }
   }
 
+  getNumByRole(String role) async {
+    try {
+      final resp = await dio.get('$url'+'getNumByRole/'+'$role');
+      print(resp.data);
+
+      final numByRole = int.parse(resp.data);
+      return numByRole;
+
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
 
   eliminateUser(String id) async{
     try{
