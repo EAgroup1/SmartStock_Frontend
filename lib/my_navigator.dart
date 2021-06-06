@@ -8,6 +8,7 @@ import 'package:rlbasic/pantallas/company/send_products.dart';
 import 'package:rlbasic/pantallas/company/store_products.dart';
 import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
+import 'package:rlbasic/pantallas/deliverer/deliverer_menu.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
@@ -48,6 +49,8 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts": (BuildContext context) => StoreProductsPage(),
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
+  "/deliverer/deliveries": (BuildContext context) => DelivererMenu(),
+
  
 };
 
@@ -142,6 +145,10 @@ class MyNavigator {
 
   static void goToStoreProductsAdd(BuildContext context) {
     Navigator.pushNamed(context, "/company/storeproducts/add");
+  }
+
+    static void goToDeliverPage(BuildContext context) {
+    Navigator.pushNamed(context, "/deliverer/deliveries");
   }
 
 }
