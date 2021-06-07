@@ -13,20 +13,12 @@ class SearchProductsPage extends StatefulWidget {
 }
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
+
   Lot? lotSeleccionado;
-
   List<Lot> historial = [];
-
   DataSearch search = new DataSearch();
-
   late var lots = <Lot>[];
-
   GlobalData globalData = GlobalData.getInstance()!;
-
-  // final String searchFieldLabel;
-  // final List<Lot> historialot;
-
-  // _SearchProductsPageState(this.searchFieldLabel, this.historialot);
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,49 +30,20 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
                 showSearch(context: context, delegate: DataSearch());
               },
               icon: Icon(Icons.search)),
-          //search._showLots(lots)
         ],
       ),
       body: search.buildSuggestions(context),
-      // body: Center(
-      //   child: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     if (lotSeleccionado != null) Text(lotSeleccionado!.name),
-      // MaterialButton(
-      //     child: Text('Buscar productos',
-      //         style: TextStyle(color: Colors.white)),
-      //     shape: StadiumBorder(),
-      //     elevation: 0,
-      //     splashColor: Colors.transparent,
-      //     color: Colors.blue,
-      //     onPressed: () async {
-      // final lote = showSearch(
-      //             context: context,
-      //             delegate: DataSearch('Buscar...', historial));
 
-      // setState(() {
-      //   this.lotSeleccionado = lote!;
-      //   this.historial.insert(0, lote);
-      // });
-      //     ]})
-      //   )),
-      // );
     );
   }
 }
 
 class DataSearch extends SearchDelegate<Lot?> {
-  /*  final cosas = ["Item", "Quantity"];
-  final cosas2 = ["Zapatos", "20"]; */
-
-  //DataSearch(this.searchFieldLabel, this.historialot);
   late List<Lot?> lot;
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
     //actions for appbar
-    //
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -99,6 +62,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
           this.close(context, null);
+          MyNavigator.goToSearchProducts(context);
         });
   }
 
@@ -107,31 +71,32 @@ class DataSearch extends SearchDelegate<Lot?> {
     // TODO: implement buildResults
     //show some result based on the selction
     final lotservices = new lotServices();
-    print(query);
+    List<Lot> lot;
     if (query.trim().length == 0) {
-      return ListTile(title: Text('Introduce un producto para filtrar'));
+      return Center(
+          child: Text('Introduce un producto para filtrar',));
     } else {
       return FutureBuilder(
-          future: lotservices.getLotsSameName(query),
+          future: lotservices.getAllLotsSorted(),
           builder: (context, AsyncSnapshot snapshot) {
-            lot = snapshot.data;
-            // final sugglist = lot
-            //     .where((element) =>
-            //         element.toString().toLowerCase().contains(query) &&
-            //         element.toString().startsWith(query))
-            //     .toList();
-
-            if (lot.isNotEmpty) {
-              return _showLots(lot);
-            } else if (lot.isEmpty) {
-              return ListTile(title: Text('Este producto no está en la lista'));
+            if (snapshot.hasData) {
+              lot = snapshot.data;
+              List<Lot?> results = lot
+                                   .where((element) => 
+                                   element.name.toLowerCase() == query.toLowerCase())
+                                                                 .toList();
+              if (results.isNotEmpty) {
+              return _showLots(results);
+              } else {
+                  return Center(
+                    child: Text('No existe ningún lote con este nombre',)
+                  );
+                }
             } else {
               return Center(child: CircularProgressIndicator(strokeWidth: 4));
             }
           });
     }
-
-    //Aquí abajo hay que recoger todos los lotes disponibles y a través de la query que vamos haciendo que se vaya filtrando la info de los objetos que queremos.
   }
 
   @override
@@ -139,11 +104,22 @@ class DataSearch extends SearchDelegate<Lot?> {
     // TODO: implement buildSuggestions
     //show when someone searches for something
     final allLots = new lotServices();
+    List<Lot> lot;
     return FutureBuilder(
       future: allLots.getAllLotsSorted(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return _showLots(snapshot.data);
+          lot = snapshot.data;
+          List<Lot?> suggestions = query.isEmpty 
+                 ? lot  
+                 : lot
+               .where((element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()))
+                  .toList(); 
+                     
+          print(suggestions);
+          return _showLots(suggestions);
+          
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
@@ -160,7 +136,6 @@ class DataSearch extends SearchDelegate<Lot?> {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                //CAMBIAR POR LOTE
                 builder: (BuildContext context) =>
                     _buildPopupDialog(context, lots[i]),
               ).then((result) {
@@ -193,15 +168,10 @@ class DataSearch extends SearchDelegate<Lot?> {
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
-    //print(globalData.id);
-    final bool value;
-    final Function onChange;
     final addUserIntoLot = new lotServices();
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
-        // mainAxisSize: MainAxisSize.min,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         child: ListBody(
           children: <Widget>[
             Text("Nombre del producto: " + lot.name),
@@ -210,8 +180,6 @@ class DataSearch extends SearchDelegate<Lot?> {
             Text("Precio/unidad: " + lot.price.toString() + "€"),
             Text("Cantidad minima: " + lot.minimumQty.toString()),
             Text("Empresa: " + lot.businessItem.userName)
-            // Text("Compañia: " + .info),
-            //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
         ),
       ),
@@ -221,7 +189,8 @@ class DataSearch extends SearchDelegate<Lot?> {
           onPressed: () {
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             Navigator.of(context).pop('Accept');
-            // MyNavigator.goToSearchProducts(context);
+            //showSearch(context: context, delegate: DataSearch());
+            MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

@@ -82,16 +82,18 @@ class DataSearch extends SearchDelegate<Lot?> {
     return FutureBuilder(
       future: allLotsByBusiness.getLotListByBusiness(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {
-        lot = snapshot.data;
         if (snapshot.hasData) {
-          query = query.toLowerCase();
-          final suggestions = query.isEmpty
-              ? lot
-              : lot
-                  .where((element) =>
-                      element.name.toLowerCase().contains(query) &&
-                      element.name.startsWith(query))
-                  .toList();
+          lot = snapshot.data;
+          List<Lot?> suggestions = query.isEmpty 
+                 ? lot  
+                 : lot
+               .where((element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()))
+                  .toList(); 
+              // &&
+              // element.name.toLowerCase().startsWith(query.toLowerCase()))
+                     
+          print(suggestions);
           return _showLots(suggestions);
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
