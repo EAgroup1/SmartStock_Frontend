@@ -76,4 +76,54 @@ class DeliveryServices {
       }
     }
   }
+
+  getNotAssigned() async{
+        try {
+      final resp = await dio.get(url +'deliverer/notAssigned',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+
+      final List<Delivery> deliverylist;
+      deliverylist =
+          (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
+
+      return deliverylist;
+    } catch (e) {
+      print(e);
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist=[];
+      return deliverylist;
+    }
+  }
+
+  getAssigned(String id) async{
+        try {
+      final resp = await dio.get(url + id +'/isAssigned',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+
+      final List<Delivery> deliverylist;
+      deliverylist =
+          (resp.data as List).map((i) => Delivery.fromJson(i)).toList();
+
+      return deliverylist;
+    } catch (e) {
+      print(e);
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist=[];
+      return deliverylist;
+    }
+  }
 }

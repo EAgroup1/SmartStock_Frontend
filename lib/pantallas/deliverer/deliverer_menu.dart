@@ -99,7 +99,7 @@ class _Aentregar extends State<Aentregar> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: deliveryService.getDeliveriesUser(globalData.getId()),
+      future: deliveryService.getAssigned(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(title: Text('Ha habido un error :('));
@@ -107,7 +107,7 @@ class _Aentregar extends State<Aentregar> {
         if (snapshot.hasData) {
           this.deliveries = snapshot.data;
           if (deliveries.isEmpty) {
-            return Center(child: Text("No hay nada que prepara"));
+            return Center(child: Text("No tienes assigando ningun pedido"));
           } else
             return buildList(context);
         } else {
@@ -215,7 +215,7 @@ class NuevaEntrega extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: deliveryService.getReadyDeliveries(globalData.getId()),
+      future: deliveryService.getNotAssigned(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return ListTile(title: Text('Se ha producido un error :('));
@@ -232,7 +232,7 @@ class NuevaEntrega extends StatelessWidget {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(child: Text("No hay pedidos que repartir"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,
