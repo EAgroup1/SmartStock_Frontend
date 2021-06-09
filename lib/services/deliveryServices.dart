@@ -126,4 +126,22 @@ class DeliveryServices {
       return deliverylist;
     }
   }
+
+  setAssigned(String id, String user) async {
+    try {
+      return await dio.put(url + 'assigned/'+id,
+        data: {"id": user},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
 }
