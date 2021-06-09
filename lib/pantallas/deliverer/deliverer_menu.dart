@@ -161,7 +161,7 @@ class _Aentregar extends State<Aentregar> {
     bool isDelivered = delivery.isDelivered;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      return new AlertDialog(
+        return new AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           content: new Form(
@@ -187,17 +187,16 @@ class _Aentregar extends State<Aentregar> {
                   checkColor: Colors.black,
                 ),
                 Text('Desti locat'),
-                Center(
-                  child: CheckboxListTile(
+                CheckboxListTile(
                     title: const Text('Package delivered'),
-                    value: delivery.isDelivered,
+                    value: isDelivered,
                     onChanged: (bool? value) {
                       setState(() { isDelivered = value!; });
                     },
                     controlAffinity: 
                       ListTileControlAffinity.leading
                   ),
-                ),
+                
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
