@@ -9,7 +9,6 @@ class StoreProductsPage extends StatefulWidget {
   _StoreProductsPageState createState() => _StoreProductsPageState();
 }
 
-
 class _StoreProductsPageState extends State<StoreProductsPage> {
   Lot? lotSeleccionado;
   List<Lot> historial = [];
@@ -117,6 +116,14 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
         ),
       ),
       actions: <Widget>[
+        Text("¿Enviar producto?"),
+        new FlatButton(
+          onPressed: () {
+            MyNavigator.goToSendProductsForm(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Enviar'),
+        ),
         new FlatButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -127,5 +134,4 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       ],
     );
   }
-
 }

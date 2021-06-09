@@ -22,7 +22,7 @@ class _SearchMyStorageProductsPageState extends State<SearchMyStorageProductsPag
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Storage Products' + globalData.userName),
+        title: Text('My Stored Products' + globalData.userName),
         actions: <Widget>[
           IconButton(
               onPressed: () {
