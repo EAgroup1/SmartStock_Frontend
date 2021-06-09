@@ -117,6 +117,7 @@ class _Aentregar extends State<Aentregar> {
     );
   }
 
+  @override
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
       return Center(child: Text("No hay pedidos que repartir"));
@@ -126,12 +127,12 @@ class _Aentregar extends State<Aentregar> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-               showDialog(
+              showDialog(
                 context: context,
                 //CAMBIAR POR LOTE
-                builder: (BuildContext context) => _buildPopupDialog(
-                    context, deliveries[index].lot, deliveries[index].id),
-              ); 
+                builder: (BuildContext context) =>
+                    _buildPopupDialog(context, deliveries[index]),
+              );
             },
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -151,40 +152,70 @@ class _Aentregar extends State<Aentregar> {
       );
     }
   }
-   
-  Widget _buildPopupDialog(BuildContext context, Lot lot, String id) {
-    return new AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        //  crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Información del paquete'),
-          ListTile(
-            title: Text(lot.name),
-            subtitle: Text(lot.info),
-            trailing: Text(lot.qty.toString()),
-          ),
-          SizedBox(height: 12.0),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
+    bool isPicked = delivery.isPicked;
+    bool isDelivered = delivery.isDelivered;
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+      return new AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          content: new Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              //  crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                FlatButton(
-                    child: Text('Close'),
-                    shape: StadiumBorder(),
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-              ])
-        ],
-      ),
-    );
+                SizedBox(height: 12.0),
+                Text(delivery.businessItem.userName),
+                Text(delivery.id),
+                Text('Origen locat'),
+                CheckboxListTile(
+                  title: const Text('Package picked'),
+                  value: isPicked,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isPicked = value!;
+                    });
+                  },
+                  activeColor: Colors.green,
+                  checkColor: Colors.black,
+                ),
+                Text('Desti locat'),
+                Center(
+                  child: CheckboxListTile(
+                    title: const Text('Package delivered'),
+                    value: delivery.isDelivered,
+                    onChanged: (bool? value) {
+                      setState(() { isDelivered = value!; });
+                    },
+                    controlAffinity: 
+                      ListTileControlAffinity.leading
+                  ),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      FlatButton(
+                          child: Text('Guardar'),
+                          shape: StadiumBorder(),
+                          color: Colors.green,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                    ])
+              ],
+            ),
+          ));
+    });
   }
-
 }
-
 
 class NuevaEntrega extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
@@ -244,7 +275,6 @@ class NuevaEntrega extends StatelessWidget {
     }
   }
 
-  
   Widget _buildPopupDialog(BuildContext context, Lot lot, String id, int num) {
     final bool value;
     final Function onChange;
@@ -281,7 +311,9 @@ class NuevaEntrega extends StatelessWidget {
                     textColor: Colors.white,
                     onPressed: () {
                       print(id);
-                      DeliveryServices().setAssigned(id, globalData.getId()).then((val) {
+                      DeliveryServices()
+                          .setAssigned(id, globalData.getId())
+                          .then((val) {
                         if (val.statusCode == 200) {
                           print('de momento todo ok');
                           Navigator.of(context).pop();
@@ -297,5 +329,4 @@ class NuevaEntrega extends StatelessWidget {
       ),
     );
   }
-
 }

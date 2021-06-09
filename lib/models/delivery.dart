@@ -17,9 +17,11 @@ class Delivery {
   User businessItem;
   late User userItem;
   String description;
+  bool isPicked;
+  bool isDelivered;
 
   Delivery(this.lot, this.id, this.deliveryDate, this.businessItem,
-      this.description);
+      this.description, this.isDelivered, this.isPicked);
 
   /// Un método constructor de tipo factory es necesario para crear una nueva instancia User
   /// desde un mapa. Pasa el mapa al constructor auto-generado `_$UserFromJson()`.
