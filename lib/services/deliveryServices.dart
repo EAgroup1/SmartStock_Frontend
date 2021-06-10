@@ -29,7 +29,7 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
@@ -54,16 +54,16 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
 
   setReadyDelivery(String id) async {
-          print(id);
+    print(id);
 
     try {
-      return await dio.put(url + 'readydelivery/'+id,
+      return await dio.put(url + 'readydelivery/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -77,9 +77,9 @@ class DeliveryServices {
     }
   }
 
-  getNotAssigned() async{
-        try {
-      final resp = await dio.get(url +'deliverer/notAssigned',
+  getNotAssigned() async {
+    try {
+      final resp = await dio.get(url + 'deliverer/notAssigned',
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
 
@@ -97,14 +97,14 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
 
-  getAssigned(String id) async{
-        try {
-      final resp = await dio.get(url + id +'/isAssigned',
+  getAssigned(String id) async {
+    try {
+      final resp = await dio.get(url + id + '/isAssigned',
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
 
@@ -122,16 +122,48 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
 
   setAssigned(String id, String user) async {
     try {
-      return await dio.put(url + 'assigned/'+id,
-        data: {"id": user},
-        options: Options(contentType: Headers.formUrlEncodedContentType));
+      return await dio.put(url + 'assigned/' + id,
+          data: {"id": user},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+  setIsPicked(String id) async {
+    try {
+      return await dio.put(url + 'picked/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+  setIsDelivered(String id) async {
+    try {
+      return await dio.put(url + 'delivered/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
         print(e);

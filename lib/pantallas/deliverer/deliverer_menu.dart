@@ -201,13 +201,43 @@ class _Aentregar extends State<Aentregar> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       FlatButton(
+                        child: Text('Salir'),
+                        shape: StadiumBorder(),
+                        color: Colors.green,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                      }),
+                      FlatButton(
                           child: Text('Guardar'),
                           shape: StadiumBorder(),
                           color: Colors.green,
                           textColor: Colors.white,
                           onPressed: () {
-                            Navigator.of(context).pop();
-                          }),
+                            if(delivery.isPicked!=isPicked){
+                              DeliveryServices().setIsPicked(delivery.id).then((val) {
+                              if (val.statusCode == 200) {
+                                print('guardado correctamente');
+                                Navigator.of(context).pop();
+                                MyNavigator.goToDeliverPage(context);
+                              } else {
+                                print('Algo ha ido mal, pruebalo mas tarde...');
+                              }
+                            });                              
+                            }
+                            if(delivery.isDelivered!=isDelivered){
+                              DeliveryServices().setIsDelivered(delivery.id).then((val) {
+                              if (val.statusCode == 200) {
+                                print('guardado correctamente');
+                                Navigator.of(context).pop();
+                                MyNavigator.goToDeliverPage(context);
+                              } else {
+                                print('Algo ha ido mal, pruebalo mas tarde...');
+                              }
+                            });                              
+                            }                            
+
+                         }),
                     ])
               ],
             ),
