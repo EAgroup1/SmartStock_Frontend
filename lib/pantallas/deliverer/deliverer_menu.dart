@@ -170,11 +170,13 @@ class _Aentregar extends State<Aentregar> {
               mainAxisSize: MainAxisSize.min,
               //  crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: 12.0),
+               SizedBox(height: 12.0),
                 Text(delivery.businessItem.userName),
                 Text(delivery.id),
+                
                 Text('Origen locat'),
-                CheckboxListTile(
+                if(delivery.isPicked==false)
+                  CheckboxListTile(
                   title: const Text('Package picked'),
                   value: isPicked,
                   controlAffinity: ListTileControlAffinity.leading,
@@ -186,8 +188,10 @@ class _Aentregar extends State<Aentregar> {
                   activeColor: Colors.green,
                   checkColor: Colors.black,
                 ),
+                
                 Text('Desti locat'),
-                CheckboxListTile(
+                if(delivery.isDelivered==false && delivery.isPicked==true)
+                  CheckboxListTile(
                     title: const Text('Package delivered'),
                     value: isDelivered,
                     onChanged: (bool? value) {
