@@ -300,9 +300,9 @@ final userService = new UserServices();
 dynamic getStringData(){
   List<RoleQty> stringData=<RoleQty>[
     //here we return the qty trough role by user
-    RoleQty("User", userService.getNumByRole(globalData.getRole())),
-    RoleQty("Deliverer", userService.getNumByRole("Deliverer")),
-    RoleQty("Company", userService.getNumByRole("Company"))
+    RoleQty("User", 24),
+    RoleQty("Deliverer", 10),
+    RoleQty("Company", 11)
   ];
   return stringData;
 }

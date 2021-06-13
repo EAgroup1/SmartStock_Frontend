@@ -10,6 +10,7 @@ class GlobalData {
   late String email;
   late String role;
   late User friend;
+  late String resetLink;
 
 //LOTE
   late String name;
@@ -36,6 +37,7 @@ class GlobalData {
   String getEMail() => this.email;
   String getRole() => this.role;
   User getFriend() => this.friend;
+  String getResetLink() => this.resetLink;
 
 //LOTS
   String getName() => this.name;
@@ -71,6 +73,11 @@ class GlobalData {
 
   setFriend(User friend){
     this.friend = friend;}
+
+  setResetLink(String resetLink) {
+    this.resetLink = resetLink;
+  }
+
   //LOTS
   setName(String name) {
     this.name = name;

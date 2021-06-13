@@ -10,8 +10,6 @@ import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/models/delivery.dart';
 
-
-
 GlobalData globalData = GlobalData.getInstance()!;
 
 class DeletePage extends StatefulWidget {

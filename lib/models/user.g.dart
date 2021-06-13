@@ -13,7 +13,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['email'] as String,
     json['bank'] as String,
     json['role'] as String,
-  );
+  )..resetLink= json['resetLink'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -21,5 +21,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'email': instance.email,
       '_id': instance.id,
       'bank': instance.bank,
+      'resetLink': instance.resetLink,
       'role': instance.role,
     };

@@ -10,6 +10,7 @@ class User {
   String id;
   String bank;
   String role;
+  late String resetLink;
   User(this.id, this.userName, this.email, this.bank, this.role);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

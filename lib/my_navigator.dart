@@ -17,7 +17,6 @@ import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/pantallas/user/config_user.dart';
 import 'package:rlbasic/pantallas/user/delivery_menu.dart';
 import 'package:rlbasic/pantallas/forgotPassword.dart';
-import 'package:rlbasic/pantallas/createNewPassword.dart';
 //user webchat views
 import 'package:rlbasic/pantallas/webChatHomepage.dart';
 import 'package:rlbasic/pantallas/webChat.dart';
@@ -40,7 +39,6 @@ var routes = <String, WidgetBuilder>{
   "/configcompany": (BuildContext context) => ConfigCompanyPage(),
   "/user/searchproducts": (BuildContext context) => SearchProductsPage(),
   "/forgotpassword": (BuildContext context) => ForgotPass(),
-  "/createnewpassword": (BuildContext context) => ResetPass(),
   "/chathomepage": (BuildContext context) => AllChatsPage(),
   "/chathomepage/webchat": (BuildContext context) => ChatPage(),
   "/user/lotlist": (BuildContext context) => MyProdPage(),
@@ -108,11 +106,7 @@ class MyNavigator {
   static void goToForgotPassword(BuildContext context) {
     Navigator.pushNamed(context, "/forgotpassword");
   }
-
-  static void goToCreateNewPassword(BuildContext context) {
-    Navigator.pushNamed(context, "/user/createnewpassword");
-  }
-
+  
   static void goToWebChatHomepage(BuildContext context) {
     Navigator.pushNamed(context, "/chathomepage");
   }
@@ -123,9 +117,6 @@ class MyNavigator {
   static void goDelete(BuildContext context) {
     Navigator.pushNamed(context, "/delete");
   }
-  // static void goToWebChat(BuildContext context) {
-  //   Navigator.pushNamed(context, "/chathomepage/webchat");
-  // }
 
   static void goToLotList(BuildContext context) {
     Navigator.pushNamed(context, "/user/lotlist");

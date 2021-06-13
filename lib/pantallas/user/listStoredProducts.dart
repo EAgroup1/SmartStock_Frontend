@@ -113,15 +113,21 @@ class _MyProdPageState extends State<MyProdPage> {
 
   @override
   Widget build(BuildContext context) {
+    //created list
+    List<Lot> lots;
+
+    print("entra en el futurebuilder");
     return FutureBuilder(
       future: lotService.getLotListByUser(globalData.getId()),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           return ListTile(title: Text('Ha habido un error :('));
         }
         if (snapshot.hasData) {
-          this.lots = snapshot.data;
+          print("ha pasado por la lista");
+          lots = snapshot.data;
           if (lots.isEmpty) {
+            print("uno");
             return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
           } else
             return buildList(context);
@@ -134,6 +140,7 @@ class _MyProdPageState extends State<MyProdPage> {
 
   Widget buildList(BuildContext context) {
     if (lots.isEmpty) {
+      print("tres");
       return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
     } else {
       return ListView.builder(
