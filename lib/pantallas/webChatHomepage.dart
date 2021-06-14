@@ -10,7 +10,7 @@ import 'package:rlbasic/my_navigator.dart';
 
 //import two models: user with chatmodel (sockets) & messages (webChat) 
 
-
+//relleno para commit
 //on the other 'statefulW' create a statefull widget (reactive)
 //statefull widget only takes one class
 class AllChatsPage extends StatefulWidget {
