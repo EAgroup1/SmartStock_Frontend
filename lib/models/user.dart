@@ -10,17 +10,21 @@ class User {
   String id;
   String bank;
   String role;
-  User(this.id, this.userName, this.email, this.bank, this.role);
+  List<String> friends;
+  User(this.id, this.userName, this.email, this.bank, this.role, this.friends);
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
+  //factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
-  /* User.fromJson(Map<String, dynamic> json)
-      : id = json['_id'],
-        userName = json['userName'],
-        email = json['email'];
+  User.fromJson(Map<String, dynamic> json)
+    : id = json['_id'],
+      userName = json['userName'],
+      email = json['email'],
+      bank = json['bank'],
+      role = json['role'],
+      friends = new List<String>.from(json['friends']);
 
+  /*
   Map <String, dynamic> toJson() =>
   {
     'userName':userName,

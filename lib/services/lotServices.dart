@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/lot.dart';
+import './url.dart';
 
 class LotServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/lots/";
+  var url = URL+"/lots/";
 
   postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
       String businessItem) async {

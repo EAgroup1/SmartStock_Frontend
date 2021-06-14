@@ -5,6 +5,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rlbasic/main.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
+import './url.dart';
+//import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'dart:async' show Future;
+
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
@@ -16,7 +21,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 
 class UserServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/users/";
+  var url = URL+"/users/";
   late DioExceptions dioExceptions;
 
   login(email, password) async {
@@ -78,18 +83,44 @@ class UserServices {
 
   getUser(String id) async{
     try {
-      final resp = await dio.post(url,
-        data:{"id":id},
+      final resp = await dio.get(url+id,
         options: Options(contentType: Headers.formUrlEncodedContentType)
       );
-      print(resp.data);
-      final List<dynamic> lotlist = resp.data;
-      return lotlist.map((obj) => User.fromJson(obj)).toList();
-
+      Map<String, dynamic> map = jsonDecode(resp.toString());
+      User user = User.fromJson(map); 
+      return user;
     } catch (e) {
       print(e);
       return [];
     }
+  }
+  User getaUser(String id){
+    User resulting = new User('','','','','',[]);
+    
+    getUser(id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
+    .then((result) {
+      var userName = result.userName;
+      var email = result.email;
+      var bank = result.bank;
+      var _id = result.id;
+      var role = result.role;
+      var friends = result.friends;
+      resulting = new User(_id,userName,email,bank,role,friends);
+      print("Then");
+    });
+    /*.whenComplete((result) {
+      var userName = result.userName;
+      var email = result.email;
+      var bank = result.bank;
+      var _id = result.id;
+      var role = result.role;
+      var friends = result.friends;
+      resulting = new User(_id,userName,email,bank,role,friends);
+      print("Compelte");
+      print(resulting);
+    });*/
+    return resulting;
+    
   }
 
   getNumByRole(String role) async {

@@ -1,100 +1,111 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:scoped_model/scoped_model.dart';
-// import 'package:flutter_socket_io/flutter_socket_io.dart';// -- NO NULL SAFETY
-// import 'package:flutter_socket_io/socket_io_manager.dart';// -- NO NULL SAFETY
-//import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/pantallas/company/config_company.dart';
+import 'package:rlbasic/services/userServices.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:socket_io/socket_io.dart';
+//import 'package:flutter_socket_io/flutter_socket_io.dart';// -- NO NULL SAFETY
+//import 'package:flutter_socket_io/socket_io_manager.dart';// -- NO NULL SAFETY
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'dart:convert';
-import './user.dart';
-import './message.dart';
+import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/message.dart';
+import 'dart:async' show Future;
 
-class ChatModel /*extends Model with ChangeNotifier*/ {
+class ChatModel extends Model with ChangeNotifier {
 
-  //fake list users this.id, this.userName, this.email, this.bank, this.role
-  List<User>? users = [
-    User('1', 'user1', 'user1@hotmail.es', 'ES93123', 'user'),
-    User('3', 'deliverer2', 'deliverer2@hotmail.es', 'ES93789', 'deliverer'),
-    User('4', 'store1', 'store1@hotmail.es', 'ES94123', 'store'),
-  ];
-  
+  //fake list users this.id, this.userName, this.email, this.bank, this.role, list<_id friends>
+  //String friend = UserServices().getUser(GlobalData.getInstance()!.getId()).friends[0];
+  /*List<User>? users = [
+    UserServices().getUser(UserServices().getUser(GlobalData.getInstance()!.getId()).friends[0])
+  ];*/
   //actual user, property late
-  late User? currentUser;
-
+  //late User? currentUser = UserServices().getUser(GlobalData.getInstance()!.getId());
   //We create two lists: one for the friends and the other for the messages
-  List<User>? friendList = <User>[];
+  late User user;
+  late List<User>? friendList;// = [UserServices().getUser("60c4f116aaaa0a33e4e27ebe")];
+  /* = [ //FALLO AQUI
+    user
+    //UserServices().getUser("60c4f116aaaa0a33e4e27ebe")
+    //UserServices().getUser(GlobalData.getInstance()!.getId()).friends[0]
+  ];*/
+  Widget build(BuildContext context) {
+    print("AQUI PASO");
+    FutureBuilder(
+      future: UserServices().getUser("60c4f116aaaa0a33e4e27ebe"),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        print("LLEGO AQUI");
+        if (snapshot.hasError) {
+          print("NO VA");
+        }
+        if (snapshot.hasData) {
+          user = snapshot.data;
+          friendList = [
+            user
+          ];
+          print("EUREKA");
+          return Container();
+        } else {
+          print("NO HAY NADA");
+          return Container();
+        }
+      }
+    );
+    return Container();
+  }
+  
   List<Message>? messages = <Message>[];
-
-   //socket for connections
-  //  late SocketIO? socketIO;
-
+  IO.Socket socket = IO.io('http://localhost:3000', <String, dynamic>{'transports': ['websocket'],'autoConnect': false,});
+  
+  
   void init() {
     //prove with the current user is the number 1
-    currentUser = users![0];
-    friendList = users?.where((user) => user.id != currentUser?.id).toList();
-
-
-    //create the socket trough URL 4000 or 3000? server port?
-    /* IO.Socket socket = IO.io('http://localhost:4000');
-     socket.onConnect((_) {
-       print('socket connected');
-       socket.emit('msg','test');
-     });*/
-     
-
-    //  socketIO = SocketIOManager().createSocketIO(
-    //    'http://localhost:4000', '/',
-    //    query: 'id=${currentUser?.id}');
-
-
-
-    //init the socket
-    // socketIO?.init();
-    
-
-    //add subscribers to the same socket
-
-    //____________________________ NEW NEW ____________________________
-
-    /* //ESTO DE AQUI ES DEL SOCKET_IO NUEVO
-    socket.subs!('receive_message', (jsonData) {
-        Map<String, dynamic> data = json.decode(jsonData);
-        messages.add(Message(data['content'], data['senderChatID'], data['receiverChatID']));
-       //notifyListeners();
-     });*/
-
-
-    //____________________________ NEW NEW ____________________________
-
-
-    //  socketIO?.subscribe('receive_message', (jsonData) {
-    //    //Convert the JSON data received into a Map
-    //    Map<String, dynamic> data = json.decode(jsonData);
-    //    messages?.add(Message(
-    //      data['content'], data['senderChatID'], data['receiverChatID']));
-    //    notifyListeners();
-    //  });
-
-
-    // socketIO?.connect();
+    /*currentUser = users![0];
+    friendList = users?.where((user) => user.id != currentUser?.id).toList();*/
+    //create the socket trough URL 3000 server port?    
+    socket.connect();
+    var receiverSocket;
+    socket.on('connect',(_) {
+      print('Socket listening');
+    });
+    socket.on('MyReceiverSocket',(data){
+      print('Receiver socket at: '+data);
+      receiverSocket = data;
+    });
+    socket.on('newmsg', (data) {
+      print('New message');
+      Fluttertoast.showToast(msg: "Nuevo mensaje: " + data.toString());
+      print(data);
+    });
+    socket.on('escribiendo',(data) {
+      print('Writing with id: '+data);
+      Fluttertoast.showToast(msg: "Escribiendo...");
+    });
   }
 
-  void sendMessage(String text, String receiverChatID) {
-    messages?.add(Message(text, currentUser!.id, receiverChatID));
-    //  socketIO?.sendMessage(
-    //    'send_message',
-    //    json.encode({
-    //      'receiverChatID': receiverChatID,
-    //      'senderChatID': currentUser?.id,
-    //      'content': text,
-    //    }),
-    //  );
-    //  notifyListeners();
+  void sendMessage(String text, String receiverChatID){
+    var _data = {
+      "receiverChatID": receiverChatID,
+      "text": text,
+      "origin": socket.id,
+    };
+    socket.emit('newmsg', _data);
   }
   
+  void sendEscribiendo(){
+    socket.emit('escribiendo', socket.id);
+  }
+  
+  void sendBye(){
+    socket.emit('disconnect', socket.id);
+  }
 
   List<Message> getMessagesForChatID(String chatID) {
     return messages!
         .where((msg) => msg.senderID == chatID || msg.receiverID == chatID)
         .toList();
   }
+
 }

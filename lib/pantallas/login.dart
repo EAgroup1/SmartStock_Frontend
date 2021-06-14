@@ -8,7 +8,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'user/user.dart';
+import 'package:rlbasic/models/chatmodel.dart';
 import 'splashScreen.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -18,14 +21,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //final _formKey = GlobalKey<FormState>();
   var email, password;
   bool _isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '', '', '');
+  User user = User('','','','','',[]);
   Dio dioerror = new Dio();
 
   @override
@@ -78,14 +80,24 @@ class _LoginPageState extends State<LoginPage> {
                 try {
                   if (_formKey.currentState!.validate()) {
                     UserServices().login(email, password).then((val) {
-                      print(val.data);
-                      print(val.statusCode);
+                      //print(val.data);
+                      //print(val.statusCode);
+                      print("Logged correct");
                       if (val.statusCode == 200) {
+                        //Meter en globalData
                         globalData.setId(val.data['_id']);
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
-                        globalData.setRole(val.data['role']); //Para que mire rol
+                        globalData.setRole(val.data['role']); 
+                        //SOCKET ASINCRONO INICIADO
+                        ChatModel model = new ChatModel();
+                        model.build(context);
+                        GlobalData.getInstance()!.setChatModel(model);
+                        GlobalData.getInstance()!.getChatModel().init();
+                        //SOCKET ASINCRONO INICIADO
+                        
+                        //Para que mire rol
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,

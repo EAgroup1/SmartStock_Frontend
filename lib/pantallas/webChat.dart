@@ -1,10 +1,11 @@
 //'mateapp' creates a template of our static view (stateless) 
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/chatmodel.dart';
 import 'package:rlbasic/models/globalData.dart';
 
 import 'package:rlbasic/models/message.dart';
 import 'package:rlbasic/models/user.dart';
-// import 'package:scoped_model/scoped_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 //here we don't need the navigator
 //import '../../my_navigator.dart';
@@ -16,18 +17,19 @@ import 'package:rlbasic/models/user.dart';
 
 class ChatPage extends StatefulWidget {
   User? friend = GlobalData.getInstance()!.getFriend();
-
+  
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-
-
+  var text;
+  var chatID = "12";
+  ChatModel model = GlobalData.getInstance()!.getChatModel();
 
   final TextEditingController textEditingController = TextEditingController();
-
+  /*
   //one widget
   Widget buildSingleMessage(Message message){
     return Container(
@@ -41,55 +43,77 @@ class _ChatPageState extends State<ChatPage> {
   }
 
 
-   //chat
-  //  Widget buildChatList(){
-  //    return ScopedModelDescendant<ChatModel>(
-  //      builder: (context, child, model){
-  //        //receive the list of messages from one user with X id = ChatID
-  //        List<Message> messages = model.getMessagesForChatID(widget.friend!.id);
+  //chat
+    Widget buildChatList(){
+      return ScopedModelDescendant<ChatModel>(
+        builder: (context, child, model){
+          //receive the list of messages from one user with X id = ChatID
+          List<Message> messages = model.getMessagesForChatID(widget.friend!.id);
 
-  //        return Container(
-  //          height: MediaQuery.of(context).size.height*0.75,
-  //          child: ListView.builder(
-  //            itemCount: messages.length,
-  //            itemBuilder: (BuildContext context, int index){
-  //              return buildSingleMessage(messages[index]);
-  //            },
-  //          ),
-  //        );
-  //      },
-  //    );
-  //  }
+          return Container(
+            height: MediaQuery.of(context).size.height*0.75,
+            child: ListView.builder(
+              itemCount: messages.length,
+              itemBuilder: (BuildContext context, int index){
+                return buildSingleMessage(messages[index]);
+              },
+            ),
+          );
+        },
+      );
+    }
 
-
-  //  Widget buildChatArea(){
-  //    return ScopedModelDescendant<ChatModel>(
-  //      builder: (context, child, model){
-  //        return Container(
-  //          child: Row(
-  //            children: <Widget>[
-  //              Container(
-  //                width: MediaQuery.of(context).size.width*0.8,
-  //                child: TextField(
-  //                  controller: textEditingController,
-  //                ),
-  //              ),
-  //              SizedBox(width: 10.0),
-  //              FloatingActionButton(
-  //                onPressed: (){
-  //                  model.sendMessage(textEditingController.text, widget.friend!.id);
-  //                },
-  //                elevation: 0,
-  //                child: Icon(Icons.send),
-  //              ),
-  //            ],
-  //          ),
-  //        );
-  //      },
-  //    );
-  //  }
+    
+    Widget buildChatArea(){
+      return ScopedModelDescendant<ChatModel>(
+        builder: (context, child, model){
+          return Container(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width*0.8,
+                  child: TextField(
+                    controller: textEditingController,
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                FloatingActionButton(
+                  onPressed: (){
+                    model.sendMessage(textEditingController.text, widget.friend!.id);
+                  },
+                  elevation: 0,
+                  child: Icon(Icons.send),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  */
   
-  
+  createTxtInput() {
+      return TextFormField(
+        decoration: InputDecoration(hintText: 'Escribe un mensaje'),
+        onChanged: (val) {
+          model.sendEscribiendo();
+          text = val;
+        },
+      );
+    }
+    sendTxtButton() {
+      return Container(
+          padding: const EdgeInsets.only(top: 30),
+          child: ElevatedButton(
+              child: Text(
+                'Enviar',
+              ),
+              onPressed: () {
+                model.sendMessage(text, chatID);
+              }
+          ),
+      );
+    }
   //build all areas
   @override
   Widget build(BuildContext context) {
@@ -99,9 +123,9 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: ListView(
         children: <Widget>[
-          //DO something
-          //  buildChatList(),
-          //  buildChatArea(),
+          //buildChatArea(),
+          createTxtInput(),
+          sendTxtButton(),
         ],
       ),
     );

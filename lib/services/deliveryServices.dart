@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/delivery.dart';
+import './url.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/delivery/";
+  var url = URL+"/delivery/";
 
   getDeliveriesUser(String id) async {
     try {
