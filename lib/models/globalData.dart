@@ -14,6 +14,8 @@ class GlobalData {
   late User friend;
 //CHAT
   late ChatModel model;
+  late String resetLink;
+
 //LOTE
   late String name;
   late String idlot;
@@ -41,6 +43,8 @@ class GlobalData {
   User getFriend() => this.friend;
 //CHAT
   ChatModel getChatModel() => this.model;
+  String getResetLink() => this.resetLink;
+
 //LOTS
   String getName() => this.name;
   String getIdlot() => this.idlot;
@@ -83,6 +87,11 @@ class GlobalData {
   }
 
 //LOTS
+  setResetLink(String resetLink) {
+    this.resetLink = resetLink;
+  }
+
+  //LOTS
   setName(String name) {
     this.name = name;
   }
