@@ -6,7 +6,7 @@ import 'package:rlbasic/models/delivery.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/delivery/";
+  var url = "http://localhost:3000/api/delivery/";
   //var url = "http://10.0.2.2:4000/api/delivery/";
 
   getDeliveriesUser(String id) async {
