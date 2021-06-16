@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setRole(val.data['role']); 
                         //SOCKET ASINCRONO INICIADO
                         ChatModel model = new ChatModel();
-                        model.build(context);
+                        //model.build(context);
                         GlobalData.getInstance()!.setChatModel(model);
                         GlobalData.getInstance()!.getChatModel().init();
                         //SOCKET ASINCRONO INICIADO

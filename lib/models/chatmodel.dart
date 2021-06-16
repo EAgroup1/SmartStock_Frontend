@@ -25,13 +25,13 @@ class ChatModel extends Model with ChangeNotifier {
   //late User? currentUser = UserServices().getUser(GlobalData.getInstance()!.getId());
   //We create two lists: one for the friends and the other for the messages
   late User user;
-  late List<User>? friendList;// = [UserServices().getUser("60c4f116aaaa0a33e4e27ebe")];
+  late List<User>? friendList = [UserServices().getaUser("60c4f116aaaa0a33e4e27ebe")];// = [UserServices().getUser("60c4f116aaaa0a33e4e27ebe")];
   /* = [ //FALLO AQUI
     user
     //UserServices().getUser("60c4f116aaaa0a33e4e27ebe")
     //UserServices().getUser(GlobalData.getInstance()!.getId()).friends[0]
   ];*/
-  Widget build(BuildContext context) {
+  /*Widget build(BuildContext context) {
     print("AQUI PASO");
     FutureBuilder(
       future: UserServices().getUser("60c4f116aaaa0a33e4e27ebe"),
@@ -54,7 +54,7 @@ class ChatModel extends Model with ChangeNotifier {
       }
     );
     return Container();
-  }
+  }*/
   
   List<Message>? messages = <Message>[];
   IO.Socket socket = IO.io('http://localhost:3000', <String, dynamic>{'transports': ['websocket'],'autoConnect': false,});
