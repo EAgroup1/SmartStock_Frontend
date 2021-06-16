@@ -9,7 +9,6 @@ class StoreProductsPage extends StatefulWidget {
   _StoreProductsPageState createState() => _StoreProductsPageState();
 }
 
-
 class _StoreProductsPageState extends State<StoreProductsPage> {
   Lot? lotSeleccionado;
   List<Lot> historial = [];
@@ -106,15 +105,25 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
             Text("Dimension: " + lot.dimensions),
             Text("Peso: " + lot.weight),
             Text("Cantidad: " + lot.qty.toString()),
-            Text("Cantidad mínima" + lot.minimumQty.toString()),
+            Text("Cantidad mínima: " + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
-            Text("Frágil: " + lot.isFragile.toString())
+            Text("Frágil: " + lot.isFragile.toString()),
+            Text("Almacenado: " + lot.stored.toString())
+
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
         ),
       ),
       actions: <Widget>[
+        Text("¿Enviar producto?"),
+        new FlatButton(
+          onPressed: () {
+            MyNavigator.goToSendProductsForm(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Enviar'),
+        ),
         new FlatButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -125,5 +134,4 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
       ],
     );
   }
-
 }

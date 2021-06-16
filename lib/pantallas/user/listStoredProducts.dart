@@ -5,7 +5,7 @@ import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 
-GlobalData globalData = GlobalData.getInstance()!;
+GlobalData globalDataa = GlobalData.getInstance()!;
 
 class MyProdPageMenu extends StatelessWidget {
   const MyProdPageMenu({Key? key}) : super(key: key);
@@ -15,82 +15,16 @@ class MyProdPageMenu extends StatelessWidget {
     //lateral menu
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: Text("Tu lista de Lotes"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.euro_symbol),
-            onPressed: (){
-              MyNavigator.goToChartsLotList(context);
-            },
-          )
-        ]
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Perfil',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(Icons.add_business_rounded),
-                title: Text('Buscar productos'),
-                onTap: () {
-                  MyNavigator.goToSearchProducts(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.apartment),
-                title: Text('Mis productos almacenados'),
-                onTap: () {
-                  //we comment this because this is the list of lots about one user
-                  MyNavigator.goToLotList(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
-                onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.message),
-                title: Text('Chat'),
-                onTap: () {
-                  MyNavigator.goToWebChatHomepage(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Configuración'),
-                onTap: () {
-                  MyNavigator.goToConfigUser(context);
-                }),
-          ],
-        ),
-      ),
+      appBar: AppBar(title: Text("Tu lista de Lotes"), actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.euro_symbol),
+          onPressed: () {
+            MyNavigator.goToChartsLotList(context);
+          },
+        )
+      ]),
       body: MyProdPage(),
     ));
-  }
-}
-
-//another stateless widget to indicate the behavior of the view
-class MyProdPageMenuScreen extends StatelessWidget {
-  const MyProdPageMenuScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //we need sort here
-      child: MyProdPage(),
-    );
   }
 }
 
@@ -102,7 +36,6 @@ class MyProdPage extends StatefulWidget {
 }
 
 class _MyProdPageState extends State<MyProdPage> {
-
   late var lots = <Lot>[];
   @override
   void initState() {
@@ -112,36 +45,38 @@ class _MyProdPageState extends State<MyProdPage> {
   @override
   Widget build(BuildContext context) {
     //created list
-    final lotService = new LotServices();
     List<Lot> lots;
+    final lotService = new LotServices();
 
     print("entra en el futurebuilder");
     return FutureBuilder(
-      future: lotService.getLotListByUser(globalData.getId()),
+      future: lotService.getLotListByUser(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return ListTile(title: Text('Ha habido un error :('));
-        }
         if (snapshot.hasData) {
           print("ha pasado por la lista");
           lots = snapshot.data;
-          if (lots.isEmpty) {
-            print("uno");
-            return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
-          } else
-            return buildList(context);
-        } else {
+          if (lots.isNotEmpty) {
+            return _buildList(lots);
+          } else {
+            return Center(
+                child: Text(
+              'No existe ningún lote almacenado de este usuario',
+            ));
+          }
+        }
+
+        else if (snapshot.hasError) {
+          return ListTile(title: Text('Ha habido un error :('));
+        }
+         else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
   }
 
-  Widget buildList(BuildContext context) {
-    if (lots.isEmpty) {
-      print("tres");
-      return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
-    } else {
+  Widget _buildList(List<dynamic> lots) {
+     
       return ListView.builder(
         itemCount: lots.length,
         itemBuilder: (context, index) {
@@ -149,8 +84,11 @@ class _MyProdPageState extends State<MyProdPage> {
             onTap: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) => _buildPopupDialog(context, lots[index]),
-              );
+                builder: (BuildContext context) =>
+                    _buildPopupDialog(context, lots[index]),
+              ).then((result) {
+                print(result);
+              });
             },
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -160,8 +98,7 @@ class _MyProdPageState extends State<MyProdPage> {
                     //move_to_inbox(lots in house) or inbox or al_inbox(command)
                     leading: Icon(Icons.inbox),
                     title: Text('${lots[index].name}'),
-                    subtitle:
-                        Text('${lots[index].qty}'),
+                    subtitle: Text('${lots[index].qty}'),
                   )
                 ],
               ),
@@ -169,7 +106,7 @@ class _MyProdPageState extends State<MyProdPage> {
           );
         },
       );
-    }
+    
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
@@ -182,9 +119,9 @@ class _MyProdPageState extends State<MyProdPage> {
         child: ListBody(
           children: <Widget>[
             Text("Nombre del lote: " + lot.name),
-            Text("Cantidad: " + lot.qty.toString()),
-            Text("Precio/unidad: " + lot.price.toString()),
-            Text("Compañía: " + lot.businessItem.userName.toString())
+            Text("Cantidad: " + lot.qty),
+            Text("Precio/unidad: " + lot.price),
+            Text("Compañía: " + lot.businessItem.userName)
           ],
         ),
       ),
@@ -200,5 +137,3 @@ class _MyProdPageState extends State<MyProdPage> {
     );
   }
 }
-
-
