@@ -6,6 +6,8 @@ import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
+List listOptions = ["listAscPriceSort", "listAscQtySort"];
+// String _selectedOption;
 
 class MyProdPageMenu extends StatelessWidget {
   const MyProdPageMenu({Key? key}) : super(key: key);
@@ -76,7 +78,47 @@ class MyProdPageMenu extends StatelessWidget {
           ],
         ),
       ),
-      body: MyProdPage(),
+      body: new Container(
+        child: new Column(
+          children: [
+            //begin one widget
+            new Container(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  padding: EdgeInsets.only(left:16, right: 16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  // child: DropdownButton(
+                  //   hint: Text("Order list by:"),
+                  //   dropdownColor: Colors.white,
+                  //   icon: Icon(Icons.arrow_drop_down),
+                  //   iconSize: 36,
+                  //   isExpanded: true,
+                  //   underline: SizedBox(),
+                  //   style: TextStyle(
+                  //     color: Colors.black,
+                  //     fontSize: 22
+                  //   ),
+                  //   value: listOptions,
+                  //   onChanged: (newValue) {
+                  //     setState(() {
+                  //       listOptions = newValue;
+                  //     });
+                  //   },
+                  // ),
+                ),
+              ),
+            ),
+            //begin other widget
+            new Container(
+              child: MyProdPage(),
+            ),
+          ],
+        ),
+      ),
     ));
   }
 }
