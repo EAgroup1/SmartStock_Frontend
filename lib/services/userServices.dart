@@ -132,13 +132,14 @@ class UserServices {
     };
   }
 
-  register(name, email, password) async {
+  register(name, email, password, location) async {
     try {
       return await dio.post(url + 'signUp',
           data: {
             "userName": name,
             "email": email,
             "password": password,
+            "location": location
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {

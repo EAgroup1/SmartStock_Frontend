@@ -8,6 +8,7 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late String location;
 
 //LOTE
   late String name;
@@ -34,6 +35,7 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
+  String getLocation() => this.location;
 
 //LOTS
   String getName() => this.name;
@@ -66,6 +68,10 @@ class GlobalData {
 
   setRole(String role) {
     this.role = role;
+  }
+
+   setLocation(String location) {
+    this.location = location;
   }
 
   //LOTS
