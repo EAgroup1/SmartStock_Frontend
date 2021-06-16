@@ -5,7 +5,7 @@ import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 
-GlobalData globalData = GlobalData.getInstance()!;
+GlobalData globalDataa = GlobalData.getInstance()!;
 
 class MyProdPageMenu extends StatelessWidget {
   const MyProdPageMenu({Key? key}) : super(key: key);
@@ -105,7 +105,7 @@ class _MyProdPageState extends State<MyProdPage> {
     super.initState();
   }
 
-  final lotService = new LotServices();
+  final lotService = new lotServices();
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _MyProdPageState extends State<MyProdPage> {
 
     print("entra en el futurebuilder");
     return FutureBuilder(
-      future: lotService.getLotListByUser(globalData.getId()),
+      future: lotService.getLotListByUser(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           return ListTile(title: Text('Ha habido un error :('));
