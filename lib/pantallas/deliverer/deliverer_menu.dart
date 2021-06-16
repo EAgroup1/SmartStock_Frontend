@@ -34,9 +34,9 @@ class DelivererMenu extends StatelessWidget {
             ),
             ListTile(
                 leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
+                title: Text('Volver'),
                 onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
+                  MyNavigator.goToDeliverer(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),
@@ -107,7 +107,7 @@ class _Aentregar extends State<Aentregar> {
         if (snapshot.hasData) {
           this.deliveries = snapshot.data;
           if (deliveries.isEmpty) {
-            return Center(child: Text("No hay nada que prepara"));
+            return Center(child: Text("No hay nada que entregar"));
           } else
             return buildList(context);
         } else {
@@ -119,7 +119,7 @@ class _Aentregar extends State<Aentregar> {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(child: Text("No hay nuevas entregas"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,
@@ -232,7 +232,7 @@ class NuevaEntrega extends StatelessWidget {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(child: Text("No hay nada que preparar"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,

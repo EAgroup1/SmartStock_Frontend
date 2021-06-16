@@ -17,7 +17,7 @@ class Lot {
   String id;
   String minimumQty;
   User businessItem;
-  //late User userItem;
+  //User userItem;
   late bool stored;
 
   Lot(this.name, this.qty, this.price, this.id, this.minimumQty,

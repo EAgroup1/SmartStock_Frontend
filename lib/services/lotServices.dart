@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/main.dart';
 import 'package:rlbasic/models/lot.dart';
 
 class lotServices {
@@ -40,7 +41,6 @@ class lotServices {
       }
     }
   }
-
 
   getLotsSameName(String name) async {
     try {
@@ -124,9 +124,6 @@ class lotServices {
     }
   }
 
-
-
-
   //Lot List of one user trough id
   getLotListByUser(String id) async {
     try {
@@ -142,7 +139,6 @@ class lotServices {
     }
   }
 
-  
   getLotListByBusiness(String id) async {
     try {
       final resp = await dio.get('$url' + 'getByBusiness/' + '$id');
@@ -156,6 +152,4 @@ class lotServices {
           timeInSecForIosWeb: 3);
     }
   }
-
-
 }

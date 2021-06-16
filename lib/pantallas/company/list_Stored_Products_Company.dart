@@ -145,7 +145,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                     ListTile(
                       leading: Icon(Icons.arrow_right),
                       title: Text('${lots[i].name}'),
-                      subtitle: Text('Informacion: ${lots[i].info}'),
+                      subtitle: Text('Cantidad: ${lots[i].qty}'),
                       // title: Text(
                       //   lote.name,
                       //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
