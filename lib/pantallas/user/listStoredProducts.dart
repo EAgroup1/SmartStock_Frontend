@@ -23,71 +23,8 @@ class MyProdPageMenu extends StatelessWidget {
           },
         )
       ]),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Perfil',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(Icons.add_business_rounded),
-                title: Text('Buscar productos'),
-                onTap: () {
-                  MyNavigator.goToSearchProducts(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.apartment),
-                title: Text('Mis productos almacenados'),
-                onTap: () {
-                  //we comment this because this is the list of lots about one user
-                  MyNavigator.goToLotList(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
-                onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.message),
-                title: Text('Chat'),
-                onTap: () {
-                  MyNavigator.goToWebChatHomepage(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Configuración'),
-                onTap: () {
-                  MyNavigator.goToConfigUser(context);
-                }),
-          ],
-        ),
-      ),
       body: MyProdPage(),
     ));
-  }
-}
-
-//another stateless widget to indicate the behavior of the view
-class MyProdPageMenuScreen extends StatelessWidget {
-  const MyProdPageMenuScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //we need sort here
-      child: MyProdPage(),
-    );
   }
 }
 

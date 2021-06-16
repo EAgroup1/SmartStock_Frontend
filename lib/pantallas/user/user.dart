@@ -41,7 +41,7 @@ class UserPage extends StatelessWidget {
                 leading: Icon(Icons.apartment),
                 title: Text('Mis productos almacenados'),
                 onTap: () {
-                  Navigator.of(context).pushNamed("");
+                   MyNavigator.goToLotList(context);
                 }),
             ListTile(
                 leading: Icon(Icons.motorcycle),
