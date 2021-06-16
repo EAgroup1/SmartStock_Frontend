@@ -5,9 +5,11 @@ import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/pantallas/company/list_Stored_Products_Company.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
+import 'package:rlbasic/pantallas/company/send_products_form.dart';
 import 'package:rlbasic/pantallas/company/store_products.dart';
 import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
+import 'package:rlbasic/pantallas/deliverer/deliverer_menu.dart';
 import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/register.dart';
 //DELETE
@@ -41,7 +43,7 @@ var routes = <String, WidgetBuilder>{
   "/forgotpassword": (BuildContext context) => ForgotPass(),
   "/chathomepage": (BuildContext context) => AllChatsPage(),
   "/chathomepage/webchat": (BuildContext context) => ChatPage(),
-  "/user/lotlist": (BuildContext context) => MyProdPage(),
+  "/user/lotlist": (BuildContext context) => MyProdPageMenu(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user": (BuildContext context) => UserPage(),
   "/user/deliveries": (BuildContext context) => DeliveryMenu(),
@@ -51,6 +53,9 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
   "/delete":(BuildContext context) => DeletePage(),
+  "/deliverer/deliveries": (BuildContext context) => DelivererMenu(),
+  "/company/sendprodutsform" : (BuildContext context) => SendProductsForm()
+
  
 };
 
@@ -140,6 +145,14 @@ class MyNavigator {
 
   static void goToStoreProductsAdd(BuildContext context) {
     Navigator.pushNamed(context, "/company/storeproducts/add");
+  }
+
+    static void goToDeliverPage(BuildContext context) {
+    Navigator.pushNamed(context, "/deliverer/deliveries");
+  }
+
+    static void goToSendProductsForm(BuildContext context) {
+    Navigator.pushNamed(context, "/company/sendprodutsform");
   }
 
 }

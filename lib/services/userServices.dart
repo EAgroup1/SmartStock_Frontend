@@ -21,8 +21,8 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 
 class UserServices {
   Dio dio = new Dio();
-  var url = URL+"/users/";
-  late DioExceptions dioExceptions;
+  var url = URL + "/users/";
+  /* late DioExceptions dioExceptions; */
 
   login(email, password) async {
     print(email);
@@ -81,7 +81,7 @@ class UserServices {
     }
   }
 
-  getUser(String id) async{
+  getUser(String id) async {
     try {
       final resp = await dio.get(url+id,
         options: Options(contentType: Headers.formUrlEncodedContentType)
@@ -158,12 +158,10 @@ class UserServices {
         options: Options(contentType: Headers.formUrlEncodedContentType)
       );
       print(resp.data);
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return [];
     }
-
   }
 
   Future<Response> loginGoogle() async {
@@ -171,10 +169,15 @@ class UserServices {
       await _googleSignIn.signIn();
       try {
         final user = await dio.post(url + 'logInGoogle',
-            data: {"email": _googleSignIn.currentUser!.email, "userName": _googleSignIn.currentUser!.displayName, "password": _googleSignIn.currentUser!.id, "avatar": _googleSignIn.currentUser!.photoUrl},
+            data: {
+              "email": _googleSignIn.currentUser!.email,
+              "userName": _googleSignIn.currentUser!.displayName,
+              "password": _googleSignIn.currentUser!.id,
+              "avatar": _googleSignIn.currentUser!.photoUrl
+            },
             options: Options(contentType: Headers.formUrlEncodedContentType));
-            print(user);
-            return user;
+        print(user);
+        return user;
       } on DioError catch (e) {
         Fluttertoast.showToast(
             msg: e.response?.data['msg'],
@@ -201,11 +204,51 @@ class UserServices {
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
-        Fluttertoast.showToast(
-            msg: 'El email ya existe',
+        switch (e.type) {
+          case DioErrorType.cancel:
+            Fluttertoast.showToast(
+            msg: "Cancelada la respuesta de la API",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3);
+            timeInSecForIosWeb: 1);
+            break;
+          case DioErrorType.connectTimeout:
+            Fluttertoast.showToast(
+            msg: "Conexión con la API expirada",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            break;
+          case DioErrorType.receiveTimeout:
+           Fluttertoast.showToast(
+            msg: "Tiempo expirado al conectar con el servidor API",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            break;
+          case DioErrorType.response:
+           Fluttertoast.showToast(
+            msg: _handleError(
+                e.response!.statusCode!, e.response!.data),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            break;
+          case DioErrorType.sendTimeout:
+            Fluttertoast.showToast(
+            msg: "URL Timeout",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            break;
+          default:
+            Fluttertoast.showToast(
+            msg: "Algo ha ido mal",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1);
+            break;
+        }
       }
 
       // if (e.response!.statusCode == 409) {
@@ -218,31 +261,6 @@ class UserServices {
     }
   }
 }
-
-class DioExceptions implements Exception {
-  DioExceptions.fromDioError(DioError dioError) {
-    switch (dioError.type) {
-      case DioErrorType.cancel:
-        message = "Request to API server was cancelled";
-        break;
-      case DioErrorType.connectTimeout:
-        message = "Connection timeout with API server";
-        break;
-      case DioErrorType.receiveTimeout:
-        message = "Receive timeout in connection with API server";
-        break;
-      case DioErrorType.response:
-        message = _handleError(
-            dioError.response!.statusCode!, dioError.response!.data);
-        break;
-      case DioErrorType.sendTimeout:
-        message = "Send timeout in connection with API server";
-        break;
-      default:
-        message = "Something went wrong";
-        break;
-    }
-  }
 
   String message = '';
 
@@ -284,4 +302,4 @@ class DioExceptions implements Exception {
   //   }
   // }
 
-}
+
