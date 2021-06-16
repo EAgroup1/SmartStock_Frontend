@@ -42,43 +42,41 @@ class _MyProdPageState extends State<MyProdPage> {
     super.initState();
   }
 
-  final lotService = new lotServices();
-
   @override
   Widget build(BuildContext context) {
     //created list
     List<Lot> lots;
+    final lotService = new lotServices();
 
     print("entra en el futurebuilder");
     return FutureBuilder(
       future: lotService.getLotListByUser(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return ListTile(title: Text('Ha habido un error :('));
-        }
         if (snapshot.hasData) {
           print("ha pasado por la lista");
           lots = snapshot.data;
-          if (lots.isEmpty) {
-            print("uno");
+          if (lots.isNotEmpty) {
+            return _buildList(lots);
+          } else {
             return Center(
-                child:
-                    Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
-          } else
-            return buildList(context);
-        } else {
+                child: Text(
+              'No existe ningún lote almacenado de este usuario',
+            ));
+          }
+        }
+
+        else if (snapshot.hasError) {
+          return ListTile(title: Text('Ha habido un error :('));
+        }
+         else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
   }
 
-  Widget buildList(BuildContext context) {
-    if (lots.isEmpty) {
-      print("tres");
-      return Center(
-          child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
-    } else {
+  Widget _buildList(List<dynamic> lots) {
+     
       return ListView.builder(
         itemCount: lots.length,
         itemBuilder: (context, index) {
@@ -88,7 +86,9 @@ class _MyProdPageState extends State<MyProdPage> {
                 context: context,
                 builder: (BuildContext context) =>
                     _buildPopupDialog(context, lots[index]),
-              );
+              ).then((result) {
+                print(result);
+              });
             },
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -106,7 +106,7 @@ class _MyProdPageState extends State<MyProdPage> {
           );
         },
       );
-    }
+    
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
@@ -119,9 +119,9 @@ class _MyProdPageState extends State<MyProdPage> {
         child: ListBody(
           children: <Widget>[
             Text("Nombre del lote: " + lot.name),
-            Text("Cantidad: " + lot.qty.toString()),
-            Text("Precio/unidad: " + lot.price.toString()),
-            Text("Compañía: " + lot.businessItem.userName.toString())
+            Text("Cantidad: " + lot.qty),
+            Text("Precio/unidad: " + lot.price),
+            Text("Compañía: " + lot.businessItem.userName)
           ],
         ),
       ),
