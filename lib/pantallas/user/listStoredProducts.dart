@@ -109,11 +109,10 @@ class _MyProdPageState extends State<MyProdPage> {
     super.initState();
   }
 
-  final lotService = new LotServices();
-
   @override
   Widget build(BuildContext context) {
     //created list
+    final lotService = new LotServices();
     List<Lot> lots;
 
     print("entra en el futurebuilder");

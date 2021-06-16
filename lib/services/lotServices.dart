@@ -143,23 +143,17 @@ class LotServices {
   //Lot List of one user trough id
   getLotListByUser(String id) async {
     try {
-      final resp = await dio.get('$url' + 'getByUser/' + '$id', options: Options(contentType: Headers.formUrlEncodedContentType));
+      final resp = await dio.get('$url' + 'getByUser/' + '$id');
       print(resp.data);
-      final List<Lot> lotList;
-      lotList = (resp.data as List).map((i) => Lot.fromJson(i)).toList();
-      print("empieza a devolver lista");
-      return lotList;
+      final List<dynamic> lotList = resp.data;
+      return lotList.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
       print(e);
-      if(e is DioError){
-        Fluttertoast.showToast(
+      Fluttertoast.showToast(
           msg: 'No hay ningún lote de este usuario',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 3);
-      }
-      final List<Lot> lotList = [];
-      return lotList;
     }
   }
 
