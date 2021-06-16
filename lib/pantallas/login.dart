@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
+import 'package:rlbasic/pantallas/user/mapa.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
 
-                        if (globalData.getRole() == "Business"){
+                        if (globalData.getRole() == "Business") {
                           MyNavigator.goToCompany(context);
                         }else if (globalData.getRole() == "Storage"){
                           MyNavigator.goToUser(context);
@@ -153,7 +154,17 @@ class _LoginPageState extends State<LoginPage> {
                 MyNavigator.goToRegister(context);
               },
             ),
-          )
+          ),
+          ElevatedButton(
+              child: Text(
+                'pruebas',
+              ),
+              onPressed: () {
+                MyNavigator.goToBankData(context);
+                /*  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Mapa()));
+               */
+              })
         ],
       );
     }

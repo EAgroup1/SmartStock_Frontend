@@ -23,11 +23,11 @@ class _SendProductsPageState extends State<SendProductsPage> {
       appBar: AppBar(
         title: Text('Envio de productos'),
       ),
-      body: _lotsended(lots),
+      body: _lottosend(lots),
     );
   }
 
-  Widget _lotsended(List<dynamic> lots){
+  Widget _lottosend(List<dynamic> lots){
     // TODO: implement buildSuggestions
     //show when someone searches for something
     final allLots = new LotServices();

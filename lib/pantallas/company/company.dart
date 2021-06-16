@@ -15,7 +15,7 @@ class _CompanyPageState extends State<CompanyPage> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('¡Bienvenido tienda ' + globalData.getUserName() + '!'),
+        title: Text('¡Bienvenida compañia ' + globalData.getUserName() + '!'),
       ),
       drawer: Drawer(
         child: ListView(

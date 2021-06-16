@@ -5,7 +5,7 @@ import './url.dart';
 
 class LotServices {
   Dio dio = new Dio();
-  var url = URL+"/lots/";
+  var url = URL + "/lots/";
 
   postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
       String businessItem) async {
@@ -28,13 +28,13 @@ class LotServices {
             "price": price,
             "minimumQty": minimumQty,
             "isFragile": isFragile,
-            "businessItem": businessItem
+            "businessItem": businessItem,
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
         Fluttertoast.showToast(
-            msg: 'Error',
+            msg: 'No se ha podido añadir',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);

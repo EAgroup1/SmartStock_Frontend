@@ -126,7 +126,8 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
     }
 
     createisFragileInput() {
-      return Switch(
+      return SwitchListTile(
+        title: const Text('¿Frágil?'),
         value: isFragile,
         onChanged: (value) {
           setState(() {
