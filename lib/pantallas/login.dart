@@ -150,10 +150,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               onPressed: () {
                 MyNavigator.goToBankData(context);
-                /*  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Mapa()));
+/*                   Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Prueba()));
                */
-              })
+              }) 
         ],
       );
     }
