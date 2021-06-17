@@ -170,6 +170,7 @@ class DataSearch extends SearchDelegate<Lot?> {
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final addUserIntoLot = new lotServices();
+    final delivery = new DeliveryServices();
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
@@ -193,6 +194,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot, globalData.id);
             MyNavigator.goToSearchProducts(context);
+            delivery.createDelivery(lot, globalData.id);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

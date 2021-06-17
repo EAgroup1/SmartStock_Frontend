@@ -17,6 +17,7 @@ class lotServices {
     print(price);
     print(isFragile);
     print(businessItem);
+    
 
     try {
       return await dio.post(url,
