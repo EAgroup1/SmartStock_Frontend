@@ -5,7 +5,7 @@ import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
-import 'package:rlbasic/pantallas/user/mapa.dart';
+import 'package:rlbasic/pantallas/deliverer/mapa.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
@@ -17,7 +17,8 @@ class DelivererMenu extends StatelessWidget {
 /*       appBar: AppBar(
         title: Text('Menú'),
       ),
-       */drawer: Drawer(
+       */
+      drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -145,15 +146,20 @@ class _Aentregar extends State<Aentregar> {
                     subtitle:
                         Text('Pick up day: ${deliveries[index].deliveryDate}'),
                     trailing: IconButton(
-                      icon: Icon(
-                        Icons.map,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
-                         Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => Mapa()));
-               
-                      }),
+                        icon: Icon(
+                          Icons.map,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          late var location;
+                          if (deliveries[index].isPicked == false)
+                            location = deliveries[index].originLocation;
+                          else
+                            location = deliveries[index].destinationItem;
+                            //enviar location y id delivery a mapas
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Mapa()));
+                        }),
                   )
                 ],
               ),
@@ -172,8 +178,8 @@ class _Aentregar extends State<Aentregar> {
     bool isDelivered = delivery.isDelivered;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-        return new AlertDialog(
-          title:Text(delivery.businessItem.userName),
+      return new AlertDialog(
+          title: Text(delivery.businessItem.userName),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           content: new Form(
@@ -182,80 +188,75 @@ class _Aentregar extends State<Aentregar> {
               mainAxisSize: MainAxisSize.min,
               //  crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-               SizedBox(height: 12.0),
+                SizedBox(height: 12.0),
                 Text(delivery.id),
-                
                 Text('Origen locat'),
-                if(delivery.isPicked==false)
+                if (delivery.isPicked == false)
                   CheckboxListTile(
-                  title: const Text('Package picked'),
-                  value: isPicked,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isPicked = value!;
-                    });
-                  },
-                  activeColor: Colors.green,
-                  checkColor: Colors.black,
-                ),
-                
-                Text('Desti locat'),
-                if(delivery.isDelivered==false && delivery.isPicked==true)
-                  CheckboxListTile(
-                    title: const Text('Package delivered'),
-                    value: isDelivered,
+                    title: const Text('Package picked'),
+                    value: isPicked,
+                    controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (bool? value) {
-                      setState(() { isDelivered = value!; });
+                      setState(() {
+                        isPicked = value!;
+                      });
                     },
-                    controlAffinity: 
-                      ListTileControlAffinity.leading
-                  ),                
-               ],
+                    activeColor: Colors.green,
+                    checkColor: Colors.black,
+                  ),
+                Text('Desti locat'),
+                if (delivery.isDelivered == false && delivery.isPicked == true)
+                  CheckboxListTile(
+                      title: const Text('Package delivered'),
+                      value: isDelivered,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isDelivered = value!;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading),
+              ],
             ),
           ),
-          actions:[
-             FlatButton(
-                        child: Text('Salir'),
-                        shape: StadiumBorder(),
-                        color: Colors.green,
-                        textColor: Colors.white,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                      }),
-                      FlatButton(
-                          child: Text('Guardar'),
-                          shape: StadiumBorder(),
-                          color: Colors.green,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            if(delivery.isPicked!=isPicked){
-                              DeliveryServices().setIsPicked(delivery.id).then((val) {
-                              if (val.statusCode == 200) {
-                                print('guardado correctamente');
-                                Navigator.of(context).pop();
-                                MyNavigator.goToDeliverPage(context);
-                              } else {
-                                print('Algo ha ido mal, pruebalo mas tarde...');
-                              }
-                            });                              
-                            }
-                            if(delivery.isDelivered!=isDelivered){
-                              DeliveryServices().setIsDelivered(delivery.id).then((val) {
-                              if (val.statusCode == 200) {
-                                print('guardado correctamente');
-                                Navigator.of(context).pop();
-                                MyNavigator.goToDeliverPage(context);
-                              } else {
-                                print('Algo ha ido mal, pruebalo mas tarde...');
-                              }
-                            });                              
-                            }                            
-
-                         }),
-                   
-          ]
-);
+          actions: [
+            FlatButton(
+                child: Text('Salir'),
+                shape: StadiumBorder(),
+                color: Colors.green,
+                textColor: Colors.white,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            FlatButton(
+                child: Text('Guardar'),
+                shape: StadiumBorder(),
+                color: Colors.green,
+                textColor: Colors.white,
+                onPressed: () {
+                  if (delivery.isPicked != isPicked) {
+                    DeliveryServices().setIsPicked(delivery.id).then((val) {
+                      if (val.statusCode == 200) {
+                        print('guardado correctamente');
+                        Navigator.of(context).pop();
+                        MyNavigator.goToDeliverPage(context);
+                      } else {
+                        print('Algo ha ido mal, pruebalo mas tarde...');
+                      }
+                    });
+                  }
+                  if (delivery.isDelivered != isDelivered) {
+                    DeliveryServices().setIsDelivered(delivery.id).then((val) {
+                      if (val.statusCode == 200) {
+                        print('guardado correctamente');
+                        Navigator.of(context).pop();
+                        MyNavigator.goToDeliverPage(context);
+                      } else {
+                        print('Algo ha ido mal, pruebalo mas tarde...');
+                      }
+                    });
+                  }
+                }),
+          ]);
     });
   }
 }

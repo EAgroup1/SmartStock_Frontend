@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
-import 'package:rlbasic/pantallas/user/mapa.dart';
+import 'package:rlbasic/pantallas/deliverer/mapa.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
