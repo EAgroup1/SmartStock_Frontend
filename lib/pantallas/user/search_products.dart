@@ -188,8 +188,8 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu casa?"),
         new FlatButton(
           onPressed: () {
-            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             Navigator.of(context).pop('Accept');
+            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot, globalData.id);
             MyNavigator.goToSearchProducts(context);

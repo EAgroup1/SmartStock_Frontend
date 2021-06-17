@@ -78,12 +78,9 @@ class DeliveryServices {
     }
   }
 
-  createDelivery(
-      Lot lot,
-      String userItem) async {
+  createDelivery(Lot lot, String userItem) async {
     print(lot);
     print(userItem);
-
     try {
       return await dio.post(url,
       data: {

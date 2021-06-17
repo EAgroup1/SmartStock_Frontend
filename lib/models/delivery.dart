@@ -13,16 +13,31 @@ class Delivery {
   @JsonKey(name: '_id')
   String id;
   String originLocation;
-  String? destinationLocation;
-  bool isPicked;
-  bool isDelivered;
-  String deliveryDate;
+  String destinationLocation;
+  User destinationItem;
+  String? deliveryDate;
+  bool? isPicked;
+  bool? isDelivered;
+  bool? isReady;
   User businessItem;
-  User? userItem;
-  String description;
+  bool? isAssigned;
+  User userItem;
+  String? description;
 
-  Delivery(this.lot, this.id, this.deliveryDate, this.businessItem,
-      this.description, this.originLocation, this.isDelivered, this.isPicked);
+  Delivery(
+      this.destinationLocation,
+      this.destinationItem,
+      this.isReady,
+      this.isAssigned,
+      this.userItem,
+      this.lot,
+      this.id,
+      this.deliveryDate,
+      this.businessItem,
+      this.description,
+      this.originLocation,
+      this.isDelivered,
+      this.isPicked);
 
   /// Un método constructor de tipo factory es necesario para crear una nueva instancia User
   /// desde un mapa. Pasa el mapa al constructor auto-generado `_$UserFromJson()`.
