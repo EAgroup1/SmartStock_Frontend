@@ -107,8 +107,8 @@ class lotServices {
   // }
 
   addNewLotToUser(String id, String userID) async {
-    print(id + 'id LOTE');
-    print(userID + 'id userItem');
+    print('id: ' + id);
+    print('id userItem: ' + userID);
     try {
       final resp = await dio.put('$url' + '$id',
           data: {"userItem": userID},
