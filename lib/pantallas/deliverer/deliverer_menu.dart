@@ -5,6 +5,7 @@ import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/user/mapa.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
@@ -13,10 +14,10 @@ class DelivererMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+/*       appBar: AppBar(
         title: Text('Menú'),
       ),
-      drawer: Drawer(
+       */drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -107,7 +108,7 @@ class _Aentregar extends State<Aentregar> {
         if (snapshot.hasData) {
           this.deliveries = snapshot.data;
           if (deliveries.isEmpty) {
-            return Center(child: Text("No tienes assigando ningun pedido"));
+            return Center(child: Text("No tienes asigado ningun pedido"));
           } else
             return buildList(context);
         } else {
@@ -143,6 +144,16 @@ class _Aentregar extends State<Aentregar> {
                     title: Text('${deliveries[index].businessItem.userName}'),
                     subtitle:
                         Text('Pick up day: ${deliveries[index].deliveryDate}'),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.map,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                         Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => Mapa()));
+               
+                      }),
                   )
                 ],
               ),
@@ -162,6 +173,7 @@ class _Aentregar extends State<Aentregar> {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
         return new AlertDialog(
+          title:Text(delivery.businessItem.userName),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           content: new Form(
@@ -171,7 +183,6 @@ class _Aentregar extends State<Aentregar> {
               //  crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                SizedBox(height: 12.0),
-                Text(delivery.businessItem.userName),
                 Text(delivery.id),
                 
                 Text('Origen locat'),
@@ -199,12 +210,12 @@ class _Aentregar extends State<Aentregar> {
                     },
                     controlAffinity: 
                       ListTileControlAffinity.leading
-                  ),
-                
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FlatButton(
+                  ),                
+               ],
+            ),
+          ),
+          actions:[
+             FlatButton(
                         child: Text('Salir'),
                         shape: StadiumBorder(),
                         color: Colors.green,
@@ -242,10 +253,9 @@ class _Aentregar extends State<Aentregar> {
                             }                            
 
                          }),
-                    ])
-              ],
-            ),
-          ));
+                   
+          ]
+);
     });
   }
 }
@@ -276,7 +286,7 @@ class NuevaEntrega extends StatelessWidget {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(child: Text("No hay entregas por hacer"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,
