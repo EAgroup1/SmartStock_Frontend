@@ -78,7 +78,7 @@ class DeliveryServices {
     }
   }
 
-  createDelivery(Lot lot, String userItem) async {
+  createDelivery(String lot, String userItem) async {
     print(lot);
     print(userItem);
     try {

@@ -191,7 +191,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             Navigator.of(context).pop('Accept');
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
-            delivery.createDelivery(lot, globalData.id);
+            delivery.createDelivery(lot.id, globalData.id);
             MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,
