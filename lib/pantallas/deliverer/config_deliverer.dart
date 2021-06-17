@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
+import '../../my_navigator.dart';
+import 'package:rlbasic/models/globalData.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
+
 
 class ConfigDelivererPage extends StatefulWidget {
   @override
@@ -40,13 +45,13 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
         stack(),
         ListTile(
             leading: Icon(Icons.house),
-            title: Text('Nombre'),
+            title: Text(globalData.userName),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
         ListTile(
             leading: Icon(Icons.email),
-            title: Text('E-mail'),
+            title: Text(globalData.email),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
@@ -54,7 +59,7 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
             leading: Icon(Icons.security),
             title: Text('Cambia la contraseña'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToForgotPassword(context);
             }),
         ListTile(
             leading: Icon(Icons.info),
@@ -78,13 +83,19 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
             leading: Icon(Icons.info),
             title: Text('Términos y Condiciones'),
             onTap: () {
-              Navigator.of(context).pushNamed("");
+              MyNavigator.goToTerms(context);
             }),
         ListTile(
             leading: Icon(Icons.account_balance),
             title: Text('Cuenta bancaria'),
             onTap: () {
               Navigator.of(context).pushNamed("");
+            }),
+            ListTile(
+            leading: Icon(Icons.arrow_circle_down_rounded),
+            title: Text('Cerrar sesión'),
+            onTap: () {
+              MyNavigator.goToLogin(context);
             })
       ],
     ));

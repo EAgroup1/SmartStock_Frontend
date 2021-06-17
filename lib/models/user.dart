@@ -1,13 +1,29 @@
-class User {
-  String username;
-  String email;
-  String password;
-  late String role;
-  late String name;
-  late String lastname;
-  late String salary;
-  late String id;
-  late String token;
+import 'package:json_annotation/json_annotation.dart';
 
-  User(this.username, this.email, this.password);
+part 'user.g.dart';
+
+@JsonSerializable()
+class User {
+  String userName;
+  String email;
+  @JsonKey(name: '_id')
+  String id;
+  String bank;
+  String role;
+  User(this.id, this.userName, this.email, this.bank, this.role);
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  /* User.fromJson(Map<String, dynamic> json)
+      : id = json['_id'],
+        userName = json['userName'],
+        email = json['email'];
+
+  Map <String, dynamic> toJson() =>
+  {
+    'userName':userName,
+    'email':email,
+  }; */
 }

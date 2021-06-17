@@ -1,14 +1,17 @@
-import 'package:rlbasic/models/_aux.dart';
+import 'package:dio/dio.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
+import 'package:rlbasic/pantallas/user/mapa.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'user/user.dart';
 import 'splashScreen.dart';
+
+GlobalData globalData = GlobalData.getInstance()!;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -23,15 +26,24 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
+  User user = User('', '', '', '', '');
+  Dio dioerror = new Dio();
 
   @override
   Widget build(BuildContext context) {
     createEmailInput() {
       return TextFormField(
         decoration: InputDecoration(hintText: 'Email'),
+        controller: TextEditingController(text: user.email),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un email';
+          } else if (RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(value)) {
+            return null;
+          } else {
+            return 'Introduce un correo válido';
           }
         },
         onChanged: (val) {
@@ -70,20 +82,24 @@ class _LoginPageState extends State<LoginPage> {
                       print(val.data);
                       print(val.statusCode);
                       if (val.statusCode == 200) {
-                        Aux aux = new Aux(
-                            val.data['_id'],
-                            val.data['token'],
-                            val.data['userName']);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserPage(aux: aux)),
-                        );
-                        //MyNavigator.goToUser(context);
+                        globalData.setId(val.data['_id']);
+                        globalData.setToken(val.data['token']);
+                        globalData.setUserName(val.data['userName']);
+                        globalData.setEMail(email);
+                        globalData
+                            .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
                             toastLength: Toast.LENGTH_SHORT,
                             timeInSecForIosWeb: 6);
+
+                        if (globalData.getRole() == "Business") {
+                          MyNavigator.goToCompany(context);
+                        }else if (globalData.getRole() == "Storage"){
+                          MyNavigator.goToUser(context);
+                        }else{
+                          MyNavigator.goToDeliverer(context);
+                        }
                       } else if (val.statusCode == 401) {
                         Fluttertoast.showToast(
                             msg: 'Email o contraseña incorrectos',
@@ -115,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               child: Text('¿Has olvidado la contraseña?'),
               onPressed: () {
-                MyNavigator.goToTerms(context);
+                MyNavigator.goToForgotPassword(context);
               },
             ),
           ),
@@ -127,7 +143,17 @@ class _LoginPageState extends State<LoginPage> {
                 MyNavigator.goToRegister(context);
               },
             ),
-          )
+          ),
+          ElevatedButton(
+              child: Text(
+                'pruebas',
+              ),
+              onPressed: () {
+                MyNavigator.goToBankData(context);
+                /*  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Mapa()));
+               */
+              })
         ],
       );
     }
@@ -174,16 +200,56 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text('Entrar con Google', textAlign: TextAlign.center),
               )
             ]),
-            onPressed: () {},
+            onPressed: () {
+              try {
+                  UserServices().loginGoogle().then((val) {
+                    if (val.statusCode == 200) {
+                      print(val.data);
+                      print(val.data['_id']);
+                      print(val.data['userName']);
+                      print(val.data['email']);
+                      print(val.data['role']);
+                      globalData.setId(val.data['_id']);
+                      globalData.setUserName(val.data['userName']);
+                      globalData.setEMail(val.data['email']);
+                      if (val.data['role'] == null) {
+                        MyNavigator.goToBankData(context);
+                      }else if (val.data['role'] == "Business"){
+                        MyNavigator.goToCompany(context);
+                      }else if (val.data['role'] == "Storage"){
+                      MyNavigator.goToCompany(context);
+                    }else{
+                      MyNavigator.goToUser(context);
+                    }
+
+                    } else if (val.statusCode == 401) {
+                      Fluttertoast.showToast(
+                          msg: 'Email o contraseña incorrectos',
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Error",
+                          toastLength: Toast.LENGTH_SHORT,
+                          timeInSecForIosWeb: 6);
+                    }
+                  });
+              } catch (err) {
+                print(err);
+                Fluttertoast.showToast(
+                    msg: err.toString(),
+                    toastLength: Toast.LENGTH_SHORT,
+                    timeInSecForIosWeb: 6);
+              }
+            }
           ));
     }
 
     return Material(
         child: Form(
       key: _formKey,
-      child: Column(
-        //   padding: EdgeInsets.symmetric(horizontal: 30.0),
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: ListView(
+        padding: const EdgeInsets.all(30),
         children: <Widget>[
           Image.asset(
             'assets/images/smartstock.jpeg',

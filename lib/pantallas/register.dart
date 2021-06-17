@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/models/_aux.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 import 'package:rlbasic/pantallas/termsAndConditions.dart';
 import 'package:rlbasic/services/userServices.dart';
+import 'package:rlbasic/pantallas/bankData.dart';
+import '../my_navigator.dart';
+
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -13,7 +16,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   var name, email, password, conpassword, token, id;
-  late final User user;
+  bool termsAccepted = false;
+  User user = User('', '', '', '', '');
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,12 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce un correo';
+          } else if (RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(value)) {
+            return null;
+          } else {
+            return 'Introduce un correo válido';
           }
         },
         onChanged: (val) {
@@ -51,8 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
-          }
-          if (value != password) {
+          } else if (value.length < 3) {
+            return 'Introduce una contraseña de más de 3 carácteres';
+          } else if (conpassword != password) {
             return 'Las contraseñas han de ser iguales';
           }
         },
@@ -70,6 +81,8 @@ class _RegisterPageState extends State<RegisterPage> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Por favor, introduce una contraseña';
+          } else if (password != conpassword) {
+            return 'Las contraseñas han de ser iguales';
           }
         },
         obscureText: true,
@@ -79,23 +92,35 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    termsAndConditions() {
+    termsAndConditions(){
       return ButtonBar(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(16.0),
             child: TextButton(
-              child: Text('Terms and Conditions'),
+              child: Text('Términos y condiciones'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => TermsAndConditionsPage()),
-                );
+                MyNavigator.goToTerms(context);
               },
             ),
           ),
         ],
       );
+    }
+
+    termsAndConditionsCheckbox() {
+      return Center(
+        child: CheckboxListTile(
+          title: const Text('Acepto los términos y condiciones'),
+          value: termsAccepted,
+          onChanged: (bool? value) {
+            setState(() { termsAccepted = value!; });
+          },
+          controlAffinity: 
+            ListTileControlAffinity.leading
+        ),
+      );
+      
     }
 
     createRegisterButton(BuildContext context) {
@@ -107,31 +132,35 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             onPressed: () {
               try {
+                if(termsAccepted){
                 if (_formKey.currentState!.validate()) {
                   UserServices().register(name, email, password).then((val) {
-                    //print(val.data);
                     print(val.statusCode);
                     if (val.statusCode == 200) {
-                      Aux aux = new Aux(val.data['_id'], val.data['token'],
-                          val.data['userName']);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserPage(aux: aux)),
-                      );
-                      //  MyNavigator.goToUser(context, );
+                      globalData.setId(val.data['_id']);
+                      globalData.setToken(val.data['token']);
+                      globalData.setUserName(val.data['userName']);
+                      globalData.setEMail(email);
+                      MyNavigator.goToBankData(context);
+                      Fluttertoast.showToast(
+                            msg: 'Logged successfully',
+                            toastLength: Toast.LENGTH_SHORT,
+                            timeInSecForIosWeb: 6);
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
-                    } else {
+                    } else if (val.statusCode == null){
                       Fluttertoast.showToast(
                           msg: val.status,
                           toastLength: Toast.LENGTH_SHORT,
                           timeInSecForIosWeb: 6);
                     }
                   });
+                }
+                }else{
+                  Fluttertoast.showToast(msg: "Debes aceptar los términos y condiciones");
                 }
               } catch (err) {
                 print(err);
@@ -150,8 +179,8 @@ class _RegisterPageState extends State<RegisterPage> {
             child: SafeArea(
                 child: Align(
                     alignment: Alignment.center,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    child: ListView(
+                        padding: const EdgeInsets.all(30),
                         children: <Widget>[
                           Image.asset(
                             'assets/images/smartstock.jpeg',
@@ -166,6 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 12.0),
                           createConPasswordInput(),
                           termsAndConditions(),
+                          termsAndConditionsCheckbox(),
                           createRegisterButton(context)
                         ])))));
   }

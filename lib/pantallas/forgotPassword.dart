@@ -1,91 +1,64 @@
-//we import some packages
-import 'package:rlbasic/models/_aux.dart';
-//import 'package:rlbasic/models/user.dart';
-//import 'package:rlbasic/pantallas/login.dart';
-//import '../my_navigator.dart';
 //first essential package for the widgets!!
 import 'package:flutter/material.dart';
+import '../my_navigator.dart';
+
 
 //dark works with UpperCamelCase!! ---> never with CamelCase
 //we work with a standard schema and we customize in all categories
 
 //widgets with state=button (statefulWidget) and NO state= layout (stateless)
-//ok --> this page has 3 widgets (2 stateless & 1 stateful) 
+//ok --> this page has 3 widgets (2 stateless & 1 stateful)
+ 
 class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //variable button
-    final resetbutton = new InkWell(
-      //container is the same as div on html ---> more/less
-      child: new Container(
-        margin: new EdgeInsets.only(
-          top: 30.0,
-          left: 20.0,
-          right:20
-        ),
+    return MaterialApp(
+      title: 'Forgot password',
+      home: Scaffold(
+        //on these initial screens there aren't appBar 
+        // appBar: AppBar(
+        //   title: Text('Material App Bar'),
+        // ),
+        body: SizedBox(
+          width: double.infinity,
+          child: Column(
 
-        //button dimensions
-        height: 50.0,
-        width: 180.0,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
 
-        decoration: new BoxDecoration(
-          boxShadow: [
-            new BoxShadow(
-              color: Color(0xFF01579B),
-              //dimensions of the shadow
-              offset: new Offset(10.0, 10.0),
-              //degradation level
-              blurRadius: 30.0
-            )
-          ],
-          //if we want a circle button we write this
-          borderRadius: new BorderRadius.circular(30.0),
-          //the color of the button
-          color: Color(0xFF03A9F4),
-        ),
-        //text of the button
-        child : new Center(
-          child: new Text(
-            "Reset Password",
-            //we add some styles at this button
-            style: const TextStyle(
-              fontSize: 12.0,
-              color: Colors.white,
-              fontWeight: FontWeight.w900
-            ),
+            children: <Widget>[
+
+              //be careful with the size of the top image
+              Image.asset(
+                'assets/images/logoSmartStock.jpeg',
+                width: 300.00,
+                height: 240,
+              ),
+              Text("We will send you a email to reset your password"),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter email',
+                ),
+              ),
+
+              //After that we show the floatingButton (not this type!!) ---> in progress
+              TextButton(
+                onPressed: (){
+                  //go to the reset password for the moment
+                  MyNavigator.goToCreateNewPassword(context);
+                },
+                child: Text("Reset password"),
+              )
+            ],
           ),
-        ), 
-
+        ),
       ),
     );
-
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }
 
-class Header extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
-
-class EmailBack extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
-
-//we can print on the screen but it has a methods to change some values
-class ButtonBack extends StatefulWidget{
-  //we can show all screen again after state
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+void forgotPass(){
+//here we introduce the email & we call to the API to send the message
 }

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:rlbasic/models/_aux.dart';
-import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/globalData.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
 
+GlobalData globalData = GlobalData.getInstance()!;
+
 class UserPage extends StatelessWidget {
-  final Aux aux;
-  UserPage({required this.aux});
 
   @override
   Widget build(BuildContext context) {
+    //menu lateral
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text(aux.userName, semanticsLabel: "Bienvenido"),
+        title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
         child: ListView(
@@ -49,6 +48,12 @@ class UserPage extends StatelessWidget {
                 title: Text('Productos para entregar'),
                 onTap: () {
                   MyNavigator.goToUserDeliveryMenu(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.message),
+                title: Text('Chat'),
+                onTap: () {
+                  MyNavigator.goToWebChatHomepage(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),

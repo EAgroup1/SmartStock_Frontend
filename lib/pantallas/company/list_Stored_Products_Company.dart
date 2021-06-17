@@ -7,23 +7,22 @@ import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 
-class SearchProductsPage extends StatefulWidget {
+
+class SearchMyStorageProductsPage extends StatefulWidget {
   @override
-  _SearchProductsPageState createState() => _SearchProductsPageState();
+  _SearchMyStorageProductsPageState createState() => _SearchMyStorageProductsPageState();
 }
 
-class _SearchProductsPageState extends State<SearchProductsPage> {
+class _SearchMyStorageProductsPageState extends State<SearchMyStorageProductsPage> {
 
-  Lot? lotSeleccionado;
-  List<Lot> historial = [];
   DataSearch search = new DataSearch();
-  late var lots = <Lot>[];
-  GlobalData globalData = GlobalData.getInstance()!;
 
+  GlobalData globalData = GlobalData.getInstance()!;
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscar productos'),
+        title: Text('My Storage Products' + globalData.userName),
         actions: <Widget>[
           IconButton(
               onPressed: () {
@@ -33,17 +32,18 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
         ],
       ),
       body: search.buildSuggestions(context),
-
+     
     );
   }
 }
 
 class DataSearch extends SearchDelegate<Lot?> {
-  late List<Lot?> lot;
+  
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
     //actions for appbar
+    //
     return [
       IconButton(
           icon: Icon(Icons.clear),
@@ -62,51 +62,25 @@ class DataSearch extends SearchDelegate<Lot?> {
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
           this.close(context, null);
-          MyNavigator.goToSearchProducts(context);
         });
   }
 
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    //show some result based on the selction
-    final lotservices = new lotServices();
-    List<Lot> lot;
-    if (query.trim().length == 0) {
-      return Center(
-          child: Text('Introduce un producto para filtrar',));
-    } else {
-      return FutureBuilder(
-          future: lotservices.getAllLotsSorted(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              lot = snapshot.data;
-              List<Lot?> results = lot
-                                   .where((element) => 
-                                   element.name.toLowerCase() == query.toLowerCase())
-                                                                 .toList();
-              if (results.isNotEmpty) {
-              return _showLots(results);
-              } else {
-                  return Center(
-                    child: Text('No existe ningún lote con este nombre',)
-                  );
-                }
-            } else {
-              return Center(child: CircularProgressIndicator(strokeWidth: 4));
-            }
-          });
-    }
+    //show some result based on the selection
+    return Container();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLots = new lotServices();
+    final allLotsByBusiness = new lotServices();
     List<Lot> lot;
+
     return FutureBuilder(
-      future: allLots.getAllLotsSorted(),
+      future: allLotsByBusiness.getLotListByBusiness(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;
@@ -116,26 +90,48 @@ class DataSearch extends SearchDelegate<Lot?> {
                .where((element) =>
                   element.name.toLowerCase().contains(query.toLowerCase()))
                   .toList(); 
+              // &&
+              // element.name.toLowerCase().startsWith(query.toLowerCase()))
                      
           print(suggestions);
           return _showLots(suggestions);
-          
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
+
+      // itemBuilder: (context, index) => ListTile(
+      //   onTap: () {
+      //     close(context, suggestions[index]);
+      //   },
+      //   leading: Icon(IconData(57627, fontFamily: 'MaterialIcons')),
+      //   title: RichText(
+      //     text: TextSpan(
+      //         text: suggestions[index].substring(0, query.length),
+      //         style: TextStyle(
+      //             color: Colors.black,
+      //             fontWeight: FontWeight.bold,
+      //             fontSize: 17),
+      //         children: [
+      //           TextSpan(
+      //               text: suggestions[index].substring(query.length),
+      //               style: TextStyle(color: Colors.grey))
+      //         ]),
+      //   ),
+      // ),
+      //   itemCount: suggestions.length,
+      // );
   }
+}
 
   Widget _showLots(List<dynamic> lots) {
     return ListView.builder(
-      itemCount: lots.length,
       itemBuilder: (context, i) {
         return GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
-                barrierDismissible: false,
                 builder: (BuildContext context) =>
                     _buildPopupDialog(context, lots[i]),
               ).then((result) {
@@ -144,34 +140,38 @@ class DataSearch extends SearchDelegate<Lot?> {
             },
             child: Card(
                 clipBehavior: Clip.antiAlias,
-                child: Column(children: [
-                  ListTile(
-                    leading: Icon(Icons.arrow_right),
-                    title: Text('${lots[i].name}'),
-                    subtitle: Text('Informacion: ${lots[i].info}'),
-                    // title: Text(
-                    //   lote.name,
-                    //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    // ),
-                    // subtitle: Text(lote.info.toString()),
-                    // trailing: Icon(Icons.keyboard_arrow_right),
-                    // onTap: () {
-                    //   this.close(context, lote);
-                    // },
-                    // dense: true,
-                    // selected: false,
-                    // enabled: true,
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.arrow_right),
+                      title: Text('${lots[i].name}'),
+                      subtitle: Text('Informacion: ${lots[i].info}'),
+                      // title: Text(
+                      //   lote.name,
+                      //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      // ),
+                      // subtitle: Text(lote.info.toString()),
+                      // trailing: Icon(Icons.keyboard_arrow_right),
+                      // onTap: () {
+                      //   this.close(context, lote);
+                      // },
+                      // dense: true,
+                      // selected: false,
+                      // enabled: true,
                   )
                 ])));
       },
+      itemCount: lots.length,
     );
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
-    final addUserIntoLot = new lotServices();
+    
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
+        // mainAxisSize: MainAxisSize.min,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         child: ListBody(
           children: <Widget>[
             Text("Nombre del producto: " + lot.name),
@@ -179,30 +179,12 @@ class DataSearch extends SearchDelegate<Lot?> {
             Text("Cantidad: " + lot.qty.toString()),
             Text("Precio/unidad: " + lot.price.toString() + "€"),
             Text("Cantidad minima: " + lot.minimumQty.toString()),
-            Text("Empresa: " + lot.businessItem.userName)
+            //Text("User: " + lot.userItem.userName),
+            
           ],
         ),
       ),
-      actions: <Widget>[
-        Text("¿Quieres guardarlo en tu casa?"),
-        new FlatButton(
-          onPressed: () {
-            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
-            Navigator.of(context).pop('Accept');
-            //showSearch(context: context, delegate: DataSearch());
-            MyNavigator.goToSearchProducts(context);
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Accept'),
-        ),
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop('Cancel');
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Cancel'),
-        ),
-      ],
+      
     );
   }
-}
+

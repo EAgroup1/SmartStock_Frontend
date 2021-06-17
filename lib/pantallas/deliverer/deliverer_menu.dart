@@ -9,12 +9,12 @@ import 'package:rlbasic/services/deliveryServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
 
-class DeliveryMenu extends StatelessWidget {
+class DelivererMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Stored Products'),
+        title: Text('Menú'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -33,18 +33,6 @@ class DeliveryMenu extends StatelessWidget {
               ),
             ),
             ListTile(
-                leading: Icon(Icons.add_business_rounded),
-                title: Text('Buscar productos'),
-                onTap: () {
-                  MyNavigator.goToSearchProducts(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.apartment),
-                title: Text('Mis productos almacenados'),
-                onTap: () {
-                  Navigator.of(context).pushNamed("");
-                }),
-            ListTile(
                 leading: Icon(Icons.motorcycle),
                 title: Text('Productos para entregar'),
                 onTap: () {
@@ -59,12 +47,12 @@ class DeliveryMenu extends StatelessWidget {
           ],
         ),
       ),
-      body: DeliveryMenuScreen(),
+      body: DelivererMenuScreen(),
     );
   }
 }
 
-class DeliveryMenuScreen extends StatelessWidget {
+class DelivererMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -76,15 +64,15 @@ class DeliveryMenuScreen extends StatelessWidget {
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(text: 'GET READY', icon: Icon(Icons.alarm_add)),
-                Tab(text: 'PRODUCT TO PICK UP', icon: Icon(Icons.alarm_on)),
+                Tab(text: 'A ENTREGAR', icon: Icon(Icons.alarm_add)),
+                Tab(text: 'NUEVA ENTREGA', icon: Icon(Icons.alarm_on)),
               ],
             ),
           ),
           body: TabBarView(
             children: [
-              Center(child: GetReady()),
-              Center(child: PickUp()),
+              Center(child: Aentregar()),
+              Center(child: NuevaEntrega()),
             ],
           ),
         ),
@@ -93,12 +81,12 @@ class DeliveryMenuScreen extends StatelessWidget {
   }
 }
 
-class GetReady extends StatefulWidget {
+class Aentregar extends StatefulWidget {
   @override
-  _GetReadyState createState() => _GetReadyState();
+  _Aentregar createState() => _Aentregar();
 }
 
-class _GetReadyState extends State<GetReady> {
+class _Aentregar extends State<Aentregar> {
   //CAMBIAR A LISTA DE LOTES
   late var deliveries = <Delivery>[];
   @override
@@ -218,7 +206,7 @@ class _GetReadyState extends State<GetReady> {
 }
 
 
-class PickUp extends StatelessWidget {
+class NuevaEntrega extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
   // ignore: deprecated_member_use
   late var deliveries = <Delivery>[];

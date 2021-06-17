@@ -3,5 +3,6 @@ class Aux {
   String token;
   String userName;
 
+
   Aux(this.id, this.token, this.userName);
 }
