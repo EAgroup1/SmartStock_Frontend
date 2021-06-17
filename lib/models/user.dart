@@ -9,7 +9,7 @@ class User {
   @JsonKey(name: '_id')
   String id;
   String bank;
-  String role;
+  String role; 
   List<String> friends;
   String resetLink;
   User(this.id, this.userName, this.email, this.bank, this.role, this.friends,this.resetLink);

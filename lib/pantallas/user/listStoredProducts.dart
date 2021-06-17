@@ -7,11 +7,59 @@ import 'package:rlbasic/services/lotServices.dart';
 
 GlobalData globalDataa = GlobalData.getInstance()!;
 
-class MyProdPageMenu extends StatelessWidget {
-  const MyProdPageMenu({Key? key}) : super(key: key);
+// class MyProdPageMenu extends StatelessWidget {
+//   const MyProdPageMenu({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     //variable
+//     String sort = "SortByName";
+//     //lateral menu
+//     return MaterialApp(
+//         home: Scaffold(
+//       appBar: AppBar(title: Text("Tu lista de Lotes"), actions: <Widget>[
+//         IconButton(
+//           icon: Icon(Icons.euro_symbol),
+//           onPressed: () {
+//             MyNavigator.goToChartsLotList(context);
+//           },
+//         )
+//       ]),
+//       body: Column(
+//         children: [
+//           DropdownButtonFormField(
+//             //add null check
+//             onChanged: (String? option){
+//               setState((){
+//                 sort = option!;
+//               });
+//             },
+//             value: sort,
+//             items: ["SortByName","SortByPrice", "SortByQty"]
+//               .map((option) => DropdownMenuItem(
+//                 child: Text(option), 
+//                 value: option,))
+//               .toList()),
+//           MyProdPage(),
+//         ],
+//       ),
+//     ));
+//   }
+// }
+
+//statefull MyProdPageMenu, i create on of this because i need the dropdwon button!!!
+class MyProdPageMenu extends StatefulWidget {
+  MyProdPageMenu({Key? key}) : super(key: key);
 
   @override
+  _MyProdPageMenuState createState() => _MyProdPageMenuState();
+}
+
+class _MyProdPageMenuState extends State<MyProdPageMenu> {
+  @override
   Widget build(BuildContext context) {
+    //variable
+    String sort = "SortByName";
     //lateral menu
     return MaterialApp(
         home: Scaffold(
@@ -23,10 +71,28 @@ class MyProdPageMenu extends StatelessWidget {
           },
         )
       ]),
-      body: MyProdPage(),
+      body: Column(
+        children: [
+          DropdownButtonFormField(
+            //add null check
+            onChanged: (String? option){
+              setState((){
+                sort = option!;
+              });
+            },
+            value: sort,
+            items: ["SortByName","SortByPrice", "SortByQty"]
+              .map((option) => DropdownMenuItem(
+                child: Text(option), 
+                value: option,))
+              .toList()),
+          MyProdPage(),
+        ],
+      ),
     ));
   }
 }
+
 
 class MyProdPage extends StatefulWidget {
   MyProdPage({Key? key}) : super(key: key);
