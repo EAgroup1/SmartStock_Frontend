@@ -119,7 +119,9 @@ class _GetReadyState extends State<GetReady> {
         if (snapshot.hasData) {
           this.deliveries = snapshot.data;
           if (deliveries.isEmpty) {
-            return Center(child: Text("No hay nada que prepara"));
+            return Center(
+                child: Text(
+                    "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger"));
           } else
             return buildList(context);
         } else {
@@ -131,7 +133,9 @@ class _GetReadyState extends State<GetReady> {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(
+          child: Text(
+              "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,
@@ -217,7 +221,6 @@ class _GetReadyState extends State<GetReady> {
   }
 }
 
-
 class PickUp extends StatelessWidget {
   //CAMBIAR A LISTA DE LOTES
   // ignore: deprecated_member_use
@@ -244,19 +247,21 @@ class PickUp extends StatelessWidget {
 
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
-      return Center(child: Text("No hay nada que prepara"));
+      return Center(
+          child: Text(
+              "Aquí apareceran los paquetes que ya has preparado ya han de ser recogidos por un repartidor"));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-               showDialog(
+              showDialog(
                 context: context,
                 //CAMBIAR POR LOTE
-                builder: (BuildContext context) => _buildPopupDialog(
-                    context, deliveries[index].lot, deliveries[index].id),
-              ); 
+                builder: (BuildContext context) =>
+                    _buildPopupDialog(context, deliveries[index].time),
+              );
             },
             child: Card(
               clipBehavior: Clip.antiAlias,
@@ -277,34 +282,25 @@ class PickUp extends StatelessWidget {
     }
   }
 
-  Widget _buildPopupDialog(BuildContext context, Lot lot, String id) {
+  Widget _buildPopupDialog(BuildContext context, String time) {
+    late String info;
+    if (time == "")
+      info = "Aun no se ha determinado hora de recogida";
+    else
+      info = time;
     return new AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        //  crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Información del paquete'),
-          ListTile(
-            title: Text(lot.name),
-            subtitle: Text(lot.info),
-            trailing: Text(lot.qty.toString()),
-          ),
-          SizedBox(height: 12.0),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FlatButton(
-                    child: Text('Close'),
-                    shape: StadiumBorder(),
-                    color: Colors.green,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-              ])
-        ],
-      ),
-    );
+        title: Text('Tu pedido sera recogido a las'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        content: Text(info),
+        actions: [
+          FlatButton(
+              child: Text('okey'),
+              shape: StadiumBorder(),
+              color: Colors.green,
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+        ]);
   }
 }

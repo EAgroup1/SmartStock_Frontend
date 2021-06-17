@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:rlbasic/models/directions_model.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/services/place_service.dart';
+import 'package:rlbasic/services/userServices.dart';
 
 class Mapa extends StatefulWidget {
   @override
@@ -136,9 +138,15 @@ class _MapaState extends State<Mapa> {
           if (_destination != null)
             TextButton(
               onPressed: () {
-                //enviar minutos a bases de datos
-                
-                print(DateTime.now().toString()+' mas '+_info!.totalDuration.toString());
+                //enviar notificacion tipo: el repartidor vendra a recoger el paquete en totalduration
+                DeliveryServices().setTime(
+                    "id",
+                    DateTime.now().toString() +
+                        ' mas ' +
+                        _info!.totalDuration.toString());
+                print(DateTime.now().toString() +
+                    ' mas ' +
+                    _info!.totalDuration.toString());
                 setState(() => start = true);
               },
               style: TextButton.styleFrom(

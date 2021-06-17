@@ -15,7 +15,9 @@ Delivery _$DeliveryFromJson(Map<String, dynamic> json) {
     json['description'] as String,
     json['isDelivered'] as bool,
     json['isPicked'] as bool,
-  )..userItem = User.fromJson(json['userItem'] as Map<String, dynamic>);
+  )
+    ..userItem = User.fromJson(json['userItem'] as Map<String, dynamic>)
+    ..time = json['time'] as String;
 }
 
 Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
@@ -27,4 +29,5 @@ Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
       'description': instance.description,
       'isPicked': instance.isPicked,
       'isDelivered': instance.isDelivered,
+      'time': instance.time,
     };

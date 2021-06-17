@@ -19,6 +19,7 @@ class Delivery {
   String description;
   bool isPicked;
   bool isDelivered;
+  late String time;
 
   Delivery(this.lot, this.id, this.deliveryDate, this.businessItem,
       this.description, this.isDelivered, this.isPicked);

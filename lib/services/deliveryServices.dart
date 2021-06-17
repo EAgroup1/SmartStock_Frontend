@@ -176,4 +176,23 @@ class DeliveryServices {
     }
   }
 
+ setTime(id, tiempo) async{
+    try {
+      return await dio.put(url + 'time/' + id,
+          data: {"time": tiempo},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+
+  }
+
+ 
 }
