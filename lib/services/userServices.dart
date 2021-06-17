@@ -16,7 +16,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 
 class UserServices {
   Dio dio = new Dio();
-  var url = "http://backend:4000/api/users/";
+  var url = "http://backend:3000/api/users/";
 
   login(email, password) async {
     print(email);
