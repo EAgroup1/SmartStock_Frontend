@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
 
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Place {
   final String placeId, description;
 
@@ -34,11 +37,27 @@ class PlaceApi {
           "components": "country:es",
         },
       );
-       print(response.data);
+      print(response.data);
       final List<Place> places = (response.data['predictions'] as List)
           .map((item) => Place.fromJson(item))
           .toList();
       return places;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<LatLng?> location(String address) async {
+    try {
+      final response = await this._dio.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        queryParameters: {
+          "address": address,
+          "key": apiKey,
+        },
+      );
+      print(response.data["results"][0]["geometry"]["location"]);
+      print(LatLng(response.data["results"][0]["geometry"]["location"]["lat"], response.data["results"][0]["geometry"]["location"]["lng"]).toString());
     } catch (e) {
       return null;
     }

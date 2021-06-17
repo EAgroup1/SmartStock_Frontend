@@ -227,7 +227,7 @@ class _BankDataPageState extends State<BankDataPage> {
                   color: Colors.grey[100],
                 ),
                 child: TextField(
-                  readOnly: true,
+                    readOnly: true,
                     decoration: InputDecoration.collapsed(
                       hintText: address,
                     ),
@@ -361,13 +361,13 @@ class _AddressState extends State<Address> {
             onPressed: () {}),
         bottom: PreferredSize(
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              child: AddressInput(
-                    controller: _destinationController,
-                    hintText: " Ej: Paseo de los Naranjos 20C",
-                    onChanged: this._inputOnChanged,
-                  ),),
-
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: AddressInput(
+              controller: _destinationController,
+              hintText: " Ej: Paseo de los Naranjos 20C",
+              onChanged: this._inputOnChanged,
+            ),
+          ),
           preferredSize: Size.fromHeight(70),
         ),
       ),
@@ -391,6 +391,9 @@ class _AddressState extends State<Address> {
                               onTap: () {
                                 setState(() {
                                   address = item.description;
+                                  _placeApi.location(address).then((value) {
+                                    print(value!.latitude.toString());
+                                  });
                                 });
                                 Navigator.pop(context);
                               },
