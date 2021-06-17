@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/delivery.dart';
+import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/models/user.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
@@ -29,7 +30,7 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
@@ -54,22 +55,47 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
-      final List<Delivery> deliverylist=[];
+      final List<Delivery> deliverylist = [];
       return deliverylist;
     }
   }
 
   setReadyDelivery(String id) async {
-          print(id);
+    print(id);
 
     try {
-      return await dio.put(url + 'readydelivery/'+id,
+      return await dio.put(url + 'readydelivery/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
         print(e);
         Fluttertoast.showToast(
             msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+  createDelivery(
+      Lot lot,
+      String userItem) async {
+    print(lot);
+    print(userItem);
+
+    try {
+      return await dio.post(url,
+      data: {
+            "lotItem": lot,
+            "userItem": userItem
+      },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error creando el delivery',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);

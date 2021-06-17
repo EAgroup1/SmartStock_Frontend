@@ -152,4 +152,19 @@ class lotServices {
           timeInSecForIosWeb: 3);
     }
   }
+
+    getLotListByBusinessStored(String id) async {
+    try {
+      final resp = await dio.get('$url' + '/getByBusinessStored/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha almacenado aun ningun lote',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
 }

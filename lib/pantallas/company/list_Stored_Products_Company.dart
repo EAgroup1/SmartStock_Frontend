@@ -80,7 +80,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     List<Lot> lot;
 
     return FutureBuilder(
-      future: allLotsByBusiness.getLotListByBusiness(globalData.id),
+      future: allLotsByBusiness.getLotListByBusinessStored(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;
@@ -92,7 +92,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                   .toList(); 
               // &&
               // element.name.toLowerCase().startsWith(query.toLowerCase()))
-                     
+                    
           print(suggestions);
           return _showLots(suggestions);
         } else {
@@ -179,7 +179,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             Text("Cantidad: " + lot.qty.toString()),
             Text("Precio/unidad: " + lot.price.toString() + "€"),
             Text("Cantidad minima: " + lot.minimumQty.toString()),
-            //Text("User: " + lot.userItem.userName),
+            Text("User: " + lot.userItem!.userName),
             
           ],
         ),
