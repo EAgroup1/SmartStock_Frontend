@@ -28,6 +28,8 @@ class _AllChatsPageState extends State<AllChatsPage> {
 
   void friendClicked(User friend){
     GlobalData.getInstance()?.setFriend(friend);
+    model.addroom(friend.id);
+    model.sendRooms();
     MyNavigator.goToWebChat(context);
   }
 
@@ -38,7 +40,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
     buildAllChatList(){
       print(model.friendList?[0].toJson());
       if (model.friendList!.isEmpty){
-        return Center(child: Text("No tienes lotes almacenados ¡Empieza a almacenar!"));
+        return Center(child: Text("No tienes amigos"));
       }
       else{
         return SizedBox(
@@ -49,15 +51,12 @@ class _AllChatsPageState extends State<AllChatsPage> {
             itemCount: model.friendList?.length,
             itemBuilder: (context, index) {
               var friend = model.friendList?[index];
-              print(friend?.userName);
-              print("descansito");
-              print(friend?.id);
               return GestureDetector(
                 onTap: () => friendClicked(friend!),
                 child: Container(
                   height: 50,
                   color: Colors.amber[200],
-                  child: Center(child: Text('Entry ${friend?.id.toString()}')),
+                  child: Center(child: Text('${friend?.userName.toString()}')),
                 )
               );
             },
