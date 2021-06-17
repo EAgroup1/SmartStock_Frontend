@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:rlbasic/models/directions_model.dart';
-import 'package:rlbasic/pantallas/user/directions_repository.dart';
+import 'package:rlbasic/services/place_service.dart';
 
 class Mapa extends StatefulWidget {
- @override
+  @override
   _MapaState createState() => _MapaState();
 }
 
@@ -27,6 +27,7 @@ class _MapaState extends State<Mapa> {
   Directions? _info;
   Marker? _origin;
   Marker? init;
+  bool start = false;
 
   //cambiar marcador por el de almacen
   Marker _destination = Marker(
@@ -34,7 +35,6 @@ class _MapaState extends State<Mapa> {
     position: LatLng(41.2757, 1.98712),
     infoWindow: InfoWindow(title: "Destination"),
   );
-
 
   @override
   void dispose() {
@@ -133,119 +133,125 @@ class _MapaState extends State<Mapa> {
         centerTitle: false,
         title: const Text('Google Maps'),
         actions: [
-          if (init != null)
-            TextButton(
-              onPressed: () => _controller!.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    target: init!.position,
-                    zoom: 14.5,
-                    tilt: 50.0,
-                  ),
-                ),
-              ),
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              child: const Text('ORIGIN'),
-            ),
           if (_destination != null)
             TextButton(
-              onPressed: () => _controller!.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    target: _destination.position,
-                    zoom: 14.5,
-                    tilt: 50.0,
-                  ),
-                ),
-              ),
+              onPressed: () {
+                //enviar minutos a bases de datos
+                
+                print(DateTime.now().toString()+' mas '+_info!.totalDuration.toString());
+                setState(() => start = true);
+              },
               style: TextButton.styleFrom(
                 primary: Colors.white,
                 textStyle: const TextStyle(fontWeight: FontWeight.w600),
               ),
-              child: const Text('DEST'),
+              child: const Text('Start'),
             )
         ],
       ),
-      body: Stack(
-        alignment: Alignment.bottomCenter, 
-        children: [
-          GoogleMap(
-            myLocationButtonEnabled: false,
-            mapType: MapType.hybrid,
-            zoomControlsEnabled: true,
-            initialCameraPosition: initialLocation,
-            markers: {
-              if (_origin != null) _origin!,
-              if (_destination != null) _destination
-            },
-            circles: Set.of((circle != null) ? [circle!] : []),
-            onMapCreated: (GoogleMapController controller) {
-              _controller = controller;
-            },
-            polylines: {
-              if (_info != null)
-                Polyline(
-                  polylineId: const PolylineId('overview_polyline'),
-                  color: Colors.red,
-                  width: 5,
-                  points: _info!.polylinePoints
-                      .map((e) => LatLng(e.latitude, e.longitude))
-                      .toList(),
-                ),
-            },
+      body: Stack(alignment: Alignment.bottomCenter, children: [
+        GoogleMap(
+          myLocationButtonEnabled: false,
+          mapType: MapType.hybrid,
+          zoomControlsEnabled: true,
+          initialCameraPosition: initialLocation,
+          markers: {
+            if (_origin != null) _origin!,
+            if (_destination != null) _destination
+          },
+          circles: Set.of((circle != null) ? [circle!] : []),
+          onMapCreated: (GoogleMapController controller) {
+            _controller = controller;
+          },
+          polylines: {
+            if (_info != null)
+              Polyline(
+                polylineId: const PolylineId('overview_polyline'),
+                color: Colors.red,
+                width: 5,
+                points: _info!.polylinePoints
+                    .map((e) => LatLng(e.latitude, e.longitude))
+                    .toList(),
+              ),
+          },
         ),
-        if (_info != null)
-            Positioned(
-              top: 20.0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6.0,
-                  horizontal: 12.0,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.yellowAccent,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 2),
-                      blurRadius: 6.0,
-                    )
-                  ],
-                ),
-                child: Text(
-                  '${_info!.totalDistance}, ${_info!.totalDuration}',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+        if (_info != null && start == false)
+          Positioned(
+            top: 20.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 12.0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.yellowAccent,
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 2),
+                    blurRadius: 6.0,
+                  )
+                ],
+              ),
+              child: Text(
+                '${_info!.totalDistance}, ${_info!.totalDuration}',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
+          ),
+        if (_info != null && start == true)
+          Positioned(
+            top: 20.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 12.0,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.greenAccent,
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 2),
+                    blurRadius: 6.0,
+                  )
+                ],
+              ),
+              child: Text(
+                'Llegará a su destino en ${_info!.totalDuration}',
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ButtonBar(          
-              children: <Widget>[
-          FloatingActionButton(
-              child: Icon(Icons.attribution),
-              onPressed: () {
-                getCurrentLocation();
-              }),
-          FloatingActionButton(
-              child: Icon(Icons.directions),
-              onPressed: () {
-                getDirections();
-              }),
-        ]),
+            ButtonBar(children: <Widget>[
+              FloatingActionButton(
+                  heroTag: "btn1",
+                  child: Icon(Icons.attribution),
+                  onPressed: () {
+                    getCurrentLocation();
+                  }),
+              FloatingActionButton(
+                  heroTag: "btn2",
+                  child: Icon(Icons.directions),
+                  onPressed: () {
+                    getDirections();
+                  }),
+            ]),
           ],
         ),
-
-        ]),
+      ]),
     );
   }
 
@@ -255,7 +261,7 @@ class _MapaState extends State<Mapa> {
     final directions = await DirectionsRepository().getDirections(
         origin: init!.position, destination: _destination.position);
     setState(() => _info = directions);
-     _controller!.animateCamera(
+    _controller!.animateCamera(
       CameraUpdate.newCameraPosition(initialLocation),
     );
   }

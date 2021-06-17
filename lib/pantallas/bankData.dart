@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rlbasic/models/_aux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rlbasic/pantallas/place_service.dart';
+import 'package:rlbasic/services/place_service.dart';
 import 'package:rlbasic/services/userServices.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
-import 'package:uuid/uuid.dart';
 
 import '../my_navigator.dart';
 
@@ -22,66 +20,6 @@ class _BankDataPageState extends State<BankDataPage> {
   bool _storageChecked = false;
   bool _delivererChecked = false;
 
-  //nuevo codigo util
-  final _destinationController = TextEditingController();
-  PlaceApi _placeApi = PlaceApi.instance;
-  bool buscando = false;
-  List<Place> _predictions = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _destinationController.dispose();
-    super.dispose();
-  }
-
-  _inputOnChanged(String query) {
-    if (query.trim().length > 2) {
-      setState(() {
-        buscando = true;
-      });
-      _search(query);
-    } else {
-      if (buscando || _predictions.length > 0) {
-        setState(() {
-          buscando = false;
-          _predictions = [];
-        });
-      }
-    }
-  }
-
-  _search(String query) {
-    _placeApi
-        .searchPredictions(query)
-        .asStream()
-        .listen((List<Place>? predictions) {
-      if (Icons.batch_prediction_sharp != null) {
-        setState(() {
-          buscando = false;
-          _predictions = predictions ?? [];
-          print('Resultados: ${predictions!.length}');
-        });
-      }
-    });
-  }
-
-  //
-
-  final _controller = TextEditingController();
-  String _streetNumber = '';
-  String _street = '';
-  String _city = '';
-  String _zipCode = '';
-/*   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +107,18 @@ class _BankDataPageState extends State<BankDataPage> {
                   Fluttertoast.showToast(
                       msg:
                           "Solo un rol. Deselecciona hasta solo tener un rol.");
-                } else if (sum == 0) {
+                }
+                if(address=="Paseo de los Naranjos 20B Castelldefels"){
+                  Fluttertoast.showToast(
+                      msg:
+                          "Añade una dirección");
+                } 
+                else if (sum == 0) {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
-                } else {
+                } else {/* 
+                  _placeApi.location(address).then((value) {
+                                    print(value!.latitude.toString());
+                                  }); */
                   UserServices()
                       .sendBankRole(globalData.getId(), bank, role)
                       .then((val) {}); //NO FUNCIONA AUN
@@ -364,7 +311,7 @@ class _AddressState extends State<Address> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: AddressInput(
               controller: _destinationController,
-              hintText: " Ej: Paseo de los Naranjos 20C",
+              hintText: address,
               onChanged: this._inputOnChanged,
             ),
           ),
@@ -389,11 +336,8 @@ class _AddressState extends State<Address> {
                           final Place item = _predictions[i];
                           return GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  address = item.description;
-                                  _placeApi.location(address).then((value) {
-                                    print(value!.latitude.toString());
-                                  });
+                                setState(() {                             
+                                  address = item.description;                                  
                                 });
                                 Navigator.pop(context);
                               },

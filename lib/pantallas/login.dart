@@ -149,10 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                 'pruebas',
               ),
               onPressed: () {
-                MyNavigator.goToBankData(context);
-/*                   Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Prueba()));
-               */
+               // MyNavigator.goToBankData(context);
+                   Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Mapa()));
+               
               }) 
         ],
       );
