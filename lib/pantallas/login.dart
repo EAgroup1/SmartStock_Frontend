@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('','','','','',[]);
+  User user = User('','','','','',[],'');
   Dio dioerror = new Dio();
 
   @override
@@ -93,7 +93,10 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setRole(val.data['role']); 
                         //SOCKET ASINCRONO INICIADO
                         ChatModel model = new ChatModel();
-                        model.build(context);
+                        print(model.rooms);
+                        print(model.rooms.length);
+                        model.addroom(globalData.getId());
+                        //model.build(context);
                         GlobalData.getInstance()!.setChatModel(model);
                         GlobalData.getInstance()!.getChatModel().init();
                         //SOCKET ASINCRONO INICIADO

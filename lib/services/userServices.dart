@@ -87,15 +87,15 @@ class UserServices {
         options: Options(contentType: Headers.formUrlEncodedContentType)
       );
       Map<String, dynamic> map = jsonDecode(resp.toString());
-      User user = User.fromJson(map); 
-      return user;
+      //User user = new User.fromJson(map); 
+      return map;
     } catch (e) {
       print(e);
       return [];
     }
   }
   User getaUser(String id){
-    User resulting = new User('','','','','',[]);
+    User resulting = new User('','','','','',[],'');
     
     getUser(id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
     .then((result) {
@@ -105,7 +105,8 @@ class UserServices {
       var _id = result.id;
       var role = result.role;
       var friends = result.friends;
-      resulting = new User(_id,userName,email,bank,role,friends);
+      var resetLink = result.resetLink;
+      resulting = new User(_id,userName,email,bank,role,friends,resetLink);
       print("Then");
     });
     /*.whenComplete((result) {

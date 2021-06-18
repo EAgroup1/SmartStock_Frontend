@@ -14,7 +14,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['bank'] as String,
     json['role'] as String,
     (json['friends'] as List<dynamic>).map((e) => e as String).toList(),
-  )..resetLink = json['resetLink'] as String;
+    json['resetLink'] as String,
+  );//resetLink = json['resetLink'] as String;
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

@@ -25,11 +25,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   var text;
-  var chatID = "12";
   ChatModel model = GlobalData.getInstance()!.getChatModel();
 
   final TextEditingController textEditingController = TextEditingController();
-  /*
+  
   //one widget
   Widget buildSingleMessage(Message message){
     return Container(
@@ -42,7 +41,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-
+  /*
   //chat
     Widget buildChatList(){
       return ScopedModelDescendant<ChatModel>(
@@ -62,9 +61,9 @@ class _ChatPageState extends State<ChatPage> {
         },
       );
     }
-
+    */
     
-    Widget buildChatArea(){
+    /*Widget buildChatArea(){
       return ScopedModelDescendant<ChatModel>(
         builder: (context, child, model){
           return Container(
@@ -79,7 +78,7 @@ class _ChatPageState extends State<ChatPage> {
                 SizedBox(width: 10.0),
                 FloatingActionButton(
                   onPressed: (){
-                    model.sendMessage(textEditingController.text, widget.friend!.id);
+                    model.sendMessage(textEditingController.text);
                   },
                   elevation: 0,
                   child: Icon(Icons.send),
@@ -89,8 +88,35 @@ class _ChatPageState extends State<ChatPage> {
           );
         },
       );
+    }*/
+    Widget buildChatArea(){
+      return new ScopedModel<ChatModel>(
+      model: model,
+      child: new Column(children: [
+        // Create a ScopedModelDescendant. This widget will get the
+        // CounterModel from the nearest ScopedModel<CounterModel>. 
+        // It will hand that model to our builder method, and rebuild 
+        // any time the CounterModel changes (i.e. after we 
+        // `notifyListeners` in the Model). 
+        new ScopedModelDescendant<ChatModel>(
+          builder: (context, child, model){
+            return Container(
+            height: MediaQuery.of(context).size.height*0.75,
+              child: ListView.builder(
+                itemCount: model.messages?.length,
+                itemBuilder: (BuildContext context, int index){
+                  return buildSingleMessage(model.messages![index]);
+                },
+              ),
+            );
+
+          },
+        ),
+        new Text("Another widget that doesn't depend on the CounterModel")
+      ])
+    );
     }
-  */
+  
   
   createTxtInput() {
       return TextFormField(
@@ -100,20 +126,20 @@ class _ChatPageState extends State<ChatPage> {
           text = val;
         },
       );
-    }
-    sendTxtButton() {
-      return Container(
-          padding: const EdgeInsets.only(top: 30),
-          child: ElevatedButton(
-              child: Text(
-                'Enviar',
-              ),
-              onPressed: () {
-                model.sendMessage(text, chatID);
-              }
-          ),
-      );
-    }
+  }
+  sendTxtButton() {
+    return Container(
+        padding: const EdgeInsets.only(top: 30),
+        child: ElevatedButton(
+            child: Text(
+              'Enviar',
+            ),
+            onPressed: () {
+              model.sendMessage(text);
+            }
+        ),
+    );
+  }
   //build all areas
   @override
   Widget build(BuildContext context) {
@@ -123,7 +149,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: ListView(
         children: <Widget>[
-          //buildChatArea(),
+          buildChatArea(),
           createTxtInput(),
           sendTxtButton(),
         ],

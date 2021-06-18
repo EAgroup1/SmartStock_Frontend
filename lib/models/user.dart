@@ -11,8 +11,8 @@ class User {
   String bank;
   String role; 
   List<String> friends;
-  late String resetLink;
-  User(this.id, this.userName, this.email, this.bank, this.role, this.friends);
+  String resetLink;
+  User(this.id, this.userName, this.email, this.bank, this.role, this.friends,this.resetLink);
 
   //factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -24,7 +24,8 @@ class User {
       email = json['email'],
       bank = json['bank'],
       role = json['role'],
-      friends = new List<String>.from(json['friends']);
+      friends = new List<String>.from(json['friends']),
+      resetLink = json['resetLink'];
 
   /*
   Map <String, dynamic> toJson() =>
