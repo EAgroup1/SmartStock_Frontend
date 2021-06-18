@@ -153,9 +153,9 @@ class lotServices {
     }
   }
 
-    getLotListByBusinessStored(String id) async {
+    getLotListByBusinessInProgressStored(String id) async {
     try {
-      final resp = await dio.get('$url' + '/getByBusinessStored/' + '$id');
+      final resp = await dio.get('$url' + '/getByBusinessStoredWithUserID/' + '$id');
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
@@ -32,7 +34,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
     //show when someone searches for something
     final allLots = new lotServices();
     return FutureBuilder(
-      future: allLots.getAllLotsSorted(),
+      future: allLots.getLotListByBusinessInProgressStored(globalData.id),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
@@ -62,9 +64,12 @@ class _SendProductsPageState extends State<SendProductsPage> {
                   ListTile(
                     leading: Icon(Icons.arrow_right),
                     title: Text('${lots[i].name}'),
-                    subtitle: Text('Id del producto: ${lots[i].id}'),
-                  )
-                ])));
+                    subtitle: Text('Lot stored in progress for: ${lots[i].userItem.userName}', 
+                    style: TextStyle(fontFamily: 'Roboto',fontWeight: FontWeight.bold, color: Colors.yellowAccent.withOpacity(0.6))),
+                  ),
+                ])
+            )
+        );
       },
     );
   }
