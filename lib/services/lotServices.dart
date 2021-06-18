@@ -7,7 +7,7 @@ class lotServices {
   Dio dio = new Dio();
   var url = "http://localhost:3000/api/lots/";
 
-  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile, info,
+  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
       String businessItem) async {
     print(name);
     print(dimensions);
@@ -16,7 +16,6 @@ class lotServices {
     print(minimumQty);
     print(price);
     print(isFragile);
-    print(info);
     print(businessItem);
 
     try {
@@ -108,8 +107,8 @@ class lotServices {
   // }
 
   addNewLotToUser(String id, String userID) async {
-    print(id + 'id LOTE');
-    print(userID + 'id userItem');
+    print('id: ' + id);
+    print('id userItem: ' + userID);
     try {
       final resp = await dio.put('$url' + '$id',
           data: {"userItem": userID},
@@ -154,9 +153,23 @@ class lotServices {
     }
   }
 
-  getLotListByBusinessStored(String id) async {
+    getLotListByBusinessInProgressStored(String id) async {
     try {
-      final resp = await dio.get('$url' + '/getByBusinessStored/' + '$id');
+      final resp = await dio.get('$url' + '/getByBusinessStoredWithUserID/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha almacenado aun ningun lote',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+    getLotListByBusinessInProgressStoredTrue(String id) async {
+    try {
+      final resp = await dio.get('$url' + '/getByBusinessStoredTrueWithUserID/' + '$id');
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {

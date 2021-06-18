@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
@@ -32,7 +34,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
     //show when someone searches for something
     final allLots = new lotServices();
     return FutureBuilder(
-      future: allLots.getAllLotsSorted(),
+      future: allLots.getLotListByBusinessInProgressStored(globalData.id),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return _showLots(snapshot.data);
@@ -60,11 +62,56 @@ class _SendProductsPageState extends State<SendProductsPage> {
                 clipBehavior: Clip.antiAlias,
                 child: Column(children: [
                   ListTile(
-                    leading: Icon(Icons.arrow_right),
-                    title: Text('${lots[i].name}'),
-                    subtitle: Text('Id del producto: ${lots[i].id}'),
-                  )
-                ])));
+                    leading: Icon(
+                    Icons.query_builder, 
+                    semanticLabel: 'Stored in progress',
+                    color: Colors.orange,
+                    size: 40.0,
+                    ),
+                    title: Text('${lots[i].name}',
+                      style: new TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold, 
+                      color: Colors.black87)
+                    ),
+                    subtitle: RichText(
+                                textAlign: TextAlign.start,
+                                text: TextSpan(children: <TextSpan>[
+                                /* TextSpan(
+                                  text: "Lot stored:\n",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold, 
+                                    fontFamily: 'AbrilFatface')), */
+                                  /* TextSpan(
+                                  text: "User: ${lots[i].userItem.userName.toUpperCase()}\n",
+                                  style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Roboto')), */
+                                  TextSpan(
+                                  text: "In progress",
+                                  style: TextStyle(
+                                  color: Colors.redAccent[700],
+                                  fontSize: 10.0,
+                                /*  decoration: TextDecoration.underline,
+                                  decorationColor: Colors.deepOrange[700], */
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'AbrilFatface')),
+                                ]),
+                    /*  Text('Lot stored in progress for: ${lots[i].userItem.userName}', 
+                        style: new TextStyle(
+                        fontFamily: 'AbrilFatface',
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold, 
+                        color: Colors.yellowAccent)
+                        ),  */
+                    ),
+                  ),
+                ])
+            )
+        );
       },
     );
   }
