@@ -6,10 +6,10 @@ import 'package:rlbasic/models/directions_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
 // ignore: import_of_legacy_library_into_null_safe
 //import 'package:google_maps_webservice/directions.dart';
-
-
 
 class Place {
   final String placeId, description;
@@ -64,8 +64,14 @@ class PlaceApi {
         },
       );
       //enviar a la base de datos las coordenadas
+      print("llega aqui");
       print(response.data["results"][0]["geometry"]["location"]);
-      print(LatLng(response.data["results"][0]["geometry"]["location"]["lat"], response.data["results"][0]["geometry"]["location"]["lng"]).toString());
+      print(LatLng(response.data["results"][0]["geometry"]["location"]["lat"],
+              response.data["results"][0]["geometry"]["location"]["lng"])
+          .toString());
+      globalData.coordenadas = LatLng(
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]);
     } catch (e) {
       return null;
     }

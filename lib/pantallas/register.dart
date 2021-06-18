@@ -154,7 +154,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         globalData.setId(val.data['_id']);
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
-                        globalData.setLocation(direccion);
                         globalData.setEMail(email);
                         MyNavigator.goToBankData(context);
                         Fluttertoast.showToast(
@@ -207,8 +206,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 12.0),
                           createEmailInput(),
                           SizedBox(height: 30.0),
-                          createLocationInput(),
-                           SizedBox(height: 12.0),
+                          //createLocationInput(),
+                          // SizedBox(height: 12.0),
                           createPasswordInput(),
                           SizedBox(height: 12.0),
                           createConPasswordInput(),

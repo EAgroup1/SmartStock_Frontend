@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class GlobalData {
   static GlobalData? instance;
 //USUARIO
@@ -8,6 +10,7 @@ class GlobalData {
   late String role;
   late String location;
   late String businessLocation;
+  late LatLng coordenadas;
 
 //LOTE
   late String name;
@@ -37,6 +40,10 @@ class GlobalData {
       instance = GlobalData();
     }
     return instance;
+  }
+
+  GlobalData? setInstance() {
+    instance = null;
   }
 
 //USERS

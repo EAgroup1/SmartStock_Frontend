@@ -260,7 +260,7 @@ class PickUp extends StatelessWidget {
                 context: context,
                 //CAMBIAR POR LOTE
                 builder: (BuildContext context) =>
-                    _buildPopupDialog(context, deliveries[index].time),
+                    _buildPopupDialog(context, deliveries[index].time!),
               );
             },
             child: Card(

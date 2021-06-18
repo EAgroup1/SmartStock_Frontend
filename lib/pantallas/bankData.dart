@@ -7,6 +7,8 @@ import 'package:rlbasic/pantallas/user/user.dart';
 import '../my_navigator.dart';
 
 String address = "Paseo de los Naranjos 20B Castelldefels";
+PlaceApi _placeApi = PlaceApi.instance;
+
 
 class BankDataPage extends StatefulWidget {
   @override
@@ -19,7 +21,6 @@ class _BankDataPageState extends State<BankDataPage> {
   bool _businessChecked = false;
   bool _storageChecked = false;
   bool _delivererChecked = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,21 +109,17 @@ class _BankDataPageState extends State<BankDataPage> {
                       msg:
                           "Solo un rol. Deselecciona hasta solo tener un rol.");
                 }
-                if(address=="Paseo de los Naranjos 20B Castelldefels"){
-                  Fluttertoast.showToast(
-                      msg:
-                          "Añade una dirección");
-                } 
-                else if (sum == 0) {
+                if (address == "Paseo de los Naranjos 20B Castelldefels") {
+                  Fluttertoast.showToast(msg: "Añade una dirección");
+                } else if (sum == 0) {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
-                } else {/* 
-                  _placeApi.location(address).then((value) {
-                                    print(value!.latitude.toString());
-                                  }); */
+                } else {                   
+                  _placeApi.location(address).then((value) {});
                   UserServices()
-                      .sendBankRole(globalData.getId(), bank, role)
+                      .sendBankRole(globalData.getId(), bank, role, address)
                       .then((val) {}); //NO FUNCIONA AUN
                   //Fluttertoast.showToast(msg: "Envio falso de momento");
+                  globalData.location = address;
                   if (_delivererChecked) {
                     MyNavigator.goToDeliverer(context);
                   } else if (_businessChecked) {
@@ -243,7 +240,6 @@ class Address extends StatefulWidget {
 
 class _AddressState extends State<Address> {
   final _destinationController = TextEditingController();
-  PlaceApi _placeApi = PlaceApi.instance;
   bool buscando = false;
   List<Place> _predictions = [];
 
@@ -336,8 +332,8 @@ class _AddressState extends State<Address> {
                           final Place item = _predictions[i];
                           return GestureDetector(
                               onTap: () {
-                                setState(() {                             
-                                  address = item.description;                                  
+                                setState(() {
+                                  address = item.description;
                                 });
                                 Navigator.pop(context);
                               },

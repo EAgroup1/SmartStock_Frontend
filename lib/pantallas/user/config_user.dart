@@ -51,6 +51,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
       actions: <Widget>[
         FlatButton(
           onPressed: () {
+            globalData.setInstance();
             MyNavigator.goToLogin(context);
           },
           textColor: Theme.of(context).primaryColor,
