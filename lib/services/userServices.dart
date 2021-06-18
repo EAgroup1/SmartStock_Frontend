@@ -103,6 +103,18 @@ class UserServices {
     }
   }
 
+   sendCoord(id, lat, lng) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"id": id, "clat": lat, "clng": lng},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<Response> loginGoogle() async {
     try {
       await _googleSignIn.signIn();

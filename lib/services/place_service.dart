@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
+import 'package:rlbasic/services/userServices.dart';
 // ignore: import_of_legacy_library_into_null_safe
 //import 'package:google_maps_webservice/directions.dart';
 
@@ -65,10 +66,29 @@ class PlaceApi {
       );
       //enviar a la base de datos las coordenadas
       print("llega aqui");
-      print(response.data["results"][0]["geometry"]["location"]);
-      print(LatLng(response.data["results"][0]["geometry"]["location"]["lat"],
-              response.data["results"][0]["geometry"]["location"]["lng"])
-          .toString());
+      UserServices().sendCoord(
+          globalData.id,
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]).then((val) {});
+      globalData.coordenadas = LatLng(
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<LatLng?> coordenadas(String address) async {
+    try {
+      final response = await this._dio.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        queryParameters: {
+          "address": address,
+          "key": apiKey,
+        },
+      );
+      //enviar a la base de datos las coordenadas
+      print("llega aqui");
       globalData.coordenadas = LatLng(
           response.data["results"][0]["geometry"]["location"]["lat"],
           response.data["results"][0]["geometry"]["location"]["lng"]);

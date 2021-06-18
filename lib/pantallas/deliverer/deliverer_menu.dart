@@ -7,6 +7,9 @@ import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/pantallas/deliverer/mapa.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
+import 'package:rlbasic/services/place_service.dart';
+
+PlaceApi _placeApi = PlaceApi.instance;
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -153,9 +156,10 @@ class _Aentregar extends State<Aentregar> {
                         onPressed: () {
                           late var location;
                           if (deliveries[index].isPicked == false)
-                            location = deliveries[index].originLocation;
+                            _placeApi.coordenadas(deliveries[index].originLocation).then((value) {});
                           else
-                            location = deliveries[index].destinationItem;
+                            _placeApi.coordenadas(deliveries[index].destinationLocation).then((value) {});
+
                             //enviar location y id delivery a mapas
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Mapa()));

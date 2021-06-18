@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
                         globalData.setLocation(val.data['location']);
-                        _placeApi.location(globalData.location).then((value) {});
+                        //_placeApi.location(globalData.location).then((value) {});
                         globalData
                             .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(

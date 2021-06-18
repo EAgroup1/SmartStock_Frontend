@@ -10,7 +10,6 @@ class GlobalData {
   late String role;
   late String location;
   late String businessLocation;
-  late LatLng coordenadas;
 
 //LOTE
   late String name;
@@ -34,6 +33,9 @@ class GlobalData {
   late bool isReady;
   late bool isAssigned;
   late String description;
+  late LatLng coordenadas;
+
+  
 
   static GlobalData? getInstance() {
     if (instance == null) {
