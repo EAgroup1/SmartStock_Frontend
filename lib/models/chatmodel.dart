@@ -20,26 +20,45 @@ class ChatModel extends Model with ChangeNotifier {
 
  
   //actual user, property late
-  //late User? currentUser = UserServices().getUser(GlobalData.getInstance()!.getId());
-  late User user; //USUARIO YA VEREMOS QUE HACEMOS CON ESTO
+  late User? currentUser;// = UserServices().getaUser(GlobalData.getInstance()!.getId());
 
-  //rooms where put sockets. rooms(0) = own _id, rooms(1) = receiver _id
+  String? myId = GlobalData.getInstance()?.getId();
+
+
+  //Separated _ID used for chatID
+  var chatIDvect;
+
+  //Concatenation of chatIDvect sorted. This one will be the chat we are speaking to
+  var chatID;
+
+  //rooms where put sockets. All sockets with your friend sorted
   var rooms = [];
 
-  //fake list users this.id, this.userName, this.email, this.bank, this.role, list<_id friends>
-  late List<User>? friendList = [
-    new User('60aee312c0903a384cfc8544','Javier','javier@gmail.com','ES8200000000000000000000','Business',["60c9cc2b9202363c30c31d46"],""),
-    new User('60c9cc2b9202363c30c31d46','AAAAAAAAAAAAA','a@a.com','safdsfdghvm,bjn','Storage',["60aee312c0903a384cfc8544"],""),
+  //(Actually fake) list users this.id, this.userName, this.email, this.bank, this.role, list<_id friends>
+  late List<User>? friendList = //((currentUser!.friends;
+  [
+    //new User('60aee312c0903a384cfc8544','Javier','javier@gmail.com','ES8200000000000000000000','Business',["60c9cc2b9202363c30c31d46"],""),
+    //new User('60c9cc2b9202363c30c31d46','AAAAAAAAAAAAA','a@a.com','safdsfdghvm,bjn','Storage',["60aee312c0903a384cfc8544"],""),
     new User('60c4f100aaaa0a33e4e27ebd','test1','1@a.c','sadfdsgfdhf','Deliverer',["60c4f116aaaa0a33e4e27ebe"],""),
     new User('60c4f116aaaa0a33e4e27ebe','test2','2@a.c','asxdvfxvcgbvnhm','Storage',["60c4f100aaaa0a33e4e27ebd"],"")
-  ];// = [UserServices().getaUser("60b0b46e13d24f3c585c7c72")];// = [UserServices().getUser("60c4f116aaaa0a33e4e27ebe")];
-  /* = [ //FALLO AQUI
-    user
-    //UserServices().getUser("60b0b46e13d24f3c585c7c72")
-    //UserServices().getUser(GlobalData.getInstance()!.getId()).friends[0]
-  ];*/
+  ];
+
   
-  //Define messages list for conversation
+  //Prepares rooms value
+  void setLists(){
+    for (var i = 0; i < friendList!.length; i++){
+      if(myId != friendList?[i].id){
+        List<String?> provisionalroom = [myId,""];
+        provisionalroom[1] = friendList?[i].id; //Lista provisional con myId y _id amigo
+        print(provisionalroom);
+        provisionalroom.sort(); //Sort
+        var prov = provisionalroom[0].toString()+provisionalroom[1].toString();
+        rooms.add(prov);
+      }
+    }
+  }
+  
+  //Define (actual fake) messages list for conversation
   List<Message>? messages = <Message>[
     new Message("HOLA", "60c4f116aaaa0a33e4e27ebe", "60c4f100aaaa0a33e4e27ebd"),
     new Message("HOLA", "60c4f100aaaa0a33e4e27ebd", "60c4f116aaaa0a33e4e27ebe"),
@@ -53,17 +72,15 @@ class ChatModel extends Model with ChangeNotifier {
   Widget build(BuildContext context) {
     print("AQUI PASO");
     FutureBuilder(
-      future: UserServices().getUser("60b0b46e13d24f3c585c7c72"),
+      future: UserServices().getUserChat(GlobalData.getInstance()!.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         print("LLEGO AQUI");
         if (snapshot.hasError) {
           print("NO VA");
         }
         if (snapshot.hasData) {
-          user = snapshot.data;
-          friendList = [
-            user
-          ];
+          currentUser = snapshot.data;
+          friendList = [(currentUser!.friends) as User];
           print("EUREKA");
           return Container();
         } else {
@@ -79,71 +96,73 @@ class ChatModel extends Model with ChangeNotifier {
   //adds room for socket
   void addroom(String newroom){
     rooms.add(newroom);
-    print(rooms);
   }
 
   //deletes room for socket
   void delroom(String room){
     rooms.remove(room);
-    print(rooms);
   }
 
   //initiates socket
   void init() { 
+    //Connect the socket and joins the rooms
     socket.connect();
+    socket.emit('joinrooms',rooms);
+
+    //Different listening events from client
     socket.on('connect',(_) {
       print('Socket listening');
-      socket.emit('rooms',rooms);
     });
     socket.on('newmsg', (data) {
       print('New message');
-      //print ("AQUI COÑO "+ GlobalData.getInstance()!.getId());
-      //if (data['origin'] != GlobalData.getInstance()?.getId()){
         Fluttertoast.showToast(msg: "Nuevo mensaje: " + data.toString());
         print(data);
-      /*}
-      else{
-        print("Your own message");
-      }*/
     });
     socket.on('escribiendo',(data) {
-      print('Writing with id: '+data);
+      print('Writing with ChatID: '+data);
       Fluttertoast.showToast(msg: "Escribiendo...");
     });
   }
 
-  //join the rooms for socket
-  void sendRooms(){
-    socket.emit('rooms',rooms);
-    print("Connected to rooms");
-  }
+
+  //Different emit to server
 
   //send a message to sockets joined
   void sendMessage(String text){
+    String dest;
+    if(chatIDvect[0] == myId){
+      dest = chatIDvect[1].toString();
+    }
+    else{
+      dest = chatIDvect[0].toString();
+    }
     var _data = {
-      "destination": rooms[1],
+      "destination": dest,
       "text": text,
-      "origin": rooms[0],
+      "origin": myId,
+      "room": chatID
     };
     socket.emit('newmsg', _data);
   }
   
   //send "writing" flag to receiver
   void sendEscribiendo(){
-    socket.emit('escribiendo', rooms[1]);
+    socket.emit('escribiendo', chatID);
   }
   
-  //disconnect from socket chat, and delete it
+
+  //DISCONNECT ACTUALLY NOT IN USE AS WE NEED ALL ROOMS TO LISTEN CHATS
+  
+  /*//disconnect from all sockets
   void sendBye(){
     try{
-      socket.emit('disconnect', rooms[1]);
-      rooms.remove(rooms[1]);
-      print("Chat disconnected");
+      socket.emit('disconnect', rooms);
+      print("Socket disconnected");
     }
     catch(e){
       print("Already disconnected");
     }
-  }
+  }*/
 
   List<Message> getMessagesForChatID(String chatID) {
     return messages!

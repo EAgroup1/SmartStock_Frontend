@@ -23,13 +23,17 @@ class _AllChatsPageState extends State<AllChatsPage> {
   ChatModel model = GlobalData.getInstance()!.getChatModel();
   @override
   void initState() {
+    /*print("HOLA");
+    print(model.friendList);
+    print(model.currentUser);*/
     super.initState();
   }
 
   void friendClicked(User friend){
     GlobalData.getInstance()?.setFriend(friend);
-    model.addroom(friend.id);
-    model.sendRooms();
+    model.chatIDvect = [model.myId,friend.id];
+    model.chatIDvect.sort();
+    model.chatID = model.chatIDvect[0].toString()+model.chatIDvect[1].toString();
     MyNavigator.goToWebChat(context);
   }
 
@@ -38,7 +42,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
   @override
   Widget build(BuildContext context) {
     buildAllChatList(){
-      print(model.friendList?[0].toJson());
+      print(model.friendList?[0]);
       if (model.friendList!.isEmpty){
         return Center(child: Text("No tienes amigos"));
       }
@@ -50,13 +54,13 @@ class _AllChatsPageState extends State<AllChatsPage> {
             padding: const EdgeInsets.all(8),
             itemCount: model.friendList?.length,
             itemBuilder: (context, index) {
-              var friend = model.friendList?[index];
+              var friend = (model.friendList?[index]) as User;
               return GestureDetector(
-                onTap: () => friendClicked(friend!),
+                onTap: () => friendClicked(friend),
                 child: Container(
                   height: 50,
                   color: Colors.amber[200],
-                  child: Center(child: Text('${friend?.userName.toString()}')),
+                  child: Center(child: Text('${friend.userName.toString()}')),
                 )
               );
             },

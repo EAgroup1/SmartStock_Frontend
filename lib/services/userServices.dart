@@ -27,6 +27,7 @@ class UserServices {
   login(email, password) async {
     print(email);
     print(password);
+    print("PRINT DESDE USERSERVICES LOGIN Y SE ENVIA EN CLARO PASSWORD");
     try {
       return await dio.post(url + 'logIn',
           data: {"email": email, "password": password},
@@ -81,14 +82,14 @@ class UserServices {
     }
   }
 
-  getUser(String id) async {
+  getUserChat(String id) async {
     try {
-      final resp = await dio.get(url+id,
+      final resp = await dio.get(url+'/chat/'+id,
         options: Options(contentType: Headers.formUrlEncodedContentType)
       );
-      Map<String, dynamic> map = jsonDecode(resp.toString());
-      //User user = new User.fromJson(map); 
-      return map;
+      //Map<String, dynamic> map = jsonDecode(resp.toString());
+      User user = new User.fromJson(resp.data); 
+      return user;
     } catch (e) {
       print(e);
       return [];
@@ -97,7 +98,7 @@ class UserServices {
   User getaUser(String id){
     User resulting = new User('','','','','',[],'');
     
-    getUser(id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
+    getUserChat(id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
     .then((result) {
       var userName = result.userName;
       var email = result.email;
