@@ -116,6 +116,8 @@ class _MyProdPageState extends State<MyProdPage> {
 
     print("entra en el futurebuilder");
     return FutureBuilder(
+      //aquí tendremos que hacer el list un if, else con varios getlotlist, get...
+      //if dropdown es tal ..
       future: lotService.getLotListByUser(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
