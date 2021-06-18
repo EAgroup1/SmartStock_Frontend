@@ -1,13 +1,14 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/delivery.dart';
+import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/models/user.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  //var url = "http://localhost:4000/api/delivery/";
-  var url = "http://10.0.2.2:4000/api/delivery/";
+  //var url = "http://localhost:3000/api/delivery/";
+  var url = "http://10.0.2.2:3000/api/delivery/";
 
   getDeliveriesUser(String id) async {
     try {
@@ -194,5 +195,26 @@ class DeliveryServices {
 
   }
 
+  createDelivery(String lot, String userItem) async {
+    print(lot);
+    print(userItem);
+    try {
+      return await dio.post(url,
+      data: {
+            "lotItem": lot,
+            "userItem": userItem
+      },
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error creando el delivery',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
  
 }

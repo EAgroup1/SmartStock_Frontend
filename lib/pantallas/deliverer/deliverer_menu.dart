@@ -36,9 +36,9 @@ class DelivererMenu extends StatelessWidget {
             ),
             ListTile(
                 leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
+                title: Text('Volver'),
                 onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
+                  MyNavigator.goToDeliverer(context);
                 }),
             ListTile(
                 leading: Icon(Icons.account_circle),
@@ -174,8 +174,8 @@ class _Aentregar extends State<Aentregar> {
 
   @override
   Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
-    bool isPicked = delivery.isPicked;
-    bool isDelivered = delivery.isDelivered;
+    bool? isPicked = delivery.isPicked;
+    bool? isDelivered = delivery.isDelivered;
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return new AlertDialog(

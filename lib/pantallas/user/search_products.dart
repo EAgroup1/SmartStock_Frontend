@@ -6,6 +6,7 @@ import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 
 class SearchProductsPage extends StatefulWidget {
   @override
@@ -13,7 +14,6 @@ class SearchProductsPage extends StatefulWidget {
 }
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
-
   Lot? lotSeleccionado;
   List<Lot> historial = [];
   DataSearch search = new DataSearch();
@@ -33,7 +33,6 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
         ],
       ),
       body: search.buildSuggestions(context),
-
     );
   }
 }
@@ -74,7 +73,9 @@ class DataSearch extends SearchDelegate<Lot?> {
     List<Lot> lot;
     if (query.trim().length == 0) {
       return Center(
-          child: Text('Introduce un producto para filtrar',));
+          child: Text(
+        'Introduce un producto para filtrar',
+      ));
     } else {
       return FutureBuilder(
           future: lotservices.getAllLotsSorted(),
@@ -82,16 +83,17 @@ class DataSearch extends SearchDelegate<Lot?> {
             if (snapshot.hasData) {
               lot = snapshot.data;
               List<Lot?> results = lot
-                                   .where((element) => 
-                                   element.name.toLowerCase() == query.toLowerCase())
-                                                                 .toList();
+                  .where((element) =>
+                      element.name.toLowerCase() == query.toLowerCase())
+                  .toList();
               if (results.isNotEmpty) {
-              return _showLots(results);
+                return _showLots(results);
               } else {
-                  return Center(
-                    child: Text('No existe ningún lote con este nombre',)
-                  );
-                }
+                return Center(
+                    child: Text(
+                  'No existe ningún lote con este nombre',
+                ));
+              }
             } else {
               return Center(child: CircularProgressIndicator(strokeWidth: 4));
             }
@@ -110,16 +112,15 @@ class DataSearch extends SearchDelegate<Lot?> {
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;
-          List<Lot?> suggestions = query.isEmpty 
-                 ? lot  
-                 : lot
-               .where((element) =>
-                  element.name.toLowerCase().contains(query.toLowerCase()))
-                  .toList(); 
-                     
+          List<Lot?> suggestions = query.isEmpty
+              ? lot
+              : lot
+                  .where((element) =>
+                      element.name.toLowerCase().contains(query.toLowerCase()))
+                  .toList();
+
           print(suggestions);
           return _showLots(suggestions);
-          
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
@@ -148,7 +149,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                   ListTile(
                     leading: Icon(Icons.arrow_right),
                     title: Text('${lots[i].name}'),
-                    subtitle: Text('Informacion: ${lots[i].info}'),
+                    subtitle: Text('Cantidad: ${lots[i].qty}'),
                     // title: Text(
                     //   lote.name,
                     //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -187,9 +188,10 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu casa?"),
         new FlatButton(
           onPressed: () {
-            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             Navigator.of(context).pop('Accept');
-            //showSearch(context: context, delegate: DataSearch());
+            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+            final delivery = new DeliveryServices();
+            delivery.createDelivery(lot.id, globalData.id);
             MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,

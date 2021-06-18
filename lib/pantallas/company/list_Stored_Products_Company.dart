@@ -22,7 +22,7 @@ class _SearchMyStorageProductsPageState extends State<SearchMyStorageProductsPag
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Storage Products' + globalData.userName),
+        title: Text('My Stored Products' + globalData.userName),
         actions: <Widget>[
           IconButton(
               onPressed: () {
@@ -80,7 +80,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     List<Lot> lot;
 
     return FutureBuilder(
-      future: allLotsByBusiness.getLotListByBusiness(globalData.id),
+      future: allLotsByBusiness.getLotListByBusinessInProgressStored(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;
@@ -92,7 +92,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                   .toList(); 
               // &&
               // element.name.toLowerCase().startsWith(query.toLowerCase()))
-                     
+                    
           print(suggestions);
           return _showLots(suggestions);
         } else {
@@ -145,7 +145,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                     ListTile(
                       leading: Icon(Icons.arrow_right),
                       title: Text('${lots[i].name}'),
-                      subtitle: Text('Informacion: ${lots[i].info}'),
+                      subtitle: Text('Cantidad: ${lots[i].qty}'),
                       // title: Text(
                       //   lote.name,
                       //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -179,7 +179,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             Text("Cantidad: " + lot.qty.toString()),
             Text("Precio/unidad: " + lot.price.toString() + "€"),
             Text("Cantidad minima: " + lot.minimumQty.toString()),
-            //Text("User: " + lot.userItem.userName),
+            Text("User: " + lot.userItem!.userName),
             
           ],
         ),

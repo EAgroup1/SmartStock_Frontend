@@ -10,21 +10,36 @@ part 'delivery.g.dart';
 class Delivery {
   @JsonKey(name: 'lotItem')
   Lot lot;
-
   @JsonKey(name: '_id')
   String id;
-  String deliveryDate;
+  String originLocation;
+  String destinationLocation;
+  User destinationItem;
+  String? deliveryDate;
+  bool? isPicked;
+  bool? isDelivered;
+  bool? isReady;
   User businessItem;
-  late User userItem;
-  String description;
-  bool isPicked;
-  bool isDelivered;
-  late String time;
-  late String originLocation;
-  late String destinationItem;
+  bool? isAssigned;
+  User userItem;
+  String? description;
+  String? time;
 
-  Delivery(this.lot, this.id, this.deliveryDate, this.businessItem,
-      this.description, this.isDelivered, this.isPicked);
+  Delivery(
+      this.destinationLocation,
+      this.destinationItem,
+      this.isReady,
+      this.isAssigned,
+      this.userItem,
+      this.lot,
+      this.id,
+      this.deliveryDate,
+      this.businessItem,
+      this.description,
+      this.originLocation,
+      this.isDelivered,
+      this.isPicked,
+      this.time);
 
   /// Un método constructor de tipo factory es necesario para crear una nueva instancia User
   /// desde un mapa. Pasa el mapa al constructor auto-generado `_$UserFromJson()`.

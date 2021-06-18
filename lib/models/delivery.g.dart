@@ -8,26 +8,36 @@ part of 'delivery.dart';
 
 Delivery _$DeliveryFromJson(Map<String, dynamic> json) {
   return Delivery(
+    json['destinationLocation'] as String,
+    User.fromJson(json['destinationItem'] as Map<String, dynamic>),
+    json['isReady'] as bool?,
+    json['isAssigned'] as bool?,
+    User.fromJson(json['userItem'] as Map<String, dynamic>),
     Lot.fromJson(json['lotItem'] as Map<String, dynamic>),
     json['_id'] as String,
-    json['deliveryDate'] as String,
+    json['deliveryDate'] as String?,
     User.fromJson(json['businessItem'] as Map<String, dynamic>),
-    json['description'] as String,
-    json['isDelivered'] as bool,
-    json['isPicked'] as bool,
-  )
-    ..userItem = User.fromJson(json['userItem'] as Map<String, dynamic>)
-    ..time = json['time'] as String;
+    json['description'] as String?,
+    json['originLocation'] as String,
+    json['isDelivered'] as bool?,
+    json['isPicked'] as bool?,
+    json['time'] as String?,
+  );
 }
 
 Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
       'lotItem': instance.lot,
       '_id': instance.id,
+      'originLocation': instance.originLocation,
+      'destinationLocation': instance.destinationLocation,
+      'destinationItem': instance.destinationItem,
       'deliveryDate': instance.deliveryDate,
-      'businessItem': instance.businessItem,
-      'userItem': instance.userItem,
-      'description': instance.description,
       'isPicked': instance.isPicked,
       'isDelivered': instance.isDelivered,
+      'isReady': instance.isReady,
+      'businessItem': instance.businessItem,
+      'isAssigned': instance.isAssigned,
+      'userItem': instance.userItem,
+      'description': instance.description,
       'time': instance.time,
     };

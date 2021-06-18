@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/main.dart';
 import 'package:rlbasic/models/lot.dart';
 
 class lotServices {
   Dio dio = new Dio();
-  var url = "http://localhost:4000/api/lots/";
+  var url = "http://localhost:3000/api/lots/";
 
   postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
       String businessItem) async {
@@ -40,7 +41,6 @@ class lotServices {
       }
     }
   }
-
 
   getLotsSameName(String name) async {
     try {
@@ -107,8 +107,8 @@ class lotServices {
   // }
 
   addNewLotToUser(String id, String userID) async {
-    print(id + 'id LOTE');
-    print(userID + 'id userItem');
+    print('id: ' + id);
+    print('id userItem: ' + userID);
     try {
       final resp = await dio.put('$url' + '$id',
           data: {"userItem": userID},
@@ -123,9 +123,6 @@ class lotServices {
           timeInSecForIosWeb: 3);
     }
   }
-
-
-
 
   //Lot List of one user trough id
   getLotListByUser(String id) async {
@@ -142,7 +139,6 @@ class lotServices {
     }
   }
 
-  
   getLotListByBusiness(String id) async {
     try {
       final resp = await dio.get('$url' + 'getByBusiness/' + '$id');
@@ -157,5 +153,18 @@ class lotServices {
     }
   }
 
+    getLotListByBusinessInProgressStored(String id) async {
+    try {
+      final resp = await dio.get('$url' + '/getByBusinessStoredWithUserID/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha almacenado aun ningun lote',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
 
 }

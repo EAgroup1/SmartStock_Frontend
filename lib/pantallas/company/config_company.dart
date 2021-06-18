@@ -36,6 +36,36 @@ Widget stack() {
     );
   }
 
+   void popup(BuildContext context) {
+    var alert = AlertDialog(
+      title: const Text('Cerrar sesión'),
+      content: new SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text("¿Estas seguro?"),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            MyNavigator.goToLogin(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Aceptar'),
+        ),
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop('Cancelar');
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cancelar'),
+        )
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context) => alert);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +81,12 @@ Widget stack() {
         ListTile(
             leading: Icon(Icons.email),
             title: Text(globalData.email),
+            onTap: () {
+              Navigator.of(context).pushNamed("");
+            }),
+        ListTile(
+            leading: Icon(Icons.home_repair_service),
+            title: Text(globalData.location),
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
@@ -88,7 +124,7 @@ Widget stack() {
             leading: Icon(Icons.arrow_circle_down_rounded),
             title: Text('Cerrar sesión'),
             onTap: () {
-              MyNavigator.goToLogin(context);
+            popup(context);
             }),
       ],
     ));

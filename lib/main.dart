@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         title: 'SmartStock',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: 'Roboto',
           dividerColor: Colors.grey,
           primarySwatch: Colors.blue,
         ),
