@@ -7,7 +7,7 @@ class lotServices {
   Dio dio = new Dio();
   var url = "http://localhost:3000/api/lots/";
 
-  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
+  postLot(name, dimensions, weight, qty, minimumQty, price, isFragile, info,
       String businessItem) async {
     print(name);
     print(dimensions);
@@ -16,8 +16,8 @@ class lotServices {
     print(minimumQty);
     print(price);
     print(isFragile);
+    print(info);
     print(businessItem);
-    
 
     try {
       return await dio.post(url,
@@ -154,7 +154,7 @@ class lotServices {
     }
   }
 
-    getLotListByBusinessStored(String id) async {
+  getLotListByBusinessStored(String id) async {
     try {
       final resp = await dio.get('$url' + '/getByBusinessStored/' + '$id');
       final List<dynamic> lotlist = resp.data;
@@ -167,5 +167,4 @@ class lotServices {
           timeInSecForIosWeb: 3);
     }
   }
-
 }

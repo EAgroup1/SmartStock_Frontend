@@ -194,7 +194,7 @@ class DataSearch extends SearchDelegate<Lot?> {
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot.id, globalData.id);
             MyNavigator.goToSearchProducts(context);
-            delivery.createDelivery(lot, globalData.id);
+            //delivery.createDelivery(lot.id, globalData.id);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),
