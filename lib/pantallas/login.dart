@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
@@ -128,7 +129,44 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     createLinks() {
-      return ButtonBar(
+      return  Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                text: '¿Has olvidado la contraseña?',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToForgotPassword(context);
+                },
+              ),
+            ),
+          ),
+          RichText(
+              text: TextSpan(
+                text: 'Registrarse',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToRegister(context);
+                },
+              ),
+            ),
+             ],
+      ),
+    );
+    
+   
+     /*  ButtonBar(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(16.0),
@@ -148,18 +186,9 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
           ),
-          ElevatedButton(
-              child: Text(
-                'pruebas',
-              ),
-              onPressed: () {
-                // MyNavigator.goToBankData(context);
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Mapa()));
-              })
-        ],
+          ],
       );
-    }
+    */ }
 
     divisor() {
       return Container(

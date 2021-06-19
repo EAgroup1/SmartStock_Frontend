@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/user.dart';
@@ -54,19 +55,6 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    createLocationInput() {
-      return TextFormField(
-        decoration: InputDecoration(filled: true, hintText: 'Dirección'),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Por favor, introduce tu dirección';
-          }
-        },
-        onChanged: (val) {
-          direccion = val;
-        },
-      );
-    }
 
     createPasswordInput() {
       return TextFormField(
@@ -105,34 +93,39 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    termsAndConditions() {
-      return ButtonBar(
+    termsAndConditionsCheckbox() {
+      return 
+      Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: TextButton(
-              child: Text('Términos y condiciones'),
-              onPressed: () {
-                MyNavigator.goToTerms(context);
-              },
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                text: 'Acepto los términos y condiciones',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                  MyNavigator.goToTerms(context);
+                },
+              ),
             ),
           ),
-        ],
-      );
-    }
-
-    termsAndConditionsCheckbox() {
-      return Center(
-        child: CheckboxListTile(
-            title: const Text('Acepto los términos y condiciones'),
+          Checkbox(
             value: termsAccepted,
             onChanged: (bool? value) {
               setState(() {
                 termsAccepted = value!;
               });
             },
-            controlAffinity: ListTileControlAffinity.leading),
-      );
+          ),
+        ],
+      ),
+    );
+    
     }
 
     createRegisterButton(BuildContext context) {
@@ -206,12 +199,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 12.0),
                           createEmailInput(),
                           SizedBox(height: 30.0),
-                          //createLocationInput(),
-                          // SizedBox(height: 12.0),
                           createPasswordInput(),
                           SizedBox(height: 12.0),
                           createConPasswordInput(),
-                          termsAndConditions(),
                           termsAndConditionsCheckbox(),
                           createRegisterButton(context)
                         ])))));
