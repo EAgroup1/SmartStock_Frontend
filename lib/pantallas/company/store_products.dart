@@ -21,6 +21,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('Añadir productos'),
       ),
       body: buildSuggestions(context),
@@ -108,7 +109,8 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
             Text("Cantidad mínima: " + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
             Text("Frágil: " + lot.isFragile.toString()),
-            Text("Almacenado: " + lot.stored.toString())
+            Text("Almacenado: " + lot.stored.toString()),
+
 
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),

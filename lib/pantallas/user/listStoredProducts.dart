@@ -15,7 +15,7 @@ class MyProdPageMenu extends StatelessWidget {
     //lateral menu
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(title: Text("Tu lista de Lotes"), actions: <Widget>[
+      appBar: AppBar(title: Text("Tu lista de Lotes"), backgroundColor: Colors.grey, actions: <Widget>[
         IconButton(
           icon: Icon(Icons.euro_symbol),
           onPressed: () {

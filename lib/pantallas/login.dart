@@ -86,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
+                        globalData.setLocation(val.data['location']);
                         globalData
                             .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
@@ -95,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (globalData.getRole() == "Business") {
                           MyNavigator.goToCompany(context);
-                        }else if (globalData.getRole() == "Storage"){
+                        } else if (globalData.getRole() == "Storage") {
                           MyNavigator.goToUser(context);
-                        }else{
+                        } else {
                           MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {
@@ -191,17 +192,18 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
           padding: const EdgeInsets.only(top: 32),
           child: RaisedButton(
-            textColor: Colors.white,
-            color: Colors.blue,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(FontAwesomeIcons.google),
-              Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Text('Entrar con Google', textAlign: TextAlign.center),
-              )
-            ]),
-            onPressed: () {
-              try {
+              textColor: Colors.white,
+              color: Colors.blue,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(FontAwesomeIcons.google),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32),
+                  child: Text('Entrar con Google', textAlign: TextAlign.center),
+                )
+              ]),
+              onPressed: () {
+                try {
                   UserServices().loginGoogle().then((val) {
                     if (val.statusCode == 200) {
                       print(val.data);
@@ -214,14 +216,13 @@ class _LoginPageState extends State<LoginPage> {
                       globalData.setEMail(val.data['email']);
                       if (val.data['role'] == null) {
                         MyNavigator.goToBankData(context);
-                      }else if (val.data['role'] == "Business"){
+                      } else if (val.data['role'] == "Business") {
                         MyNavigator.goToCompany(context);
-                      }else if (val.data['role'] == "Storage"){
-                      MyNavigator.goToCompany(context);
-                    }else{
-                      MyNavigator.goToUser(context);
-                    }
-
+                      } else if (val.data['role'] == "Storage") {
+                        MyNavigator.goToCompany(context);
+                      } else {
+                        MyNavigator.goToUser(context);
+                      }
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
@@ -234,15 +235,14 @@ class _LoginPageState extends State<LoginPage> {
                           timeInSecForIosWeb: 6);
                     }
                   });
-              } catch (err) {
-                print(err);
-                Fluttertoast.showToast(
-                    msg: err.toString(),
-                    toastLength: Toast.LENGTH_SHORT,
-                    timeInSecForIosWeb: 6);
-              }
-            }
-          ));
+                } catch (err) {
+                  print(err);
+                  Fluttertoast.showToast(
+                      msg: err.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 6);
+                }
+              }));
     }
 
     return Material(

@@ -22,6 +22,8 @@ class GlobalData {
   late bool isFragile;
   late String info;
   late bool stored;
+  late bool delivered;
+  late bool picked;
 
 //DELIVERY
   late String iddelivery;
@@ -60,6 +62,8 @@ class GlobalData {
   bool getisFragile() => this.isFragile;
   String getInfo() => this.info;
   bool getStored() => this.stored;
+  bool getDelivered() => this.delivered;
+  bool getPicked() => this.picked;
 
   //DELIVERY
   String getIdDelivery() => this.iddelivery;
@@ -137,6 +141,16 @@ class GlobalData {
   setStored(bool stored) {
     this.stored = stored;
   }
+
+   setDelivered(bool delivered) {
+    this.delivered = delivered;
+  }
+
+
+   setPicked(bool picked) {
+    this.picked = picked;
+  }
+
 
   //DELIVERY
   setIdDelivery(String iddelivery) {

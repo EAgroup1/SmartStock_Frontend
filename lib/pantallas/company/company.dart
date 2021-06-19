@@ -15,7 +15,9 @@ class _CompanyPageState extends State<CompanyPage> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('¡Bienvenida compañia ' + globalData.getUserName() + '!'),
+        
       ),
       drawer: Drawer(
         child: ListView(
@@ -23,7 +25,7 @@ class _CompanyPageState extends State<CompanyPage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.grey,
               ),
               child: Text(
                 'Perfil',

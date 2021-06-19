@@ -15,6 +15,7 @@ class _DelivererPageState extends State<DelivererPage> {
      return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('¡Bienvenido Transportista '+ globalData.getUserName()+'!'),
       ),
       drawer: Drawer(
@@ -23,7 +24,7 @@ class _DelivererPageState extends State<DelivererPage> {
           children:  <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.grey,
               ),
               child: Text(
                 'Perfil',

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/services/lotServices.dart';
@@ -23,6 +24,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('Envio de productos'),
       ),
       body: _lottosend(lots),
@@ -119,6 +121,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final bool value;
     final Function onChange;
+    
 
     return new AlertDialog(
       title: const Text('Información detallada del envio'),
@@ -127,8 +130,8 @@ class _SendProductsPageState extends State<SendProductsPage> {
         // crossAxisAlignment: CrossAxisAlignment.start,
         child: ListBody(
           children: <Widget>[
-            Text("Recogido: "),
-            Text("Entregado: "),
+            Text("Recogido: " + lot.picked.toString()),
+            Text("Entregado: " + lot.delivered.toString()),
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],

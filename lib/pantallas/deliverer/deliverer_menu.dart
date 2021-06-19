@@ -15,6 +15,7 @@ class DelivererMenu extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Menú'),
+        backgroundColor: Colors.grey,
       ),
       drawer: Drawer(
         child: ListView(
@@ -60,6 +61,7 @@ class DelivererMenuScreen extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.grey,
             automaticallyImplyLeading: false,
             bottom: TabBar(
               indicatorColor: Colors.white,

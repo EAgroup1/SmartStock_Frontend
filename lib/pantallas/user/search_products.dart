@@ -23,6 +23,7 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('Buscar productos'),
         actions: <Widget>[
           IconButton(
@@ -189,7 +190,7 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu casa?"),
         new FlatButton(
           onPressed: () {
-            Navigator.of(context).pop('Accept');
+            // Navigator.of(context).pop('Accept');
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot.id, globalData.id);

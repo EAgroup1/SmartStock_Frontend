@@ -14,6 +14,7 @@ class DeliveryMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         title: Text('My Stored Products'),
       ),
       drawer: Drawer(
@@ -22,7 +23,7 @@ class DeliveryMenu extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.grey,
               ),
               child: Text(
                 'Perfil',
