@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
-import 'package:rlbasic/pantallas/user/mapa.dart';
+import 'package:rlbasic/pantallas/deliverer/mapa.dart';
+import 'package:rlbasic/services/place_service.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +14,7 @@ import 'user/user.dart';
 import 'splashScreen.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
+PlaceApi _placeApi = PlaceApi.instance;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -87,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
                         globalData.setLocation(val.data['location']);
+                        //_placeApi.location(globalData.location).then((value) {});
                         globalData
                             .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
@@ -125,7 +129,44 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     createLinks() {
-      return ButtonBar(
+      return  Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                text: '¿Has olvidado la contraseña?',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToForgotPassword(context);
+                },
+              ),
+            ),
+          ),
+          RichText(
+              text: TextSpan(
+                text: 'Registrarse',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToRegister(context);
+                },
+              ),
+            ),
+             ],
+      ),
+    );
+    
+   
+     /*  ButtonBar(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(16.0),
@@ -145,19 +186,9 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
           ),
-          ElevatedButton(
-              child: Text(
-                'pruebas',
-              ),
-              onPressed: () {
-                MyNavigator.goToBankData(context);
-                /*  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Mapa()));
-               */
-              })
-        ],
+          ],
       );
-    }
+    */ }
 
     divisor() {
       return Container(

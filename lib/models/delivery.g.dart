@@ -21,6 +21,7 @@ Delivery _$DeliveryFromJson(Map<String, dynamic> json) {
     json['originLocation'] as String,
     json['isDelivered'] as bool?,
     json['isPicked'] as bool?,
+    json['time'] as String?,
   );
 }
 
@@ -38,4 +39,5 @@ Map<String, dynamic> _$DeliveryToJson(Delivery instance) => <String, dynamic>{
       'isAssigned': instance.isAssigned,
       'userItem': instance.userItem,
       'description': instance.description,
+      'time': instance.time,
     };

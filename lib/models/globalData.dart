@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GlobalData {
   static GlobalData? instance;
@@ -35,12 +35,19 @@ class GlobalData {
   late bool isReady;
   late bool isAssigned;
   late String description;
+  late LatLng coordenadas;
+
+  
 
   static GlobalData? getInstance() {
     if (instance == null) {
       instance = GlobalData();
     }
     return instance;
+  }
+
+  GlobalData? setInstance() {
+    instance = null;
   }
 
 //USERS
