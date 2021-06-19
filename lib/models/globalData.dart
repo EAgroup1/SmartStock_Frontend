@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GlobalData {
   static GlobalData? instance;
@@ -8,6 +8,8 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late String location;
+  late String businessLocation;
 
 //LOTE
   late String name;
@@ -21,11 +23,29 @@ class GlobalData {
   late String info;
   late bool stored;
 
+//DELIVERY
+  late String iddelivery;
+  late String originLocation;
+  late String destinationLocation;
+  late String deliveryDate;
+  late bool isPicked;
+  late bool isDelivered;
+  late bool isReady;
+  late bool isAssigned;
+  late String description;
+  late LatLng coordenadas;
+
+  
+
   static GlobalData? getInstance() {
     if (instance == null) {
       instance = GlobalData();
     }
     return instance;
+  }
+
+  GlobalData? setInstance() {
+    instance = null;
   }
 
 //USERS
@@ -34,7 +54,8 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
-
+  String getLocation() => this.location;
+  String getBusinessLocation() => this.businessLocation;
 //LOTS
   String getName() => this.name;
   String getIdlot() => this.idlot;
@@ -46,6 +67,17 @@ class GlobalData {
   bool getisFragile() => this.isFragile;
   String getInfo() => this.info;
   bool getStored() => this.stored;
+
+  //DELIVERY
+  String getIdDelivery() => this.iddelivery;
+  String getOriginLocation() => this.originLocation;
+  String getDestinationLocation() => this.destinationLocation;
+  String getDeliveryDate() => this.deliveryDate;
+  bool getIsPicked() => this.isPicked;
+  bool getIsDelivered() => this.isDelivered;
+  bool getIsReady() => this.isReady;
+  bool getIsAssigned() => this.isAssigned;
+  String getDescription() => this.description;
 
 //USER
   setId(String id) {
@@ -66,6 +98,10 @@ class GlobalData {
 
   setRole(String role) {
     this.role = role;
+  }
+
+  setLocation(String location) {
+    this.location = location;
   }
 
   //LOTS
@@ -107,5 +143,42 @@ class GlobalData {
 
   setStored(bool stored) {
     this.stored = stored;
+  }
+
+  //DELIVERY
+  setIdDelivery(String iddelivery) {
+    this.iddelivery = iddelivery;
+  }
+
+  setOriginLocation(String originLocation) {
+    this.originLocation = originLocation;
+  }
+
+  setDestinationLocation(String destinationLocation) {
+    this.destinationLocation = destinationLocation;
+  }
+
+  setDeliveryDate(String deliveryDate) {
+    this.deliveryDate = deliveryDate;
+  }
+
+  setIsPicked(bool isPicked) {
+    this.isPicked = isPicked;
+  }
+
+  setIsDelivered(bool isDelivered) {
+    this.isDelivered = isDelivered;
+  }
+
+  setIsReady(bool isReady) {
+    this.isReady = isReady;
+  }
+
+  setIsAssigned(bool isAssigned) {
+    this.isAssigned = isAssigned;
+  }
+
+  setDescription(String description) {
+    this.description = description;
   }
 }

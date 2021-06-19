@@ -51,6 +51,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
       actions: <Widget>[
         FlatButton(
           onPressed: () {
+            globalData.setInstance();
             MyNavigator.goToLogin(context);
           },
           textColor: Theme.of(context).primaryColor,
@@ -87,7 +88,7 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
           }),
       ListTile(
           leading: Icon(Icons.home_repair_service),
-          title: Text('Dirección'),
+          title: Text(globalData.location),
           onTap: () {
             Navigator.of(context).pushNamed("");
           }),

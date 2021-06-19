@@ -1,97 +1,128 @@
-
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rlbasic/models/directions_model.dart';
+
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as maps;
+import 'package:rlbasic/models/globalData.dart';
+import 'package:rlbasic/pantallas/user/user.dart';
+import 'package:rlbasic/services/userServices.dart';
+// ignore: import_of_legacy_library_into_null_safe
+//import 'package:google_maps_webservice/directions.dart';
 
 class Place {
-  late String streetNumber;
-  late String street;
-  late String city;
-  late String zipCode;
+  final String placeId, description;
 
-  Place();
-
-  @override
-  String toString() {
-    return 'Place(streetNumber: $streetNumber, street: $street, city: $city, zipCode: $zipCode)';
+  Place({required this.placeId, required this.description});
+  static Place fromJson(Map<String, dynamic> json) {
+    return Place(
+      placeId: json['place_id'],
+      description: json['description'],
+    );
   }
 }
 
-// For storing our result
-class Suggestion {
-  final String placeId;
-  final String description;
+class PlaceApi {
+  PlaceApi._internal();
+  static PlaceApi get instance => PlaceApi._internal();
+  final Dio _dio = Dio();
 
-  Suggestion(this.placeId, this.description);
-
-  @override
-  String toString() {
-    return 'Suggestion(description: $description, placeId: $placeId)';
-  }
-}
-
-class PlaceApiProvider {
-  final   Dio dio = new Dio();
-  PlaceApiProvider(this.sessionToken);
-  final sessionToken;
-
-  static final String androidKey = 'YOUR_API_KEY_HERE';
-  static final String iosKey = 'YOUR_API_KEY_HERE';
+  static final String androidKey = 'AIzaSyDkLS9gx294LM4w85qDd9Zqutg6s8sN8Og';
+  static final String iosKey = 'AIzaSyDkLS9gx294LM4w85qDd9Zqutg6s8sN8Og';
   final apiKey = Platform.isAndroid ? androidKey : iosKey;
 
-  Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
-    final request =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:ch&key=$apiKey&sessiontoken=$sessionToken';
-    final response = await dio.get(request);
-
-    if (response.statusCode == 200) {
-      final result = response.data;
-      if (result['status'] == 'OK') {
-        // compose suggestions in a list
-        return result['predictions']
-            .map<Suggestion>((p) => Suggestion(p['place_id'], p['description']))
-            .toList();
-      }
-      if (result['status'] == 'ZERO_RESULTS') {
-        return [];
-      }
-      throw Exception(result['error_message']);
-    } else {
-      throw Exception('Failed to fetch suggestion');
+  Future<List<Place>?> searchPredictions(String input) async {
+    try {
+      final response = await this._dio.get(
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+        queryParameters: {
+          "input": input,
+          "key": apiKey,
+          "types": "address",
+          "language": "es-Es",
+          "components": "country:es",
+        },
+      );
+      print(response.data);
+      final List<Place> places = (response.data['predictions'] as List)
+          .map((item) => Place.fromJson(item))
+          .toList();
+      return places;
+    } catch (e) {
+      return null;
     }
   }
 
-  Future<Place> getPlaceDetailFromId(String placeId) async {
-final request =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component&key=$apiKey&sessiontoken=$sessionToken';
-    final response = await dio.get(request);
+  Future<LatLng?> location(String address) async {
+    try {
+      final response = await this._dio.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        queryParameters: {
+          "address": address,
+          "key": apiKey,
+        },
+      );
+      //enviar a la base de datos las coordenadas
+      print("llega aqui");
+      UserServices().sendCoord(
+          globalData.id,
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]).then((val) {});
+      globalData.coordenadas = LatLng(
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]);
+    } catch (e) {
+      return null;
+    }
+  }
 
+  Future<LatLng?> coordenadas(String address) async {
+    try {
+      final response = await this._dio.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        queryParameters: {
+          "address": address,
+          "key": apiKey,
+        },
+      );
+      //enviar a la base de datos las coordenadas
+      print("llega aqui");
+      globalData.coordenadas = LatLng(
+          response.data["results"][0]["geometry"]["location"]["lat"],
+          response.data["results"][0]["geometry"]["location"]["lng"]);
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+class DirectionsRepository {
+  static const String _baseUrl =
+      'https://maps.googleapis.com/maps/api/directions/json?';
+
+  final Dio _dio;
+
+  DirectionsRepository({Dio? dio}) : _dio = dio ?? Dio();
+
+  Future<Directions?> getDirections({
+    @required LatLng? origin,
+    @required LatLng? destination,
+  }) async {
+    final response = await _dio.get(
+      _baseUrl,
+      queryParameters: {
+        'origin': '${origin!.latitude},${origin.longitude}',
+        'destination': '${destination!.latitude},${destination.longitude}',
+        'key': 'AIzaSyDkLS9gx294LM4w85qDd9Zqutg6s8sN8Og',
+      },
+    );
+
+    // Check if response is successful
     if (response.statusCode == 200) {
-      final result = response.data;
-      if (result['status'] == 'OK') {
-        final components =
-            result['result']['address_components'] as List<dynamic>;
-        // build result
-        final place = Place();
-        components.forEach((c) {
-          final List type = c['types'];
-          if (type.contains('street_number')) {
-            place.streetNumber = c['long_name'];
-          }
-          if (type.contains('route')) {
-            place.street = c['long_name'];
-          }
-          if (type.contains('locality')) {
-            place.city = c['long_name'];
-          }
-          if (type.contains('postal_code')) {
-            place.zipCode = c['long_name'];
-          }
-        });
-        return place;
-      }
-      throw Exception(result['error_message']);
-    } else {
-      throw Exception('Failed to fetch suggestion');
-    }  }
+      return Directions.fromMap(response.data);
+    }
+    return null;
+  }
 }

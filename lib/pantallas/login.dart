@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
-import 'package:rlbasic/pantallas/user/mapa.dart';
+import 'package:rlbasic/pantallas/deliverer/mapa.dart';
+import 'package:rlbasic/services/place_service.dart';
 import '../my_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +14,7 @@ import 'user/user.dart';
 import 'splashScreen.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
+PlaceApi _placeApi = PlaceApi.instance;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '', '', '');
+  User user = User('', '', '', '', '', '');
   Dio dioerror = new Dio();
 
   @override
@@ -86,6 +89,8 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
+                        globalData.setLocation(val.data['location']);
+                        //_placeApi.location(globalData.location).then((value) {});
                         globalData
                             .setRole(val.data['role']); //Para que mire rol
                         Fluttertoast.showToast(
@@ -95,9 +100,9 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (globalData.getRole() == "Business") {
                           MyNavigator.goToCompany(context);
-                        }else if (globalData.getRole() == "Storage"){
+                        } else if (globalData.getRole() == "Storage") {
                           MyNavigator.goToUser(context);
-                        }else{
+                        } else {
                           MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {
@@ -124,7 +129,44 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     createLinks() {
-      return ButtonBar(
+      return  Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                text: '¿Has olvidado la contraseña?',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToForgotPassword(context);
+                },
+              ),
+            ),
+          ),
+          RichText(
+              text: TextSpan(
+                text: 'Registrarse',
+                style: const TextStyle(
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                MyNavigator.goToRegister(context);
+                },
+              ),
+            ),
+             ],
+      ),
+    );
+    
+   
+     /*  ButtonBar(
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(16.0),
@@ -144,19 +186,9 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
           ),
-          ElevatedButton(
-              child: Text(
-                'pruebas',
-              ),
-              onPressed: () {
-                MyNavigator.goToBankData(context);
-                /*  Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Mapa()));
-               */
-              })
-        ],
+          ],
       );
-    }
+    */ }
 
     divisor() {
       return Container(
@@ -191,17 +223,18 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
           padding: const EdgeInsets.only(top: 32),
           child: RaisedButton(
-            textColor: Colors.white,
-            color: Colors.blue,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(FontAwesomeIcons.google),
-              Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Text('Entrar con Google', textAlign: TextAlign.center),
-              )
-            ]),
-            onPressed: () {
-              try {
+              textColor: Colors.white,
+              color: Colors.blue,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(FontAwesomeIcons.google),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32),
+                  child: Text('Entrar con Google', textAlign: TextAlign.center),
+                )
+              ]),
+              onPressed: () {
+                try {
                   UserServices().loginGoogle().then((val) {
                     if (val.statusCode == 200) {
                       print(val.data);
@@ -214,14 +247,13 @@ class _LoginPageState extends State<LoginPage> {
                       globalData.setEMail(val.data['email']);
                       if (val.data['role'] == null) {
                         MyNavigator.goToBankData(context);
-                      }else if (val.data['role'] == "Business"){
+                      } else if (val.data['role'] == "Business") {
                         MyNavigator.goToCompany(context);
-                      }else if (val.data['role'] == "Storage"){
-                      MyNavigator.goToCompany(context);
-                    }else{
-                      MyNavigator.goToUser(context);
-                    }
-
+                      } else if (val.data['role'] == "Storage") {
+                        MyNavigator.goToCompany(context);
+                      } else {
+                        MyNavigator.goToUser(context);
+                      }
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
@@ -234,15 +266,14 @@ class _LoginPageState extends State<LoginPage> {
                           timeInSecForIosWeb: 6);
                     }
                   });
-              } catch (err) {
-                print(err);
-                Fluttertoast.showToast(
-                    msg: err.toString(),
-                    toastLength: Toast.LENGTH_SHORT,
-                    timeInSecForIosWeb: 6);
-              }
-            }
-          ));
+                } catch (err) {
+                  print(err);
+                  Fluttertoast.showToast(
+                      msg: err.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 6);
+                }
+              }));
     }
 
     return Material(

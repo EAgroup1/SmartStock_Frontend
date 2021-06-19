@@ -90,10 +90,22 @@ class UserServices {
   }
 
   //NUEVA; AUN NO VA
-  sendBankRole(String id, String bank, String role) async {
+  sendBankRole(String id, String bank, String role, String location) async {
     try {
       final resp = await dio.put(url + id,
-          data: {"id": id, "role": role, "bank": bank},
+          data: {"id": id, "role": role, "bank": bank, "location":location},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+   sendCoord(id, lat, lng) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"id": id, "clat": lat, "clng": lng},
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
     } catch (e) {
@@ -131,13 +143,14 @@ class UserServices {
     };
   }
 
-  register(name, email, password) async {
+  register(name, email, password, location) async {
     try {
       return await dio.post(url + 'signUp',
           data: {
             "userName": name,
             "email": email,
             "password": password,
+            "location": location
           },
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {

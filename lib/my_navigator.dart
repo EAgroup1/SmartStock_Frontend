@@ -5,6 +5,7 @@ import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/pantallas/company/list_Stored_Products_Company.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
+import 'package:rlbasic/pantallas/company/send_products_form.dart';
 import 'package:rlbasic/pantallas/company/store_products.dart';
 import 'package:rlbasic/pantallas/company/store_products_form.dart';
 import 'package:rlbasic/pantallas/deliverer/deliverer.dart';
@@ -39,7 +40,7 @@ var routes = <String, WidgetBuilder>{
   "/createnewpassword": (BuildContext context) => CreateNewPassword(),
   "/chathomepage": (BuildContext context) => AllChatsPage(),
   //"/chathomepage/webchat": (BuildContext context) => ChatPage(),
-  "/user/lotlist": (BuildContext context) => ListProdPage(),
+  "/user/lotlist": (BuildContext context) => MyProdPageMenu(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user/lotlist/selectedone": (BuildContext context) => SelProd(),
   "/user": (BuildContext context) => UserPage(),
@@ -50,6 +51,7 @@ var routes = <String, WidgetBuilder>{
   "/company/storeproducts/add": (BuildContext context) => StoreProductsForm(),
   "/company/storeproductsstoredbyusers": (BuildContext context) => SearchMyStorageProductsPage(),
   "/deliverer/deliveries": (BuildContext context) => DelivererMenu(),
+  "/company/sendprodutsform" : (BuildContext context) => SendProductsForm()
 
  
 };
@@ -150,5 +152,10 @@ class MyNavigator {
     static void goToDeliverPage(BuildContext context) {
     Navigator.pushNamed(context, "/deliverer/deliveries");
   }
+
+    static void goToSendProductsForm(BuildContext context) {
+    Navigator.pushNamed(context, "/company/sendprodutsform");
+  }
+
 
 }

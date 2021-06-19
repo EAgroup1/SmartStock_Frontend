@@ -5,7 +5,6 @@ import 'package:rlbasic/models/globalData.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
 
-
 class ConfigDelivererPage extends StatefulWidget {
   @override
   _ConfigDelivererPageState createState() => _ConfigDelivererPageState();
@@ -13,10 +12,10 @@ class ConfigDelivererPage extends StatefulWidget {
 
 class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
   Widget stack() {
-   return Stack(
+    return Stack(
       alignment: Alignment.topLeft,
       children: [
-       CircleAvatar(
+        CircleAvatar(
           backgroundImage: AssetImage('assets/images/smartstock.jpeg'),
           radius: 100,
         ),
@@ -35,6 +34,36 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
         ),
       ],
     );
+  }
+
+  void popup(BuildContext context) {
+    var alert = AlertDialog(
+      title: const Text('Cerrar sesión'),
+      content: new SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text("¿Estas seguro?"),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            MyNavigator.goToLogin(context);
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Aceptar'),
+        ),
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop('Cancelar');
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Cancelar'),
+        )
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
   @override
@@ -91,11 +120,11 @@ class _ConfigDelivererPageState extends State<ConfigDelivererPage> {
             onTap: () {
               Navigator.of(context).pushNamed("");
             }),
-            ListTile(
+        ListTile(
             leading: Icon(Icons.arrow_circle_down_rounded),
             title: Text('Cerrar sesión'),
             onTap: () {
-              MyNavigator.goToLogin(context);
+              popup(context);
             })
       ],
     ));
