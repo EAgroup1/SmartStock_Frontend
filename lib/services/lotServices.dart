@@ -44,6 +44,23 @@ class lotServices {
     }
   }
 
+   updateLot(String id) async {
+    try {
+      final resp = await dio.put('$url' + '$id');
+      print(resp.data);
+      final List<dynamic> lot = resp.data;
+      return lot.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'No se puede actualizar',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
   getLotsSameName(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');

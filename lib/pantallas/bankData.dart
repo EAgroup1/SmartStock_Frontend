@@ -109,9 +109,8 @@ class _BankDataPageState extends State<BankDataPage> {
                       msg:
                           "Solo un rol. Deselecciona hasta solo tener un rol.");
                 }
-                if (address == "Paseo de los Naranjos 20B Castelldefels") {
-                  Fluttertoast.showToast(msg: "Añade una dirección");
-                } else if (sum == 0) {
+                // 
+                 else if (sum == 0) {
                   Fluttertoast.showToast(msg: "Selecciona al menos un rol.");
                 } else {                   
                   _placeApi.location(address).then((value) {});

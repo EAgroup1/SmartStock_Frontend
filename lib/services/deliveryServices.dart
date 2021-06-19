@@ -216,5 +216,22 @@ class DeliveryServices {
       }
     }
   }
+
+   updateDelivery(String id) async {
+    try {
+      final resp = await dio.put('$url' + '$id');
+      print(resp.data);
+      final List<dynamic> delivery = resp.data;
+      return delivery.map((obj) => Delivery.fromJson(obj)).toList();
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'No se puede actualizar el delivery',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
  
 }
