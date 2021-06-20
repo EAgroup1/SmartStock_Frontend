@@ -64,11 +64,11 @@ class ChatModel extends Model with ChangeNotifier {
 
   //Define (actual fake) messages list for conversation
   List<Message>? messages = <Message>[
-    new Message("HOLA", "60c4f116aaaa0a33e4e27ebe", "60c4f100aaaa0a33e4e27ebd"),
-    new Message("HOLA", "60c4f100aaaa0a33e4e27ebd", "60c4f116aaaa0a33e4e27ebe"),
+    new Message("HOLA", "60ccc9c5bd290717f88511d6", "60ccca5dbd290717f88511d7"),
+    new Message("HOLA", "60ccca5dbd290717f88511d7", "60ccc9c5bd290717f88511d6"),
     new Message(
-        "Que tal?", "60c4f116aaaa0a33e4e27ebe", "60c4f100aaaa0a33e4e27ebd"),
-    new Message("bien", "60c4f100aaaa0a33e4e27ebd", "60c4f116aaaa0a33e4e27ebe")
+        "Que tal?", "60ccc9c5bd290717f88511d6", "60ccca5dbd290717f88511d7"),
+    new Message("bien", "60ccca5dbd290717f88511d7", "60ccc9c5bd290717f88511d6")
   ];
 
   //Create socket (but no connect it yet)

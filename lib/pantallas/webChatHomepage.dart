@@ -45,14 +45,14 @@ class _AllChatsPageState extends State<AllChatsPage> {
   Widget build(BuildContext context) {
     buildAllChatList(){
       print(model.friendList?[0]);
-      UserServices().getUserChat(GlobalData.getInstance()!.getId()).then((value) => {model.friendList=value});
+      UserServices().getUserChat(GlobalData.getInstance()!.getId()).then((value) => {model.friendList=value});   
+      
+    
       if (model.friendList!.isEmpty){
         return Center(child: Text("No tienes amigos"));
       }
       else{
         return SizedBox(
-          width: 300,
-          height: 300,
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
             itemCount: model.friendList?.length,
@@ -60,11 +60,14 @@ class _AllChatsPageState extends State<AllChatsPage> {
               var friend = (model.friendList?[index]) as UserChat;
               return GestureDetector(
                 onTap: () => friendClicked(friend),
-                child: Container(
-                  height: 50,
-                  color: Colors.amber[200],
-                  child: Center(child: Text('${friend.userName.toString()}')),
-                )
+                child: Card(
+                  color: Colors.cyan[50],
+                  child: ListTile(
+                    leading: Icon(Icons.account_circle_sharp),
+                    title: Text('${friend.userName.toString()}'),
+                    trailing: Icon(Icons.delete),
+                    subtitle: Text('Un poco de mensaje'),)),
+                    
               );
             },
           ),
@@ -72,15 +75,21 @@ class _AllChatsPageState extends State<AllChatsPage> {
       }
     }
     
-    return Material(
-      child: Form(
-        child: ListView(
-          padding: const EdgeInsets.all(30),
-          children: <Widget>[
-            buildAllChatList(),
-          ],
-        ),
+    return DefaultTabController(length: 2, child:Scaffold(
+      appBar: AppBar(
+        title: Text('SmartStock Chat'),
+        bottom:TabBar(indicatorColor: Colors.white,
+        tabs: [
+            Tab(icon: Icon(Icons.people_outline), text:'CHATS'),
+            Tab(icon: Icon(Icons.add_comment_outlined), text:'Contactanos')
+          ]),
+      ),
+      body: TabBarView(
+        children: [
+          Center(child:buildAllChatList()),
+          Center(child: Text('No hay nada que mostrar'))
+        ],
       )
-    );
+    ));
   }
 }
