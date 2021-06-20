@@ -12,55 +12,7 @@ GlobalData globalData = GlobalData.getInstance()!;
 class DeliveryMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My Stored Products'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Perfil',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(Icons.add_business_rounded),
-                title: Text('Buscar productos'),
-                onTap: () {
-                  MyNavigator.goToSearchProducts(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.apartment),
-                title: Text('Mis productos almacenados'),
-                onTap: () {
-                  Navigator.of(context).pushNamed("");
-                }),
-            ListTile(
-                leading: Icon(Icons.motorcycle),
-                title: Text('Productos para entregar'),
-                onTap: () {
-                  MyNavigator.goToUserDeliveryMenu(context);
-                }),
-            ListTile(
-                leading: Icon(Icons.account_circle),
-                title: Text('Configuración'),
-                onTap: () {
-                  MyNavigator.goToConfigUser(context);
-                }),
-          ],
-        ),
-      ),
-      body: DeliveryMenuScreen(),
-    );
+    return DeliveryMenuScreen();
   }
 }
 
@@ -72,6 +24,16 @@ class DeliveryMenuScreen extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.cyan[400],
+            leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            title: Text('My Stored Products'),
             automaticallyImplyLeading: false,
             bottom: TabBar(
               indicatorColor: Colors.white,
@@ -120,9 +82,14 @@ class _GetReadyState extends State<GetReady> {
           this.deliveries = snapshot.data;
           if (deliveries.isEmpty) {
             return Center(
-                child: Text(
-                    "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger"));
-          } else
+                child: Card(
+            margin: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+            child: Padding (
+              padding: EdgeInsets.all(20),
+              child:Text(
+              "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger", style: TextStyle(letterSpacing: 2),))));
+      } else
             return buildList(context);
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
@@ -134,9 +101,14 @@ class _GetReadyState extends State<GetReady> {
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
       return Center(
-          child: Text(
-              "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger"));
-    } else {
+        child: Card(
+            margin: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+            child: Padding (
+              padding: EdgeInsets.all(20),
+              child:Text(
+              "Aquí se añadiran todos los paquetes que debes ir preparando para que lo pasen a recoger", style: TextStyle(letterSpacing: 2),))));
+      } else {
       return ListView.builder(
         itemCount: deliveries.length,
         itemBuilder: (context, index) {
@@ -248,8 +220,13 @@ class PickUp extends StatelessWidget {
   Widget buildList(BuildContext context) {
     if (deliveries.isEmpty) {
       return Center(
-          child: Text(
-              "Aquí apareceran los paquetes que ya has preparado ya han de ser recogidos por un repartidor"));
+          child: Card(
+            margin: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+            child: Padding (
+              padding: EdgeInsets.all(20),
+              child:Text(
+              "Aquí aparecerán los paquetes que ya has preparado y han de ser recogidos por un repartidor", style: TextStyle(letterSpacing: 2),))));
     } else {
       return ListView.builder(
         itemCount: deliveries.length,

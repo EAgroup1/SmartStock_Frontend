@@ -24,6 +24,8 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Buscar productos'),
+        backgroundColor: Colors.cyan[600],
+
         actions: <Widget>[
           IconButton(
               onPressed: () {

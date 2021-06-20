@@ -18,7 +18,6 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
         appBar: AppBar(
           title: Text('Settings'),
           centerTitle: true,
-          backgroundColor: Colors.blue,
           elevation: 0.0,
         ),
         body: 
@@ -84,8 +83,6 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
     return Scaffold(
       appBar: AppBar(
           title: Text('Settings'),
-          centerTitle: true,
-          backgroundColor: Colors.blue,
           elevation: 0.0,
         ),
       body: ListView(children: <Widget>[

@@ -193,7 +193,7 @@ class _MapaState extends State<Mapa> {
                 horizontal: 12.0,
               ),
               decoration: BoxDecoration(
-                color: Colors.yellowAccent,
+                color: Colors.cyan[400],
                 borderRadius: BorderRadius.circular(20.0),
                 boxShadow: const [
                   BoxShadow(
