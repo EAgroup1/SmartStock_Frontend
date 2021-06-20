@@ -5,6 +5,7 @@ import 'package:rlbasic/models/globalData.dart';
 
 import 'package:rlbasic/models/message.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/userChat.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 //here we don't need the navigator
@@ -16,7 +17,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 
 class ChatPage extends StatefulWidget {
-  User? friend = GlobalData.getInstance()!.getFriend();
+  UserChat? friend = GlobalData.getInstance()!.getFriend();
   
 
   @override

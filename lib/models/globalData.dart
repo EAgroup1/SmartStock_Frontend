@@ -1,4 +1,5 @@
 import 'package:rlbasic/models/chatmodel.dart';
+import 'package:rlbasic/models/userChat.dart';
 
 import 'user.dart';
 import 'dart:html';
@@ -11,7 +12,7 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
-  late User friend;
+  late UserChat friend;
 //CHAT
   late ChatModel model;
   late String resetLink;
@@ -41,7 +42,7 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
-  User getFriend() => this.friend;
+  UserChat getFriend() => this.friend;
 //CHAT
   ChatModel getChatModel() => this.model;
   String getResetLink() => this.resetLink;
@@ -79,7 +80,7 @@ class GlobalData {
     this.role = role;
   }
 
-  setFriend(User friend){
+  setFriend(UserChat friend){
     this.friend = friend;
   }
 

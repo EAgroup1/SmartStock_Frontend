@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/userChat.dart';
 import 'package:rlbasic/pantallas/splashScreen.dart';
 import 'package:rlbasic/pantallas/user/mapa.dart';
 import '../my_navigator.dart';
@@ -12,7 +13,6 @@ import 'user/user.dart';
 import 'package:rlbasic/models/chatmodel.dart';
 import 'splashScreen.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('','','','','',[],'');
+  User user = User('', '', '', '', '', [], '');
   Dio dioerror = new Dio();
 
   @override
@@ -90,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
-                        globalData.setRole(val.data['role']); 
+                 //       globalData.setFriend(val.data['friends'].map((obj) => UserChat.fromJson(obj)));
+                        globalData.setRole(val.data['role']);
                         //SOCKET ASINCRONO INICIADO
                         ChatModel model = new ChatModel();
                         model.setLists();
@@ -98,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                         //model.build(context);
                         GlobalData.getInstance()!.setChatModel(model);
                         //SOCKET ASINCRONO INICIADO
-                        
+
                         //Para que mire rol
                         Fluttertoast.showToast(
                             msg: 'Logged successfully',
@@ -107,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (globalData.getRole() == "Business") {
                           MyNavigator.goToCompany(context);
-                        }else if (globalData.getRole() == "Storage"){
+                        } else if (globalData.getRole() == "Storage") {
                           MyNavigator.goToUser(context);
-                        }else{
+                        } else {
                           MyNavigator.goToDeliverer(context);
                         }
                       } else if (val.statusCode == 401) {
@@ -203,17 +204,18 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
           padding: const EdgeInsets.only(top: 32),
           child: RaisedButton(
-            textColor: Colors.white,
-            color: Colors.blue,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(FontAwesomeIcons.google),
-              Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: Text('Entrar con Google', textAlign: TextAlign.center),
-              )
-            ]),
-            onPressed: () {
-              try {
+              textColor: Colors.white,
+              color: Colors.blue,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(FontAwesomeIcons.google),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32),
+                  child: Text('Entrar con Google', textAlign: TextAlign.center),
+                )
+              ]),
+              onPressed: () {
+                try {
                   UserServices().loginGoogle().then((val) {
                     if (val.statusCode == 200) {
                       print(val.data);
@@ -226,14 +228,13 @@ class _LoginPageState extends State<LoginPage> {
                       globalData.setEMail(val.data['email']);
                       if (val.data['role'] == null) {
                         MyNavigator.goToBankData(context);
-                      }else if (val.data['role'] == "Business"){
+                      } else if (val.data['role'] == "Business") {
                         MyNavigator.goToCompany(context);
-                      }else if (val.data['role'] == "Storage"){
-                      MyNavigator.goToCompany(context);
-                    }else{
-                      MyNavigator.goToUser(context);
-                    }
-
+                      } else if (val.data['role'] == "Storage") {
+                        MyNavigator.goToCompany(context);
+                      } else {
+                        MyNavigator.goToUser(context);
+                      }
                     } else if (val.statusCode == 401) {
                       Fluttertoast.showToast(
                           msg: 'Email o contraseña incorrectos',
@@ -246,15 +247,14 @@ class _LoginPageState extends State<LoginPage> {
                           timeInSecForIosWeb: 6);
                     }
                   });
-              } catch (err) {
-                print(err);
-                Fluttertoast.showToast(
-                    msg: err.toString(),
-                    toastLength: Toast.LENGTH_SHORT,
-                    timeInSecForIosWeb: 6);
-              }
-            }
-          ));
+                } catch (err) {
+                  print(err);
+                  Fluttertoast.showToast(
+                      msg: err.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      timeInSecForIosWeb: 6);
+                }
+              }));
     }
 
     return Material(

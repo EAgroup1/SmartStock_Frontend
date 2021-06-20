@@ -4,9 +4,11 @@ import 'package:rlbasic/models/chatmodel.dart';
 import 'package:rlbasic/models/globalData.dart';
 
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/userChat.dart';
 
 //i think for the moment navigator is not essential because pageroute
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/userServices.dart';
 
 //import two models: user with chatmodel (sockets) & messages (webChat) 
 
@@ -29,7 +31,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
     super.initState();
   }
 
-  void friendClicked(User friend){
+  void friendClicked(UserChat friend){
     GlobalData.getInstance()?.setFriend(friend);
     model.chatIDvect = [model.myId,friend.id];
     model.chatIDvect.sort();
@@ -43,6 +45,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
   Widget build(BuildContext context) {
     buildAllChatList(){
       print(model.friendList?[0]);
+      UserServices().getUserChat(GlobalData.getInstance()!.getId()).then((value) => {model.friendList=value});
       if (model.friendList!.isEmpty){
         return Center(child: Text("No tienes amigos"));
       }
@@ -54,7 +57,7 @@ class _AllChatsPageState extends State<AllChatsPage> {
             padding: const EdgeInsets.all(8),
             itemCount: model.friendList?.length,
             itemBuilder: (context, index) {
-              var friend = (model.friendList?[index]) as User;
+              var friend = (model.friendList?[index]) as UserChat;
               return GestureDetector(
                 onTap: () => friendClicked(friend),
                 child: Container(

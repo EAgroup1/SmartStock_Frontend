@@ -13,9 +13,11 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['email'] as String,
     json['bank'] as String,
     json['role'] as String,
-    (json['friends'] as List<dynamic>).map((e) => e as String).toList(),
+    (json['friends'] as List<dynamic>)
+        .map((e) => UserChat.fromJson(e as Map<String, dynamic>))
+        .toList(),
     json['resetLink'] as String,
-  );//resetLink = json['resetLink'] as String;
+  );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

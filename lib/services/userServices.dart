@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rlbasic/main.dart';
+import 'package:rlbasic/models/userChat.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
 import './url.dart';
@@ -10,14 +11,12 @@ import './url.dart';
 import 'dart:convert';
 import 'dart:async' show Future;
 
-
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
     'email',
     'profile',
   ],
 );
-
 
 class UserServices {
   Dio dio = new Dio();
@@ -82,24 +81,37 @@ class UserServices {
     }
   }
 
-  getUserChat(String id) async {
+  Future<List<UserChat>> getUserChat(String id) async {
     try {
-      final resp = await dio.get(url+'/chat/'+id,
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
-      //Map<String, dynamic> map = jsonDecode(resp.toString());
-      User user = new User.fromJson(resp.data); 
-      return user;
+      final resp = await dio.get(url + 'chat/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data['friends']);
+      print('llega');
+
+      final List<UserChat> friendList;
+      friendList = (resp.data['friends'] as List)
+          .map((i) => UserChat.fromJson(i))
+          .toList();
+      print(friendList);
+      print('object');
+      return friendList;
+/*       //Map<String, dynamic> map = jsonDecode(resp.toString());
+      //User user = new User.fromJson(resp.data);
+      final List<dynamic> lotlist = resp.data['friends'];
+      return lotlist.map((obj) => UserChat.fromJson(obj)).toList();
+   */
     } catch (e) {
       print(e);
       return [];
     }
   }
-  User getaUser(String id){
-    User resulting = new User('','','','','',[],'');
-    
-    getUserChat(id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
-    .then((result) {
+
+  User getaUser(String id) {
+    User resulting = new User('', '', '', '', '', [], '');
+
+   /* getUserChat(
+            id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
+        .then((result) {
       var userName = result.userName;
       var email = result.email;
       var bank = result.bank;
@@ -107,10 +119,11 @@ class UserServices {
       var role = result.role;
       var friends = result.friends;
       var resetLink = result.resetLink;
-      resulting = new User(_id,userName,email,bank,role,friends,resetLink);
-      print("Then");
+      resulting =
+          new User(_id, userName, email, bank, role, friends, resetLink);
+      print(resulting);
     });
-    /*.whenComplete((result) {
+    .whenComplete((result) {
       var userName = result.userName;
       var email = result.email;
       var bank = result.bank;
@@ -122,43 +135,38 @@ class UserServices {
       print(resulting);
     });*/
     return resulting;
-    
   }
 
   getNumByRole(String role) async {
     try {
-      final resp = await dio.get('$url'+'getNumByRole/'+'$role');
+      final resp = await dio.get('$url' + 'getNumByRole/' + '$role');
       print(resp.data);
 
       final numByRole = int.parse(resp.data);
       return numByRole;
-
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-  eliminateUser(String id) async{
-    try{
-      final resp = await dio.delete(url+id,
-        data:{"id": id},
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
+  eliminateUser(String id) async {
+    try {
+      final resp = await dio.delete(url + id,
+          data: {"id": id},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return [];
     }
   }
 
-  sendBankRole(String id, String bank, String role) async{
-    try{
-      final resp = await dio.put(url+id,
-        data:{"id": id, "role": role, "bank":bank},
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
+  sendBankRole(String id, String bank, String role) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"id": id, "role": role, "bank": bank},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
     } catch (e) {
       print(e);
@@ -209,46 +217,45 @@ class UserServices {
         switch (e.type) {
           case DioErrorType.cancel:
             Fluttertoast.showToast(
-            msg: "Cancelada la respuesta de la API",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Cancelada la respuesta de la API",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.connectTimeout:
             Fluttertoast.showToast(
-            msg: "Conexión con la API expirada",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Conexión con la API expirada",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.receiveTimeout:
-           Fluttertoast.showToast(
-            msg: "Tiempo expirado al conectar con el servidor API",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+            Fluttertoast.showToast(
+                msg: "Tiempo expirado al conectar con el servidor API",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.response:
-           Fluttertoast.showToast(
-            msg: _handleError(
-                e.response!.statusCode!, e.response!.data),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+            Fluttertoast.showToast(
+                msg: _handleError(e.response!.statusCode!, e.response!.data),
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.sendTimeout:
             Fluttertoast.showToast(
-            msg: "URL Timeout",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "URL Timeout",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           default:
             Fluttertoast.showToast(
-            msg: "Algo ha ido mal",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Algo ha ido mal",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
         }
       }
@@ -264,23 +271,23 @@ class UserServices {
   }
 }
 
-  String message = '';
+String message = '';
 
-  String _handleError(int statusCode, dynamic error) {
-    switch (statusCode) {
-      case 400:
-        return 'Bad request';
-      case 404:
-        return error["message"];
-      case 500:
-        return 'Internal server error';
-      default:
-        return 'Oops something went wrong';
-    }
+String _handleError(int statusCode, dynamic error) {
+  switch (statusCode) {
+    case 400:
+      return 'Bad request';
+    case 404:
+      return error["message"];
+    case 500:
+      return 'Internal server error';
+    default:
+      return 'Oops something went wrong';
   }
+}
 
-  @override
-  String toString() => message;
+@override
+String toString() => message;
 
   // getAllUsers() async {
   //   try {
