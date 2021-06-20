@@ -29,7 +29,8 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xff1976d2),
+            backgroundColor: Colors.cyan[600],
+
             bottom: TabBar(
               indicatorColor: Color(0xff9962D0),
               tabs: [

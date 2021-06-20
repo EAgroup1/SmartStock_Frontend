@@ -23,6 +23,7 @@ class _SearchMyStorageProductsPageState extends State<SearchMyStorageProductsPag
     return Scaffold(
       appBar: AppBar(
         title: Text('My Stored Products' + globalData.userName),
+        backgroundColor: Colors.cyan[600],
         actions: <Widget>[
           IconButton(
               onPressed: () {

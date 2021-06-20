@@ -18,9 +18,25 @@ class MyApp extends StatelessWidget {
         title: 'SmartStock',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Roboto',
-          dividerColor: Colors.grey,
-          primarySwatch: Colors.blue,
+          brightness: Brightness.light,
+          primaryColorBrightness: Brightness.dark,
+          shadowColor: Colors.cyan[300],
+          cardColor: Colors.cyan[100],
+          buttonColor: Colors.cyan[500],
+          backgroundColor: Colors.cyan[100],
+          indicatorColor: Colors.cyan[700],
+          hintColor: Colors.cyan[400],          
+          
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.cyan[600],
+            shadowColor: Colors.cyan,
+            foregroundColor: Colors.cyan,
+            elevation: 2, centerTitle: false,),
+          primaryColor: Colors.cyan[300],
+          accentColor: Colors.cyan[500],
+          fontFamily: 'Hind',
+          dividerColor: Colors.cyan[500],
+          primarySwatch: Colors.cyan,
         ),
         //First widget to render
         home: SplashScreen(),

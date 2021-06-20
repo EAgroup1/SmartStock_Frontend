@@ -23,7 +23,7 @@ class _CompanyPageState extends State<CompanyPage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.cyan[400],
               ),
               child: Text(
                 'Perfil',

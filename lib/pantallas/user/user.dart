@@ -13,6 +13,7 @@ class UserPage extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.cyan[600],
         title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
       ),
       drawer: Drawer(
@@ -21,7 +22,7 @@ class UserPage extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.cyan[400],
               ),
               child: Text(
                 'Perfil',
