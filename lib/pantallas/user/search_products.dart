@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
@@ -7,6 +8,8 @@ import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
+
+import '../../main.dart';
 
 class SearchProductsPage extends StatefulWidget {
   @override
@@ -172,6 +175,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final addUserIntoLot = new lotServices();
     final delivery = new DeliveryServices();
+    Delivery? deliveryy;
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
@@ -190,14 +194,15 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu casa?"),
         new FlatButton(
           onPressed: () {
-            // Navigator.of(context).pop('Accept');
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
-            delivery.createDelivery(lot.id, globalData.id);
-            globalData.isReady = true;
-            delivery.updateDelivery(globalData.iddelivery);
+            delivery.createDelivery(lot.id, globalData.id).then((val) {
+              print(val.data['_id']);
+              delivery.setReadyDelivery(val.data['_id']).then((val) {
+
+              });
+            });
             MyNavigator.goToSearchProducts(context);
-            //delivery.createDelivery(lot.id, globalData.id);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

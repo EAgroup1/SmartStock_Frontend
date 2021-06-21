@@ -50,6 +50,13 @@ class _CompanyPageState extends State<CompanyPage> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.business),
+              title: Text('Pedir lotes'),
+              onTap: () {
+                MyNavigator.goToOrderProducts(context);
+              },
+            ),
+            ListTile(
                 leading: Icon(Icons.motorcycle),
                 title: Text('Enviar productos'),
                 onTap: () {

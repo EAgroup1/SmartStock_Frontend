@@ -7,8 +7,8 @@ import 'package:rlbasic/models/user.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  var url = "http://localhost:3000/api/delivery/";
-  //var url = "http://10.0.2.2:3000/api/delivery/";
+  //var url = "http://localhost:3000/api/delivery/";
+  var url = "http://10.0.2.2:3000/api/delivery/";
 
   getDeliveriesUser(String id) async {
     try {
@@ -145,6 +145,7 @@ class DeliveryServices {
     }
   }
 
+
   setIsPicked(String id) async {
     try {
       return await dio.put(url + 'picked/' + id,
@@ -217,20 +218,21 @@ class DeliveryServices {
     }
   }
 
-   updateDelivery(String id) async {
+addNewDeliveryToUser(String id, String userID) async {
+    print('id: ' + id);
+    print('id userItem: ' + userID);
     try {
-      final resp = await dio.put('$url' + '$id');
+      final resp = await dio.put('$url' + '$id',
+          data: {"userItem": userID},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.statusCode);
       print(resp.data);
-      final List<dynamic> delivery = resp.data;
-      return delivery.map((obj) => Delivery.fromJson(obj)).toList();
     } catch (e) {
-      if (e is DioError) {
-        Fluttertoast.showToast(
-            msg: 'No se puede actualizar el delivery',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 3);
-      }
+      Fluttertoast.showToast(
+          msg: 'No se ha podido añadir este lote al usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
     }
   }
  
