@@ -109,7 +109,7 @@ class UserServices {
   User getaUser(String id) {
     User resulting = new User('', '', '', '', '', [], '');
 
-   /* getUserChat(
+    /* getUserChat(
             id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
         .then((result) {
       var userName = result.userName;
@@ -155,6 +155,30 @@ class UserServices {
       final resp = await dio.delete(url + id,
           data: {"id": id},
           options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  deleteFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/deletefriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+    putFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/putfriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
     } catch (e) {
       print(e);

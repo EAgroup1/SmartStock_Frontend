@@ -1,4 +1,4 @@
-//'mateapp' creates a template of our static view (stateless) 
+//'mateapp' creates a template of our static view (stateless)
 import 'package:flutter/material.dart';
 import 'package:rlbasic/models/chatmodel.dart';
 import 'package:rlbasic/models/globalData.dart';
@@ -8,9 +8,10 @@ import 'package:rlbasic/models/userChat.dart';
 
 //i think for the moment navigator is not essential because pageroute
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/services/userServices.dart';
 
-//import two models: user with chatmodel (sockets) & messages (webChat) 
+//import two models: user with chatmodel (sockets) & messages (webChat)
 
 //relleno para commit
 //on the other 'statefulW' create a statefull widget (reactive)
@@ -31,27 +32,25 @@ class _AllChatsPageState extends State<AllChatsPage> {
     super.initState();
   }
 
-  void friendClicked(UserChat friend){
+  void friendClicked(UserChat friend) {
     GlobalData.getInstance()?.setFriend(friend);
-    model.chatIDvect = [model.myId,friend.id];
+    model.chatIDvect = [model.myId, friend.id];
     model.chatIDvect.sort();
-    model.chatID = model.chatIDvect[0].toString()+model.chatIDvect[1].toString();
+    model.chatID =
+        model.chatIDvect[0].toString() + model.chatIDvect[1].toString();
     MyNavigator.goToWebChat(context);
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-    buildAllChatList(){
-      print(model.friendList?[0]);
-      UserServices().getUserChat(GlobalData.getInstance()!.getId()).then((value) => {model.friendList=value});   
-      
-    
-      if (model.friendList!.isEmpty){
+    buildAllChatList() {
+      UserServices()
+          .getUserChat(GlobalData.getInstance()!.getId())
+          .then((value) => {model.friendList = value});
+
+      if (model.friendList!.isEmpty) {
         return Center(child: Text("No tienes amigos"));
-      }
-      else{
+      } else {
         return SizedBox(
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
@@ -61,35 +60,51 @@ class _AllChatsPageState extends State<AllChatsPage> {
               return GestureDetector(
                 onTap: () => friendClicked(friend),
                 child: Card(
-                  color: Colors.cyan[50],
-                  child: ListTile(
-                    leading: Icon(Icons.account_circle_sharp),
-                    title: Text('${friend.userName.toString()}'),
-                    trailing: Icon(Icons.delete),
-                    subtitle: Text('Un poco de mensaje'),)),
-                    
+                    color: Colors.cyan[50],
+                    child: ListTile(
+                      leading: Icon(Icons.account_circle_sharp),
+                      title: Text('${friend.userName.toString()}'),
+                      trailing: IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              model.friendList!.removeAt(index);
+
+                            });
+                            print(model.friendList);
+                            UserServices()
+                                .deleteFriend(globalData.id, friend.id);
+                            //enviar location y id delivery a mapas
+                            Navigator.pop(context);
+                            MyNavigator.goToWebChatHomepage(context);
+                          }),
+                      subtitle: Text('Un poco de mensaje'),
+                    )),
               );
             },
           ),
         );
       }
     }
-    
-    return DefaultTabController(length: 2, child:Scaffold(
-      appBar: AppBar(
-        title: Text('SmartStock Chat'),
-        bottom:TabBar(indicatorColor: Colors.white,
-        tabs: [
-            Tab(icon: Icon(Icons.people_outline), text:'CHATS'),
-            Tab(icon: Icon(Icons.add_comment_outlined), text:'Contactanos')
-          ]),
-      ),
-      body: TabBarView(
-        children: [
-          Center(child:buildAllChatList()),
-          Center(child: Text('No hay nada que mostrar'))
-        ],
-      )
-    ));
+
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('SmartStock Chat'),
+              bottom: TabBar(indicatorColor: Colors.white, tabs: [
+                Tab(icon: Icon(Icons.people_outline), text: 'CHATS'),
+                Tab(icon: Icon(Icons.add_comment_outlined), text: 'Contactanos')
+              ]),
+            ),
+            body: TabBarView(
+              children: [
+                Center(child: buildAllChatList()),
+                Center(child: Text('No hay nada que mostrar'))
+              ],
+            )));
   }
 }
