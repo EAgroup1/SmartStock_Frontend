@@ -17,6 +17,14 @@ class UserPage extends StatelessWidget {
         home: Scaffold(
       appBar: AppBar(
         title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
+        actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () {
+            MyNavigator.goToChartsLotList(context);
+          },
+        )
+      ]
       ),
       drawer: Drawer(
         child: ListView(

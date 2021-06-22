@@ -28,6 +28,8 @@ import 'package:rlbasic/pantallas/user/salaryStoredProducts.dart';
 import 'package:rlbasic/pantallas/user/search_products.dart';
 import 'package:rlbasic/pantallas/user/user.dart';
 
+import 'package:rlbasic/pantallas/notificationsPage.dart';
+
 import 'models/user.dart';
 
 
@@ -44,6 +46,7 @@ var routes = <String, WidgetBuilder>{
   "/chathomepage": (BuildContext context) => AllChatsPage(),
   "/chathomepage/webchat": (BuildContext context) => ChatPage(),
   "/user/lotlist": (BuildContext context) => MyProdPageMenu(),
+  "/user/notifications": (BuildContext context) => MyPushPageMenu(),
   "/user/lotlist/charts": (BuildContext context) => SalaryProductsGraph(),
   "/user": (BuildContext context) => UserPage(),
   "/user/deliveries": (BuildContext context) => DeliveryMenu(),
@@ -114,6 +117,10 @@ class MyNavigator {
   
   static void goToWebChatHomepage(BuildContext context) {
     Navigator.pushNamed(context, "/chathomepage");
+  }
+
+  static void goToPushNotifications(BuildContext context) {
+    Navigator.pushNamed(context, "/user/notifications");
   }
 
    static void goToWebChat(BuildContext context) {

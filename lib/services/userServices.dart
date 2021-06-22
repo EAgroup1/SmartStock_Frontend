@@ -107,7 +107,7 @@ class UserServices {
   }
 
   User getaUser(String id) {
-    User resulting = new User('', '', '', '', '', [], '');
+    User resulting = new User('', '', '', '', '', [], [], '');
 
    /* getUserChat(
             id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"

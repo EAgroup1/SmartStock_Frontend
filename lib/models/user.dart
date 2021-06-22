@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rlbasic/models/userChat.dart';
+import 'package:rlbasic/models/notification.dart';
 
 part 'user.g.dart';
 
@@ -12,8 +13,9 @@ class User {
   String bank;
   String role; 
   List<UserChat> friends;
+  List<Notification> notifications;
   String resetLink;
-  User(this.id, this.userName, this.email, this.bank, this.role, this.friends,this.resetLink);
+  User(this.id, this.userName, this.email, this.bank, this.role, this.friends, this.notifications, this.resetLink);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
