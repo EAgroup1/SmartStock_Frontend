@@ -66,33 +66,40 @@ class OtherStats extends StatefulWidget {
 }
 
 class _OtherStatsState extends State<OtherStats> {
-  // late var lots = [];
-  late List<dynamic> lots;
+  late var lots = [];
+  // late List lots;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
-  final lotServices = new LotServices();
-
   @override
   Widget build(BuildContext context) {
+    List<dynamic> lots;
+    final lotServices = new LotServices();
     return FutureBuilder(
       future: lotServices.getLotsByChart(globalData.getId()),
       builder: (context, AsyncSnapshot snapshot) {
-        if(!snapshot.hasData){
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return Container(
-            child: ListView.builder(
-              itemCount: lots.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index){
-                return Text('${lots[index].name} : ${lots[index].money}');
-              }
-            )
-          );
+        if(snapshot.hasData){
+          lots = snapshot.data;
+          if(lots.isNotEmpty){
+            return Container(
+              child: ListView.builder(
+                itemCount: lots.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index){
+                  return Text('${lots[index].name} : ${lots[index].money}');
+                }
+              )
+            );
+          } else{return Center(child: Text('No hay lote alguno'));}
+        }
+        else if (snapshot.hasError){
+          return ListTile(title: Text('Ha habido un error'));
+        }
+        else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
