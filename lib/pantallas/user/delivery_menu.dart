@@ -111,6 +111,7 @@ class _GetReadyState extends State<GetReady> {
 
   @override
   Widget build(BuildContext context) {
+    final deliveryService = new DeliveryServices();
     return FutureBuilder(
       future: deliveryService.getDeliveriesUser(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

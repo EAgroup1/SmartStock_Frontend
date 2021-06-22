@@ -90,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
                         globalData.setLocation(val.data['location']);
+                        globalData.setBank(val.data['bank']);
                         //_placeApi.location(globalData.location).then((value) {});
                         globalData
                             .setRole(val.data['role']); //Para que mire rol

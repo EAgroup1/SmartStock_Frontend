@@ -17,6 +17,7 @@ class SearchProductsPage extends StatefulWidget {
 }
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
+  var popupdialog;
   Lot? lotSeleccionado;
   List<Lot> historial = [];
   DataSearch search = new DataSearch();
@@ -51,7 +52,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            this.query = '';
+            MyNavigator.goToUser(context);
           })
     ];
   }
@@ -65,7 +66,6 @@ class DataSearch extends SearchDelegate<Lot?> {
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
           this.close(context, null);
-          MyNavigator.goToSearchProducts(context);
         });
   }
 
@@ -194,13 +194,14 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu casa?"),
         new FlatButton(
           onPressed: () {
-            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+            //addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot.id, globalData.id).then((val) {
               print(val.data['_id'].toString());
-              delivery.setReadyDelivery(val.data['_id'].toString());
-            });
-            MyNavigator.goToSearchProducts(context);
+              delivery.setReadyDelivery(val.data['_id']);
+            },
+            MyNavigator.goToSearchProducts(context)
+            );
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

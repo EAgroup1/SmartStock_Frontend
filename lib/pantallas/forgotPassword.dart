@@ -1,5 +1,6 @@
 //first essential package for the widgets!!
 import 'package:flutter/material.dart';
+import 'package:rlbasic/services/userServices.dart';
 import '../my_navigator.dart';
 
 
@@ -10,15 +11,15 @@ import '../my_navigator.dart';
 //ok --> this page has 3 widgets (2 stateless & 1 stateful)
  
 class ForgotPasswordPage extends StatelessWidget {
+  UserServices user = new UserServices();
+  var newpassword, email, conpassword;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Forgot password',
+      title: 'Contraseña olvidada',
       home: Scaffold(
-        //on these initial screens there aren't appBar 
-        // appBar: AppBar(
-        //   title: Text('Material App Bar'),
-        // ),
         body: SizedBox(
           width: double.infinity,
           child: Column(
@@ -34,22 +35,53 @@ class ForgotPasswordPage extends StatelessWidget {
                 width: 300.00,
                 height: 240,
               ),
-              Text("We will send you a email to reset your password"),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter email',
-                ),
+              TextFormField(
+              decoration: InputDecoration(hintText: 'Email'),
+              controller: _passController,
+              validator: (value) {
+               if (value == null || value.isEmpty) {
+               return 'Por favor, introduce un email';
+               }
+               },
+                onChanged: (val) {
+                  email = val;
+        },
               ),
+              TextFormField(
+              decoration: InputDecoration(hintText: 'Contraseña'),
+              controller: _passController,
+              validator: (value) {
+               if (value == null || value.isEmpty) {
+               return 'Por favor, introduce una contraseña';
+               }
+               },
+                obscureText: true,
+                onChanged: (val) {
+                  newpassword = val;
+        },
+      ),
+
+      TextFormField(
+              decoration: InputDecoration(hintText: 'Repite contraseña'),
+              controller: _passController,
+              validator: (value) {
+               if (value == null || value.isEmpty) {
+               return 'Por favor, introduce la misma contraseña';
+               }
+               },
+                obscureText: true,
+                onChanged: (val) {
+                  conpassword = val;
+        },
+      ),
 
               //After that we show the floatingButton (not this type!!) ---> in progress
               TextButton(
                 onPressed: (){
                   //go to the reset password for the moment
-                  MyNavigator.goToCreateNewPassword(context);
+
                 },
-                child: Text("Reset password"),
+                child: Text("Restaura la contraseña"),
               )
             ],
           ),
@@ -57,8 +89,4 @@ class ForgotPasswordPage extends StatelessWidget {
       ),
     );
   }
-}
-
-void forgotPass(){
-//here we introduce the email & we call to the API to send the message
 }

@@ -58,6 +58,7 @@ var routes = <String, WidgetBuilder>{
   "/configdeliverer" : (BuildContext context) => ConfigDelivererPage(),
   "/company/orderproducts" : (BuildContext context) => OrderProductsPage(),
   "/company/orderproducts2": (BuildContext context) => OrderProducts2Page(),
+  "/user/forgotpassword" : (BuildContext context) => ForgotPasswordPage(),
 
  
 };
