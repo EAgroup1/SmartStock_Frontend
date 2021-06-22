@@ -174,7 +174,7 @@ class UserServices {
     }
   }
 
-    putFriend(String id, String friends) async {
+  putFriend(String id, String friends) async {
     try {
       final resp = await dio.put(url + id+"/putfriend",
         data: {"friend": friends},
