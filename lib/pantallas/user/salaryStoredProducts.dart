@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rlbasic/services/lotServices.dart';
 // import '../../my_navigator.dart';
 //graph imports
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -9,6 +10,7 @@ import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 //other imports
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/userServices.dart';
 
@@ -35,28 +37,64 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
             bottom: TabBar(
               indicatorColor: Color(0xff9962D0),
               tabs: [
-                //all these graphs are all about me
-                //percentage of stores that i use
-                // Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Tus empresas"),
-                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"User's stats"),
-                //price/unit of all lots that i do or request
-                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Lot's stats"),
-                //in march or july i save x sum(qty) of lots
-                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Futuros pedidos"),
+                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Mis lotes"),
+                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Mis pedidos"),
+                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Otros"),
               ],
             ),
-            title: Text('Tus diagramas'),
+            title: Text('Mis estadísticas'),
           ),
           body: TabBarView(
             children: [
               //my three views
               ChartPiePage(),
               SolidChartBarPage(),
-              ChartLinePage(),
+              OtherStats(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class OtherStats extends StatefulWidget {
+  OtherStats({Key? key}) : super(key: key);
+
+  @override
+  _OtherStatsState createState() => _OtherStatsState();
+}
+
+class _OtherStatsState extends State<OtherStats> {
+  // late var lots = [];
+  late List<dynamic> lots;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  final lotServices = new LotServices();
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: lotServices.getLotsByChart(globalData.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if(!snapshot.hasData){
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Container(
+            child: ListView.builder(
+              itemCount: lots.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index){
+                return Text('${lots[index].name} : ${lots[index].money}');
+              }
+            )
+          );
+        }
+      },
     );
   }
 }
@@ -72,6 +110,7 @@ class ChartPiePage extends StatefulWidget {
 class _ChartPiePageState extends State<ChartPiePage> {
   @override
   Widget build(BuildContext context) {
+    final lotService = new LotServices();
     return Container(
        //to do something
        height: 550,
@@ -81,7 +120,7 @@ class _ChartPiePageState extends State<ChartPiePage> {
          ),
          title: ChartTitle(
           //  text: "Porcentaje de tus tiendas almacenadas"
-          text: "Cantidad de usuarios según su rol"
+          text: "Cantidad de lotes almacenados"
          ),
          legend: Legend(
            isVisible: true
@@ -117,7 +156,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
        height: 550,
        child: SfCartesianChart(
          title: ChartTitle(
-           text: "Lotes Acumulados Por Mes"
+           text: "Pedidos Acumulados Por Mes"
          ),
          primaryXAxis: NumericAxis(
            title: AxisTitle(
@@ -126,7 +165,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
          ),
          primaryYAxis: NumericAxis(
            title: AxisTitle(
-             text: "Lotes"
+             text: "Pedidos"
            )
          ),
          legend: Legend(
@@ -140,7 +179,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
              dataSource: getColumnData(),
              xValueMapper: (LotsMonth lots,_)=>lots.x,
              yValueMapper: (LotsMonth lots,_)=>lots.y,
-             name: "Lotes ABC",
+             name: "Pedidos ABC",
              legendIconType: LegendIconType.diamond,
              //we put the marks for each layer
              dataLabelSettings: DataLabelSettings(
@@ -168,18 +207,12 @@ class _ChartLinePageState extends State<ChartLinePage> {
        //to do something
        height: 550,
        child: SfCartesianChart(
-        //we can see a total follow-up
-        //  crosshairBehavior: CrosshairBehavior(
-        //    enable: true,
-        //    activationMode: ActivationMode.longPress
-        //  ),
-        //we can see all axis X points
         trackballBehavior: TrackballBehavior(
           enable: true,
           activationMode: ActivationMode.singleTap
         ),
          title: ChartTitle(
-           text: "Lotes Acumulados Por Mes"
+           text: "Pedidos Acumulados Por Mes"
          ),
          primaryXAxis: NumericAxis(
            title: AxisTitle(
@@ -188,7 +221,7 @@ class _ChartLinePageState extends State<ChartLinePage> {
          ),
          primaryYAxis: NumericAxis(
            title: AxisTitle(
-             text: "Lotes"
+             text: "Pedidos"
            )
          ),
          legend: Legend(
@@ -202,7 +235,7 @@ class _ChartLinePageState extends State<ChartLinePage> {
              dataSource: getHugeData(),
              xValueMapper: (LotsMonth lots,_)=>lots.x,
              yValueMapper: (LotsMonth lots,_)=>lots.y,
-             name: "Lotes ABC",
+             name: "Pedidos ABC",
              legendIconType: LegendIconType.diamond,
              //we put the marks for each layer
             //  dataLabelSettings: DataLabelSettings(
@@ -263,28 +296,6 @@ dynamic getHugeData(){
   return hugeData;
 }
 
-// //ok, now we put percentages
-// class CompanySales{
-//   String x;
-//   double y;
-
-//   CompanySales(this.x, this.y);
-// }
-
-// //& the method
-// dynamic getStringData(){
-//   List<CompanySales> stringData=<CompanySales>[
-//     CompanySales("Nike", 25),
-//     CompanySales("Adidas", 25),
-//     CompanySales("Lacoste", 12.5),
-//     CompanySales("Puma", 12.5),
-//     CompanySales("Apple", 12.5),
-//     CompanySales("Microsoft", 12.5)
-//   ];
-//   return stringData;
-// }
-
-
 //ok, now we put percentages
 class RoleQty{
   String x;
@@ -302,7 +313,7 @@ dynamic getStringData(){
     //here we return the qty trough role by user
     RoleQty("User", 24),
     RoleQty("Deliverer", 10),
-    RoleQty("Company", 11)
+    RoleQty("Company", 13)
   ];
   return stringData;
 }

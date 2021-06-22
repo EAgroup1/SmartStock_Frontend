@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
@@ -6,6 +7,10 @@ import 'package:rlbasic/pantallas/login.dart';
 import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+FlutterLocalNotificationsPlugin? localNotification;
 
 class SearchProductsPage extends StatefulWidget {
   @override
@@ -19,6 +24,19 @@ class _SearchProductsPageState extends State<SearchProductsPage> {
   DataSearch search = new DataSearch();
   late var lots = <Lot>[];
   GlobalData globalData = GlobalData.getInstance()!;
+
+  @override
+  void initState() { 
+    super.initState();
+
+    if(Platform.isAndroid || Platform.isIOS){
+      var androidInitalize = new AndroidInitializationSettings('ic_launcher');
+      var iOSInitialize = new IOSInitializationSettings();
+      var initializationSettings = new InitializationSettings(android: androidInitalize, iOS: iOSInitialize);
+      localNotification = new FlutterLocalNotificationsPlugin();
+      localNotification!.initialize(initializationSettings);
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,6 +186,22 @@ class DataSearch extends SearchDelegate<Lot?> {
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
+
+    
+      Future _showNotification() async {
+        if(Platform.isAndroid || Platform.isIOS) {
+          var androidDetails = new AndroidNotificationDetails(
+          "channelId", 
+          "Local Notification", 
+          "This is a description of the Notification, you can write anything", 
+          importance: Importance.high);
+          var iosDetails = new IOSNotificationDetails();
+          var generalNotificationDetails = new NotificationDetails(android: androidDetails, iOS: iosDetails);
+          await localNotification!.show(0, "Nuevo producto aceptado", 
+          "En breve recibirás una notificación de la tienda",generalNotificationDetails);
+        }
+      }
+
     final addUserIntoLot = new LotServices();
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
@@ -189,6 +223,9 @@ class DataSearch extends SearchDelegate<Lot?> {
           onPressed: () {
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             Navigator.of(context).pop('Accept');
+            //local notification --> esta es solo una notificación informativa
+            //no lleva a ningún sitio
+            if(Platform.isAndroid || Platform.isIOS) _showNotification();
             //showSearch(context: context, delegate: DataSearch());
             MyNavigator.goToSearchProducts(context);
           },

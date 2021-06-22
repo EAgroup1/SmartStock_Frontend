@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rlbasic">
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <uses-permission android:name="android.permission.VIBRATE" />
+   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
    <application
         android:label="rlbasic"
@@ -32,9 +34,6 @@
               android:resource="@drawable/launch_background"
               />
             
-            <meta-data
-              android:name="com.google.firebase.messaging.default_notification_channel_id"
-              android:resource="easyapproach"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

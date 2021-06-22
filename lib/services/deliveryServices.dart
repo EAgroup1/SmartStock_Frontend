@@ -89,4 +89,22 @@ class DeliveryServices {
       }
     }
   }
+
+  getDeliveriesByChart(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getDeliveriesByChart/' + '$id');
+      print(resp.data); //resp
+      final List<dynamic> deliveryList = resp.data;
+      // return lotList.map((obj) => Lot.fromJson(obj)).toList();
+      return deliveryList;
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: 'No hay ningún pedido de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
 }
