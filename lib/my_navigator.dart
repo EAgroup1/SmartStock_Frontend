@@ -5,6 +5,7 @@ import 'package:rlbasic/pantallas/company/company.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/pantallas/company/list_Stored_Products_Company.dart';
 import 'package:rlbasic/pantallas/company/order_products.dart';
+import 'package:rlbasic/pantallas/company/order_products2.dart';
 import 'package:rlbasic/pantallas/company/send_products.dart';
 import 'package:rlbasic/pantallas/company/send_products_form.dart';
 import 'package:rlbasic/pantallas/company/store_products.dart';
@@ -56,6 +57,7 @@ var routes = <String, WidgetBuilder>{
   "/company/sendprodutsform" : (BuildContext context) => SendProductsForm(),
   "/configdeliverer" : (BuildContext context) => ConfigDelivererPage(),
   "/company/orderproducts" : (BuildContext context) => OrderProductsPage(),
+  "/company/orderproducts2": (BuildContext context) => OrderProducts2Page(),
 
  
 };
@@ -120,6 +122,7 @@ class MyNavigator {
   static void goToWebChatHomepage(BuildContext context) {
     Navigator.pushNamed(context, "/chathomepage");
   }
+  
 
   // static void goToWebChat(BuildContext context) {
   //   Navigator.pushNamed(context, "/chathomepage/webchat");
@@ -163,6 +166,10 @@ class MyNavigator {
 
     static void goToOrderProducts(BuildContext context) {
     Navigator.pushNamed(context, "/company/orderproducts");
+  }
+
+    static void goToOrderProducts2(BuildContext context) {
+    Navigator.pushNamed(context, "/company/orderproducts2");
   }
 
 

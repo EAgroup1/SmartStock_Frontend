@@ -197,10 +197,8 @@ class DataSearch extends SearchDelegate<Lot?> {
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot.id, globalData.id).then((val) {
-              print(val.data['_id']);
-              delivery.setReadyDelivery(val.data['_id']).then((val) {
-
-              });
+              print(val.data['_id'].toString());
+              delivery.setReadyDelivery(val.data['_id'].toString());
             });
             MyNavigator.goToSearchProducts(context);
           },

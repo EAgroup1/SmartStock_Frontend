@@ -64,7 +64,7 @@ class DeliveryServices {
     print(id);
 
     try {
-      return await dio.put(url + 'readydelivery/' + id,
+      return await dio.put('$url' + 'readydelivery/' + '$id',
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -149,6 +149,22 @@ class DeliveryServices {
   setIsPicked(String id) async {
     try {
       return await dio.put(url + 'picked/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+    setCasa(String id) async {
+    try {
+      return await dio.put(url + 'casa/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {

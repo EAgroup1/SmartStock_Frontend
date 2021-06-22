@@ -10,6 +10,7 @@ class GlobalData {
   late String role;
   late String location;
   late String businessLocation;
+  late String userItem;
 
 //LOTE
   late String name;
@@ -36,8 +37,7 @@ class GlobalData {
   late bool isAssigned;
   late String description;
   late LatLng coordenadas;
-
-  
+  late bool casa;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -58,6 +58,8 @@ class GlobalData {
   String getRole() => this.role;
   String getLocation() => this.location;
   String getBusinessLocation() => this.businessLocation;
+  String getUserItem() => this.userItem;
+
 //LOTS
   String getName() => this.name;
   String getIdlot() => this.idlot;
@@ -82,6 +84,7 @@ class GlobalData {
   bool getIsReady() => this.isReady;
   bool getIsAssigned() => this.isAssigned;
   String getDescription() => this.description;
+  bool getCasa() => this.casa;
 
 //USER
   setId(String id) {
@@ -94,6 +97,10 @@ class GlobalData {
 
   setUserName(String userName) {
     this.userName = userName;
+  }
+
+  setUserItem(String userItem) {
+    this.userItem = userItem;
   }
 
   setEMail(String email) {
@@ -149,15 +156,13 @@ class GlobalData {
     this.stored = stored;
   }
 
-   setDelivered(bool delivered) {
+  setDelivered(bool delivered) {
     this.delivered = delivered;
   }
 
-
-   setPicked(bool picked) {
+  setPicked(bool picked) {
     this.picked = picked;
   }
-
 
   //DELIVERY
   setIdDelivery(String iddelivery) {
@@ -194,5 +199,9 @@ class GlobalData {
 
   setDescription(String description) {
     this.description = description;
+  }
+
+   setCasa(bool casa) {
+    this.casa = casa;
   }
 }

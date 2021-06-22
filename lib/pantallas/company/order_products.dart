@@ -48,12 +48,14 @@ class _OrderProductsPageState extends State<OrderProductsPage> {
   }
 
   Widget _showUsers(List<dynamic> users) {
+    lotServices lts = new lotServices();
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, i) {
         return GestureDetector(
             onTap: () {
-              
+              globalData.setUserItem(users[i].id);
+              MyNavigator.goToOrderProducts2(context);
             },
             child: Card(
                 clipBehavior: Clip.antiAlias,
@@ -62,42 +64,6 @@ class _OrderProductsPageState extends State<OrderProductsPage> {
                     leading: Icon(Icons.arrow_right),
                     title: Text('${users[i].userName}'),
                     subtitle: Text('Ubicación: ${users[i].location}'),
-                  )
-                ])));
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions2(BuildContext context) {
-    // TODO: implement buildSuggestions
-    //show when someone searches for something
-    final lot = new lotServices();
-    return FutureBuilder(
-      future: lot.getLotListByUser(globalData.id),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return _showUsersProducts(snapshot.data);
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 4));
-        }
-      },
-    );
-  }
-
-  Widget _showUsersProducts(List<dynamic> lots) {
-    return ListView.builder(
-      itemCount: lots.length,
-      itemBuilder: (context, i) {
-        return GestureDetector(
-            onTap: () {},
-            child: Card(
-                clipBehavior: Clip.antiAlias,
-                child: Column(children: [
-                  ListTile(
-                    leading: Icon(Icons.arrow_right),
-                    title: Text('${lots[i].name}'),
-                    subtitle: Text('Ubicación: ${lots[i].id}'),
                   )
                 ])));
       },

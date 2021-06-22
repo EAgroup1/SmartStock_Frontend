@@ -24,6 +24,7 @@ class Delivery {
   User userItem;
   String? description;
   String? time;
+  bool? casa;
 
   Delivery(
       this.destinationLocation,
@@ -39,7 +40,8 @@ class Delivery {
       this.originLocation,
       this.isDelivered,
       this.isPicked,
-      this.time);
+      this.time,
+      this.casa);
 
   /// Un método constructor de tipo factory es necesario para crear una nueva instancia User
   /// desde un mapa. Pasa el mapa al constructor auto-generado `_$UserFromJson()`.

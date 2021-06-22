@@ -77,8 +77,8 @@ class DeliveryMenuScreen extends StatelessWidget {
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(text: 'GET READY', icon: Icon(Icons.alarm_add)),
-                Tab(text: 'PRODUCT TO PICK UP', icon: Icon(Icons.alarm_on)),
+                Tab(text: 'PREPARADO', icon: Icon(Icons.alarm_add)),
+                Tab(text: 'PRODUCTO A RECOGER', icon: Icon(Icons.alarm_on)),
               ],
             ),
           ),
@@ -174,12 +174,12 @@ class _GetReadyState extends State<GetReady> {
 
     return new AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      title: const Text('TO BE READY'),
+      title: const Text('A preparar'),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         //  crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Items to add:'),
+          Text('Items a añadir:'),
           ListTile(
             leading: Icon(Icons.add_circle_outline),
             title: Text(lot.name),
@@ -190,7 +190,7 @@ class _GetReadyState extends State<GetReady> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 FlatButton(
-                    child: Text('Cancel'),
+                    child: Text('Cancelar'),
                     shape: StadiumBorder(),
                     color: Colors.green,
                     textColor: Colors.white,
@@ -198,7 +198,7 @@ class _GetReadyState extends State<GetReady> {
                       Navigator.of(context).pop();
                     }),
                 FlatButton(
-                    child: Text('Is Ready'),
+                    child: Text('Preparado'),
                     shape: StadiumBorder(),
                     color: Colors.blueAccent,
                     textColor: Colors.white,
