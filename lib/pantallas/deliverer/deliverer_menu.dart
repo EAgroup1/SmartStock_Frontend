@@ -7,6 +7,7 @@ import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/pantallas/deliverer/mapa.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
+import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/place_service.dart';
 
 PlaceApi _placeApi = PlaceApi.instance;
@@ -158,11 +159,16 @@ class _Aentregar extends State<Aentregar> {
                         onPressed: () {
                           late var location;
                           if (deliveries[index].isPicked == false)
-                            _placeApi.coordenadas(deliveries[index].originLocation).then((value) {});
+                            _placeApi
+                                .coordenadas(deliveries[index].originLocation)
+                                .then((value) {});
                           else
-                            _placeApi.coordenadas(deliveries[index].destinationLocation).then((value) {});
+                            _placeApi
+                                .coordenadas(
+                                    deliveries[index].destinationLocation)
+                                .then((value) {});
 
-                            //enviar location y id delivery a mapas
+                          //enviar location y id delivery a mapas
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Mapa()));
                         }),
@@ -180,6 +186,7 @@ class _Aentregar extends State<Aentregar> {
 
   @override
   Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
+    lotServices lotes = new lotServices();
     bool? isPicked = delivery.isPicked;
     bool? isDelivered = delivery.isDelivered;
     return StatefulBuilder(
@@ -254,6 +261,7 @@ class _Aentregar extends State<Aentregar> {
                     DeliveryServices().setIsDelivered(delivery.id).then((val) {
                       if (val.statusCode == 200) {
                         print('guardado correctamente');
+                        lotes.addNewLotToUser(delivery.lot.id, delivery.userItem.id);
                         Navigator.of(context).pop();
                         MyNavigator.goToDeliverPage(context);
                       } else {

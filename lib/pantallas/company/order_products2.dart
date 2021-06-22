@@ -77,6 +77,7 @@ class _OrderProducts2PageState extends State<OrderProducts2Page> {
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final bool value;
+
     final Function onChange;
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
@@ -102,8 +103,8 @@ class _OrderProducts2PageState extends State<OrderProducts2Page> {
         new FlatButton(
           onPressed: () {
             delivery.createDelivery(lot.id, globalData.id).then((val) {
-              print(val.data['_id'].toString());
-              delivery.setCasa((val.data['_id'].toString()));
+              //delivery.setCasa(val.data['_id']);
+              //globalData.setUserItem(val.data['userItem']);
             });
             MyNavigator.goToOrderProducts2(context);
           },

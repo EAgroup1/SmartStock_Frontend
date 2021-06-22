@@ -116,9 +116,12 @@ class _BankDataPageState extends State<BankDataPage> {
                   _placeApi.location(address).then((value) {});
                   UserServices()
                       .sendBankRole(globalData.getId(), bank, role, address)
-                      .then((val) {}); //NO FUNCIONA AUN
+                      .then((val) {
+                        globalData.setBank(bank);
+                      }); //NO FUNCIONA AUN
                   //Fluttertoast.showToast(msg: "Envio falso de momento");
                   globalData.location = address;
+                  
                   if (_delivererChecked) {
                     MyNavigator.goToDeliverer(context);
                   } else if (_businessChecked) {

@@ -11,6 +11,7 @@ class GlobalData {
   late String location;
   late String businessLocation;
   late String userItem;
+  late String bank;
 
 //LOTE
   late String name;
@@ -59,6 +60,7 @@ class GlobalData {
   String getLocation() => this.location;
   String getBusinessLocation() => this.businessLocation;
   String getUserItem() => this.userItem;
+  String getBank() => this.bank;
 
 //LOTS
   String getName() => this.name;
@@ -89,6 +91,10 @@ class GlobalData {
 //USER
   setId(String id) {
     this.id = id;
+  }
+
+  setBank(String bank) {
+    this.bank = bank;
   }
 
   setToken(String token) {
@@ -201,7 +207,7 @@ class GlobalData {
     this.description = description;
   }
 
-   setCasa(bool casa) {
+  setCasa(bool casa) {
     this.casa = casa;
   }
 }
