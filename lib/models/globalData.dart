@@ -2,7 +2,6 @@ import 'package:rlbasic/models/chatmodel.dart';
 import 'package:rlbasic/models/userChat.dart';
 
 import 'user.dart';
-import 'dart:html';
 
 class GlobalData {
   static GlobalData? instance;
