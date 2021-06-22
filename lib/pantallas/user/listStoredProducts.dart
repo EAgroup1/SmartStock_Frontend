@@ -50,7 +50,7 @@ class _MyProdPageState extends State<MyProdPage> {
 
     print("entra en el futurebuilder");
     return FutureBuilder(
-      future: lotService.getLotListByUser(globalDataa.getId()),
+      future: lotService.getLotListByUserStoredTrue(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           print("ha pasado por la lista");

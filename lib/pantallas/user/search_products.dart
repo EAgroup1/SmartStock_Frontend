@@ -191,7 +191,7 @@ class DataSearch extends SearchDelegate<Lot?> {
         ),
       ),
       actions: <Widget>[
-        Text("¿Quieres guardarlo en tu casa?"),
+        Text("¿Quieres guardarlo en tu almacen?"),
         new FlatButton(
           onPressed: () {
             addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
