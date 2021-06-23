@@ -1,1 +1,1 @@
-var URL = "https://smartstock:3000/api";
+var URL = "https://smartstockapi.tobeit.net/api";
