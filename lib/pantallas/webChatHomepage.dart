@@ -28,7 +28,7 @@ class AllChatsPage extends StatefulWidget {
   _AllChatsPageState createState() => _AllChatsPageState();
 }
 
-class _AllChatsPageState extends State<AllChatsPage> {
+class _AllChatsPageState extends State<AllChatsPage> { //Error
   @override
   void initState() {
     super.initState();
