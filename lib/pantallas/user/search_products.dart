@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rlbasic/models/delivery.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
@@ -13,12 +14,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 FlutterLocalNotificationsPlugin? localNotification;
 
+import '../../main.dart';
+
 class SearchProductsPage extends StatefulWidget {
   @override
   _SearchProductsPageState createState() => _SearchProductsPageState();
 }
 
 class _SearchProductsPageState extends State<SearchProductsPage> {
+  var popupdialog;
   Lot? lotSeleccionado;
   List<Lot> historial = [];
   DataSearch search = new DataSearch();
@@ -54,7 +58,7 @@ class DataSearch extends SearchDelegate<Lot?> {
       IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            this.query = '';
+            MyNavigator.goToUser(context);
           })
     ];
   }
@@ -68,7 +72,6 @@ class DataSearch extends SearchDelegate<Lot?> {
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
           this.close(context, null);
-          MyNavigator.goToSearchProducts(context);
         });
   }
 
@@ -177,6 +180,8 @@ class DataSearch extends SearchDelegate<Lot?> {
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final addUserIntoLot = new LotServices();
+    final delivery = new DeliveryServices();
+    Delivery? deliveryy;
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
@@ -192,14 +197,27 @@ class DataSearch extends SearchDelegate<Lot?> {
         ),
       ),
       actions: <Widget>[
-        Text("¿Quieres guardarlo en tu casa?"),
+        Text("¿Quieres guardarlo en tu almacen?"),
         new FlatButton(
           onPressed: () {
-            Navigator.of(context).pop('Accept');
-            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+            //addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
             delivery.createDelivery(lot.id, globalData.id);
-            MyNavigator.goToSearchProducts(context);
+              print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+              String? deliveryy;
+
+              FutureBuilder<dynamic>(
+                future: delivery.getDeliverLot(lot.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    deliveryy = snapshot.data;
+                    return delivery.setReadyDelivery(deliveryy!);
+                  } else {
+                    return Center(child: CircularProgressIndicator(strokeWidth: 4));
+                  }
+                }
+              );
+              MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

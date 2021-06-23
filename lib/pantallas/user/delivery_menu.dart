@@ -12,7 +12,56 @@ GlobalData globalData = GlobalData.getInstance()!;
 class DeliveryMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DeliveryMenuScreen();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.cyan[400],
+        title: Text('My Stored Products'),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.cyan[400],
+              ),
+              child: Text(
+                'Perfil',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+                leading: Icon(Icons.add_business_rounded),
+                title: Text('Buscar productos'),
+                onTap: () {
+                  MyNavigator.goToSearchProducts(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.apartment),
+                title: Text('Mis productos almacenados'),
+                onTap: () {
+                  Navigator.of(context).pushNamed("");
+                }),
+            ListTile(
+                leading: Icon(Icons.motorcycle),
+                title: Text('Productos para entregar'),
+                onTap: () {
+                  MyNavigator.goToUserDeliveryMenu(context);
+                }),
+            ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Configuración'),
+                onTap: () {
+                  MyNavigator.goToConfigUser(context);
+                }),
+          ],
+        ),
+      ),
+      body: DeliveryMenuScreen(),
+    );
   }
 }
 
@@ -38,8 +87,8 @@ class DeliveryMenuScreen extends StatelessWidget {
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(text: 'GET READY', icon: Icon(Icons.alarm_add)),
-                Tab(text: 'PRODUCT TO PICK UP', icon: Icon(Icons.alarm_on)),
+                Tab(text: 'PREPARADO', icon: Icon(Icons.alarm_add)),
+                Tab(text: 'PRODUCTO A RECOGER', icon: Icon(Icons.alarm_on)),
               ],
             ),
           ),
@@ -72,6 +121,7 @@ class _GetReadyState extends State<GetReady> {
 
   @override
   Widget build(BuildContext context) {
+    final deliveryService = new DeliveryServices();
     return FutureBuilder(
       future: deliveryService.getDeliveriesUser(globalData.getId()),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -145,12 +195,12 @@ class _GetReadyState extends State<GetReady> {
 
     return new AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      title: const Text('TO BE READY'),
+      title: const Text('A preparar'),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         //  crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Items to add:'),
+          Text('Items a añadir:'),
           ListTile(
             leading: Icon(Icons.add_circle_outline),
             title: Text(lot.name),
@@ -161,7 +211,7 @@ class _GetReadyState extends State<GetReady> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 FlatButton(
-                    child: Text('Cancel'),
+                    child: Text('Cancelar'),
                     shape: StadiumBorder(),
                     color: Colors.green,
                     textColor: Colors.white,
@@ -169,7 +219,7 @@ class _GetReadyState extends State<GetReady> {
                       Navigator.of(context).pop();
                     }),
                 FlatButton(
-                    child: Text('Is Ready'),
+                    child: Text('Preparado'),
                     shape: StadiumBorder(),
                     color: Colors.blueAccent,
                     textColor: Colors.white,

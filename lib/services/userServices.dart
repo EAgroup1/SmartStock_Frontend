@@ -202,10 +202,23 @@ class UserServices {
     }
   }
 
+  getUserByStorageRol() async {
+    try {
+      final resp = await dio.get('$url' + 'getUsersByRole/' + 'Storage');
+      print(resp.data);
+      final List<dynamic> userlist = resp.data;
+      return userlist.map((obj) => User.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  //NUEVA; AUN NO VA
   sendBankRole(String id, String bank, String role, String location) async {
     try {
       final resp = await dio.put(url + id,
-          data: {"id": id, "role": role, "bank": bank, "location":location},
+          data: {"id": id, "role": role, "bank": bank, "location": location},
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
     } catch (e) {
@@ -214,7 +227,7 @@ class UserServices {
     }
   }
 
-   sendCoord(id, lat, lng) async {
+  sendCoord(id, lat, lng) async {
     try {
       final resp = await dio.put(url + id,
           data: {"id": id, "clat": lat, "clng": lng},
@@ -253,6 +266,23 @@ class UserServices {
     throw (error) {
       print(error);
     };
+  }
+
+  updateUser(String id) async {
+    try {
+      final resp = await dio.put('$url' + '$id');
+      print(resp.data);
+      final List<dynamic> user = resp.data;
+      return user.map((obj) => User.fromJson(obj)).toList();
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'No se puede actualizar',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
   }
 
   register(name, email, password, location) async {

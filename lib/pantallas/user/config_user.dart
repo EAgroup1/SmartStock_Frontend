@@ -160,9 +160,9 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
         Divider(indent: 16, endIndent: 16,),
         ListTile(
           leading: Icon(Icons.account_balance),
-          title: Text('Cuenta bancaria'),
+          title: Text("Cuenta"),
           onTap: () {
-            Navigator.of(context).pushNamed("");
+            popup2(context);
           }),
         Divider(indent: 16, endIndent: 16,),
         ListTile(
@@ -172,5 +172,28 @@ class _ConfigUserPageState extends State<ConfigUserPage> {
             popup(context);
           })
       ]));
+  }
+
+  void popup2(BuildContext context) {
+    var alert = AlertDialog(
+      title: const Text('Cuenta bancaria:'),
+      content: new SingleChildScrollView(
+        child: ListBody(
+          children: <Widget>[
+            Text(globalData.bank),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop('Salir');
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Salir'),
+        )
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context) => alert);
   }
 }

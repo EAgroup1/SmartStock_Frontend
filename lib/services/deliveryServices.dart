@@ -49,6 +49,38 @@ class DeliveryServices {
       return [];
     }
   }
+getDeliverLot(String id) async {
+    try {
+      final resp = await dio.get(url + id + '/delivery/lot',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      final String deliverylist;
+      deliverylist = resp.data;
+      return deliverylist;
+    } catch (e) {
+      print(e);
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist = [];
+      return deliverylist;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
   getReadyDeliveries(String id) async {
     try {
       final resp = await dio.get(url + id + '/readydeliveries/',
@@ -78,7 +110,7 @@ class DeliveryServices {
     print(id);
 
     try {
-      return await dio.put(url + 'readydelivery/' + id,
+      return await dio.put('$url' + 'readydelivery/' + '$id',
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -177,9 +209,26 @@ class DeliveryServices {
     }
   }
 
+
   setIsPicked(String id) async {
     try {
       return await dio.put(url + 'picked/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+    } catch (e) {
+      if (e is DioError) {
+        print(e);
+        Fluttertoast.showToast(
+            msg: 'Ha habido un error',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
+    setCasa(String id) async {
+    try {
+      return await dio.put(url + 'casa/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
     } catch (e) {
       if (e is DioError) {
@@ -246,6 +295,24 @@ class DeliveryServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
+    }
+  }
+
+addNewDeliveryToUser(String id, String userID) async {
+    print('id: ' + id);
+    print('id userItem: ' + userID);
+    try {
+      final resp = await dio.put('$url' + '$id',
+          data: {"userItem": userID},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.statusCode);
+      print(resp.data);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha podido añadir este lote al usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
     }
   }
 

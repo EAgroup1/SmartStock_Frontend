@@ -1,63 +1,47 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/pantallas/deliverer/mapa.dart';
+//import 'package:rlbasic/pantallas/user/salaryStoredProducts.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/services/lotServices.dart';
+import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/services/place_service.dart';
+import 'package:rlbasic/services/userServices.dart';
 
-class StoreProductsPage extends StatefulWidget {
+import '../login.dart';
+
+class OrderProducts2Page extends StatefulWidget {
+  const OrderProducts2Page({Key? key}) : super(key: key);
+
   @override
-  _StoreProductsPageState createState() => _StoreProductsPageState();
+  _OrderProducts2PageState createState() => _OrderProducts2PageState();
 }
 
-class _StoreProductsPageState extends State<StoreProductsPage> {
-  Lot? lotSeleccionado;
-  List<Lot> historial = [];
-
-  late var lots = <Lot>[];
-  final addCompanyIntoLot = new LotServices();
-
-  GlobalData globalData = GlobalData.getInstance()!;
+class _OrderProducts2PageState extends State<OrderProducts2Page> {
+  DeliveryServices delivery = new DeliveryServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: Text('Añadir productos'),
-      ),
-      body: buildSuggestions(context),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            MyNavigator.goToStoreProductsAdd(context);
-          },
-          child: const Icon(Icons.add)),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.grey,
+          title: Text('Enviar productos'),
+        ),
+        body: buildSuggestions2(context));
   }
 
-  // Widget _lotsadded(List<dynamic> lots) {
-  //   // TODO: implement buildSuggestions
-  //   //show when someone searches for something
-  //   final allLots = new lotServices();
-  //   return FutureBuilder(
-  //     future: allLots.getAllLotsSorted(),
-  //     builder: (_, AsyncSnapshot snapshot) {
-  //       if (snapshot.hasData) {
-  //         return _showLots(snapshot.data);
-  //       } else {
-  //         return Center(child: CircularProgressIndicator(strokeWidth: 4));
-  //       }
-  //     },
-  //   );
-  // }
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    //show when someone searches for something
-    final allLots = new LotServices();
+  Widget buildSuggestions2(BuildContext context) {
+    lotServices lots = new lotServices();
     return FutureBuilder(
-      future: allLots.getLotListByBusiness(globalData.id),
+      future: lots.getLotListByUser(globalData.getUserItem()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return _showLots(snapshot.data);
+          return _showUsersProducts(snapshot.data);
         } else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
@@ -65,7 +49,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
     );
   }
 
-  Widget _showLots(List<dynamic> lots) {
+  Widget _showUsersProducts(List<dynamic> lots) {
     return ListView.builder(
       itemCount: lots.length,
       itemBuilder: (context, i) {
@@ -84,7 +68,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
                   ListTile(
                     leading: Icon(Icons.arrow_right),
                     title: Text('${lots[i].name}'),
-                    subtitle: Text('Id del producto: ${lots[i].id}'),
+                    subtitle: Text('Id: ${lots[i].id}'),
                   )
                 ])));
       },
@@ -93,10 +77,10 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final bool value;
-    final Function onChange;
 
+    final Function onChange;
     return new AlertDialog(
-      title: const Text('Información detallada del envio'),
+      title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(
         // mainAxisSize: MainAxisSize.min,
         // crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,19 +93,20 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
             Text("Cantidad mínima: " + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
             Text("Frágil: " + lot.isFragile.toString()),
-            Text("Almacenado: " + lot.stored.toString()),
-
-
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
         ),
       ),
       actions: <Widget>[
-        Text("¿Enviar producto?"),
+        Text("¿Pedir producto?"),
         new FlatButton(
           onPressed: () {
-            MyNavigator.goToSendProductsForm(context);
+            delivery.createDelivery(lot.id, globalData.id).then((val) {
+              //delivery.setCasa(val.data['_id']);
+              //globalData.setUserItem(val.data['userItem']);
+            });
+            MyNavigator.goToOrderProducts2(context);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Enviar'),

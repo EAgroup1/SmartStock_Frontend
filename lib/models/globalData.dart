@@ -18,6 +18,8 @@ class GlobalData {
   late String resetLink;
   late String location;
   late String businessLocation;
+  late String userItem;
+  late String bank;
 
 //LOTE
   late String name;
@@ -30,6 +32,8 @@ class GlobalData {
   late bool isFragile;
   late String info;
   late bool stored;
+  late bool delivered;
+  late bool picked;
 
 //DELIVERY
   late String iddelivery;
@@ -42,8 +46,7 @@ class GlobalData {
   late bool isAssigned;
   late String description;
   late LatLng coordenadas;
-
-
+  late bool casa;
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -69,6 +72,9 @@ class GlobalData {
 
   String getLocation() => this.location;
   String getBusinessLocation() => this.businessLocation;
+  String getUserItem() => this.userItem;
+  String getBank() => this.bank;
+
 //LOTS
   String getName() => this.name;
   String getIdlot() => this.idlot;
@@ -80,6 +86,8 @@ class GlobalData {
   bool getisFragile() => this.isFragile;
   String getInfo() => this.info;
   bool getStored() => this.stored;
+  bool getDelivered() => this.delivered;
+  bool getPicked() => this.picked;
 
   //DELIVERY
   String getIdDelivery() => this.iddelivery;
@@ -91,10 +99,15 @@ class GlobalData {
   bool getIsReady() => this.isReady;
   bool getIsAssigned() => this.isAssigned;
   String getDescription() => this.description;
+  bool getCasa() => this.casa;
 
 //USER
   setId(String id) {
     this.id = id;
+  }
+
+  setBank(String bank) {
+    this.bank = bank;
   }
 
   setToken(String token) {
@@ -103,6 +116,10 @@ class GlobalData {
 
   setUserName(String userName) {
     this.userName = userName;
+  }
+
+  setUserItem(String userItem) {
+    this.userItem = userItem;
   }
 
   setEMail(String email) {
@@ -170,5 +187,54 @@ class GlobalData {
 
   setStored(bool stored) {
     this.stored = stored;
+  }
+
+  setDelivered(bool delivered) {
+    this.delivered = delivered;
+  }
+
+  setPicked(bool picked) {
+    this.picked = picked;
+  }
+
+  //DELIVERY
+  setIdDelivery(String iddelivery) {
+    this.iddelivery = iddelivery;
+  }
+
+  setOriginLocation(String originLocation) {
+    this.originLocation = originLocation;
+  }
+
+  setDestinationLocation(String destinationLocation) {
+    this.destinationLocation = destinationLocation;
+  }
+
+  setDeliveryDate(String deliveryDate) {
+    this.deliveryDate = deliveryDate;
+  }
+
+  setIsPicked(bool isPicked) {
+    this.isPicked = isPicked;
+  }
+
+  setIsDelivered(bool isDelivered) {
+    this.isDelivered = isDelivered;
+  }
+
+  setIsReady(bool isReady) {
+    this.isReady = isReady;
+  }
+
+  setIsAssigned(bool isAssigned) {
+    this.isAssigned = isAssigned;
+  }
+
+  setDescription(String description) {
+    this.description = description;
+  }
+
+  setCasa(bool casa) {
+    this.casa = casa;
   }
 }

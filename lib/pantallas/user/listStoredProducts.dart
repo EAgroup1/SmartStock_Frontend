@@ -15,14 +15,8 @@ class MyProdPageMenu extends StatefulWidget {
   MyProdPageMenu({Key? key}) : super(key: key);
 
   @override
-  _MyProdPageMenuState createState() => _MyProdPageMenuState();
-}
-
-class _MyProdPageMenuState extends State<MyProdPageMenu> {
-  @override
   Widget build(BuildContext context) {
-    //variable
-    String sort = "Ordenar por Nombre";
+
     //lateral menu
     return MaterialApp(
         home: Scaffold(
@@ -49,6 +43,8 @@ class MyProdPage extends StatefulWidget {
 
 class _MyProdPageState extends State<MyProdPage> {
   late var lots = <Lot>[];
+  //variable
+  String sort = "Ordenar por Nombre";
   @override
   void initState() {
     super.initState();
@@ -56,14 +52,13 @@ class _MyProdPageState extends State<MyProdPage> {
 
   @override
   Widget build(BuildContext context) {
-    final firstInfo = Provider.of<FirstInfo>(context);
     //created list
     List<Lot> lots;
     final lotService = new LotServices();
 
     print("entra en el futurebuilder");
     return FutureBuilder(
-      future: lotService.getLotListByUser(globalDataa.getId()),
+      future: lotService.getLotListByUserStoredTrue(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           print("ha pasado por la lista");

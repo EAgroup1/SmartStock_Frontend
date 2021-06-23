@@ -56,6 +56,23 @@ class LotServices {
     }
   }
 
+   updateLot(String id) async {
+    try {
+      final resp = await dio.put('$url' + '$id');
+      print(resp.data);
+      final List<dynamic> lot = resp.data;
+      return lot.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'No se puede actualizar',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+    }
+  }
+
   getLotsSameName(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');
@@ -244,5 +261,24 @@ class LotServices {
           timeInSecForIosWeb: 3);
     }
   }
+
+    getLotListByUserStoredTrue(String id) async {
+    try {
+      final resp = await dio.get('$url' + '/getByUserStoredTrueWithUserID/' + '$id');
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No se ha almacenado aun ningun lote',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+
+  //Crear funcion nueva para mostrar en searchProducts, Lotes en los que aun ningún user ha apretado aceptar ni se ha creado ningun delivery. Si es necesario, crear una nueva variable.
+
+  //getLotListWithoutDeliveryCreated
 
 }
