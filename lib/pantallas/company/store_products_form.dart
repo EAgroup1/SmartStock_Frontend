@@ -32,7 +32,7 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
   TextEditingController _qtyController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final addCompanyIntoLot = new lotServices();
+  final addCompanyIntoLot = new LotServices();
   var splashScreen = SplashScreen();
   Dio dioerror = new Dio();
 
@@ -149,7 +149,7 @@ class _StoreProductsFormState extends State<StoreProductsForm> {
               onPressed: () {
                 try {
                   if (_formKey.currentState!.validate()) {
-                    lotServices()
+                    LotServices()
                         .postLot(name, dimensions, weight, qty, minimumQty,
                             price, isFragile, globalData.id)
                         .then((val) {

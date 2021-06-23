@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/main.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/providers/lotCustomizer.dart';
+import './url.dart';
 
-class lotServices {
+class LotServices {
   Dio dio = new Dio();
-  //var url = "http://localhost:3000/api/lots/";
-    var url = "http://backend:3000/api/lots/";
-
+  var url = URL + "/lots/";
 
   postLot(name, dimensions, weight, qty, minimumQty, price, isFragile,
       String businessItem) async {
@@ -41,6 +41,18 @@ class lotServices {
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 3);
       }
+    }
+  }
+
+  deleteUserOfLot(id) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"userItem": "deleted"},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
     }
   }
 
@@ -133,6 +145,56 @@ class lotServices {
       final List<dynamic> lotlist = resp.data;
       return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'No hay ningún lote de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+
+  getSortLotsByAscPrice(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getSortLotsByAscPrice/' + '$id');
+      print(resp.data);
+      final List<dynamic> lotList = resp.data;
+      return lotList.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: 'No hay ningún lote de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+  getSortLotsByAscQty(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getSortLotsByAscQty/' + '$id');
+      print(resp.data);
+      final List<dynamic> lotList = resp.data;
+      return lotList.map((obj) => Lot.fromJson(obj)).toList();
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: 'No hay ningún lote de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
+  getLotsByChart(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getLotsByChart/' + '$id');
+      print(resp.data);
+      final List<dynamic> lotList = resp.data; //resp
+      return lotList.map((obj) => LotCustomizer.fromJson(obj)).toList();
+      // return lotList;
+    } catch (e) {
+      print(e);
       Fluttertoast.showToast(
           msg: 'No hay ningún lote de este usuario',
           toastLength: Toast.LENGTH_SHORT,

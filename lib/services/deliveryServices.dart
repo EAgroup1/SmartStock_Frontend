@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/delivery.dart';
+import 'package:rlbasic/providers/deliveryCustomizer.dart';
+import './url.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/models/user.dart';
 
 class DeliveryServices {
   Dio dio = new Dio();
-  //var url = "http://localhost:3000/api/delivery/";
-  var url = "http://backend:3000/api/delivery/";
+  var url = URL+"/delivery/";
 
   getDeliveriesUser(String id) async {
     try {
@@ -35,6 +36,19 @@ class DeliveryServices {
     }
   }
 
+  deleteUserOfDelivery(id) async  {
+    try{
+      final resp = await dio.put(url+id,
+        data:{"userItem": "deleted"},
+        options: Options(contentType: Headers.formUrlEncodedContentType)
+      );
+      print(resp.data);
+    }
+    catch (e) {
+      print(e);
+      return [];
+    }
+  }
   getReadyDeliveries(String id) async {
     try {
       final resp = await dio.get(url + id + '/readydeliveries/',
@@ -77,6 +91,24 @@ class DeliveryServices {
       }
     }
   }
+
+  getDeliveriesByChart(String id) async {
+    try {
+      final resp = await dio.get('$url' + 'getDeliveriesByChart/' + '$id');
+      print(resp.data); //resp
+      final List<dynamic> deliveryList = resp.data;
+      return deliveryList.map((obj) => DeliveryCustomizer.fromJson(obj)).toList();
+      // return deliveryList;
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: 'No hay ningún pedido de este usuario',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 3);
+    }
+  }
+
 
   getNotAssigned() async {
     try {
@@ -216,5 +248,5 @@ class DeliveryServices {
       }
     }
   }
- 
+
 }

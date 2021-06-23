@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'dart:core';
 import 'package:rlbasic/my_navigator.dart';
+import 'package:rlbasic/services/userServices.dart';
+
 
 GlobalData globalData = GlobalData.getInstance()!;
 
@@ -15,6 +18,14 @@ class UserPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.cyan[600],
         title: Text("Bienvenido, "+globalData.userName, semanticsLabel: "Bienvenido"),
+        actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () {
+            MyNavigator.goToChartsLotList(context);
+          },
+        )
+      ]
       ),
       drawer: Drawer(
         child: ListView(
@@ -42,7 +53,9 @@ class UserPage extends StatelessWidget {
                 leading: Icon(Icons.apartment),
                 title: Text('Mis productos almacenados'),
                 onTap: () {
-                   MyNavigator.goToLotList(context);
+                  //we comment this because this is the list of lots about one user
+                  MyNavigator.goToLotList(context);
+                  //Navigator.of(context).pushNamed("");
                 }),
             ListTile(
                 leading: Icon(Icons.motorcycle),
@@ -62,6 +75,12 @@ class UserPage extends StatelessWidget {
                 onTap: () {
                   MyNavigator.goToConfigUser(context);
                 }),
+            ListTile(
+                leading: Icon(Icons.trending_down_sharp),
+                title: Text('Eliminar mi cuenta'),
+                onTap: () { 
+                  MyNavigator.goDelete(context);
+                }), 
           ],
         ),
       ),

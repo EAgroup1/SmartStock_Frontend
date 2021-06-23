@@ -32,7 +32,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
   Widget _lottosend(List<dynamic> lots){
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLots = new lotServices();
+    final allLots = new LotServices();
     return FutureBuilder(
       future: allLots.getLotListByBusinessInProgressStored(globalData.id),
       builder: (_, AsyncSnapshot snapshot) {

@@ -13,6 +13,17 @@ User _$UserFromJson(Map<String, dynamic> json) {
     json['email'] as String,
     json['bank'] as String,
     json['role'] as String,
+    (json['friends'] as List<dynamic>)
+        .map((e) => UserChat.fromJson(e as Map<String, dynamic>))
+        .toList(),
+
+    json['resetLink'] as String,
+    (json['messages'] as List<dynamic>)
+        .map((e) => Message.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    (json['notifications'] as List<dynamic>)
+        .map((e) => Notification.fromJson(e as Map<String, dynamic>))
+        .toList(),
     json['location'] as String?,
   );
 }
@@ -23,5 +34,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       '_id': instance.id,
       'bank': instance.bank,
       'role': instance.role,
+      'friends': instance.friends,
+      'notifications': instance.friends,
+      'resetLink': instance.resetLink,
+      'messages': instance.messages,
       'location': instance.location,
     };

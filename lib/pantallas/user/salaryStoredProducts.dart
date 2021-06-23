@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rlbasic/providers/deliveryCustomizer.dart';
+import 'package:rlbasic/providers/lotCustomizer.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
+import 'package:rlbasic/services/lotServices.dart';
 // import '../../my_navigator.dart';
 //graph imports
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -9,11 +14,13 @@ import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 //other imports
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/user.dart';
+import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/userServices.dart';
 
 GlobalData globalData = GlobalData.getInstance()!;
 
+ 
 class SalaryProductsGraph extends StatefulWidget {
   SalaryProductsGraph({Key? key}) : super(key: key);
 
@@ -22,6 +29,7 @@ class SalaryProductsGraph extends StatefulWidget {
 }
 
 class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,34 +42,124 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
             bottom: TabBar(
               indicatorColor: Color(0xff9962D0),
               tabs: [
-                //all these graphs are all about me
-                //percentage of stores that i use
-                // Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Tus empresas"),
-                Tab(
-                    icon: Icon(FontAwesomeIcons.chartPie),
-                    text: "User's stats"),
-                //price/unit of all lots that i do or request
-                Tab(
-                    icon: Icon(FontAwesomeIcons.solidChartBar),
-                    text: "Lot's stats"),
-                //in march or july i save x sum(qty) of lots
-                Tab(
-                    icon: Icon(FontAwesomeIcons.chartLine),
-                    text: "Futuros pedidos"),
+                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Cantidad por Rol"),
+                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Usuarios por Mes"),
+                // Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Progresión Usuario / Mes"),
+                Tab(icon: Icon(FontAwesomeIcons.coins), text: "Dinero por Lote"),
+                // Tab(icon: Icon(FontAwesomeIcons.archive), text: "Pedidos por Mes"),
               ],
             ),
-            title: Text('Tus diagramas'),
+            title: Text('Mis estadísticas'),
           ),
           body: TabBarView(
             children: [
-              //my three views
+              //my views
               ChartPiePage(),
               SolidChartBarPage(),
-              ChartLinePage(),
+              // ChartLinePage(),
+              OtherStats(),
+              // OtherSecondStats(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class OtherStats extends StatefulWidget {
+  OtherStats({Key? key}) : super(key: key);
+
+  @override
+  _OtherStatsState createState() => _OtherStatsState();
+}
+
+class _OtherStatsState extends State<OtherStats> {
+  late var lots = <LotCustomizer>[];
+  // late List lots;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<LotCustomizer> lots;
+    final lotServices = new LotServices();
+    return FutureBuilder(
+      future: lotServices.getLotsByChart(globalData.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if(snapshot.hasData){
+          lots = snapshot.data;
+          if(lots.isNotEmpty){
+            return Container(
+              child: ListView.builder(
+                itemCount: lots.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index){
+                  return Text('${lots[index].name} : ${lots[index].money}€ ');
+                }
+              )
+            );
+          } else{return Center(child: Text('No hay lote alguno'));}
+        }
+        else if (snapshot.hasError){
+          return ListTile(title: Text('Ha habido un error'));
+        }
+        else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  }
+}
+
+//second widget
+class OtherSecondStats extends StatefulWidget {
+  OtherSecondStats({Key? key}) : super(key: key);
+
+  @override
+  _OtherSecondStatsState createState() => _OtherSecondStatsState();
+}
+
+class _OtherSecondStatsState extends State<OtherSecondStats> {
+  late var deliveries = <DeliveryCustomizer>[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<DeliveryCustomizer> deliveries;
+    final deliveryServices = new DeliveryServices();
+    return FutureBuilder(
+      future: deliveryServices.getDeliveriesByChart(globalData.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if(snapshot.hasData){
+          deliveries = snapshot.data;
+          if(deliveries.isNotEmpty){
+            return Container(
+              child: ListView.builder(
+                itemCount: deliveries.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index){
+                  return Text('mes ${deliveries[index].month} : ${deliveries[index].orders} pedidos ');
+                }
+              )
+            );
+          } else{return Center(child: Text('No hay lote alguno'));}
+        }
+        else if (snapshot.hasError){
+          return ListTile(title: Text('Ha habido un error'));
+        }
+        else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
     );
   }
 }
@@ -77,23 +175,33 @@ class ChartPiePage extends StatefulWidget {
 class _ChartPiePageState extends State<ChartPiePage> {
   @override
   Widget build(BuildContext context) {
+    final lotService = new LotServices();
     return Container(
-        //to do something
-        height: 550,
-        child: SfCircularChart(
-          tooltipBehavior: TooltipBehavior(enable: true),
-          title: ChartTitle(
-              //  text: "Porcentaje de tus tiendas almacenadas"
-              text: "Cantidad de usuarios según su rol"),
-          legend: Legend(isVisible: true),
-          series: <PieSeries>[
-            PieSeries<RoleQty, String>(
-                dataSource: getStringData(),
-                xValueMapper: (RoleQty qty, _) => qty.x,
-                yValueMapper: (RoleQty qty, _) => qty.y,
-                dataLabelSettings: DataLabelSettings(isVisible: true))
-          ],
-        ));
+       //to do something
+       height: 550,
+       child: SfCircularChart(
+         tooltipBehavior: TooltipBehavior(
+           enable: true
+         ),
+         title: ChartTitle(
+          //  text: "Porcentaje de tus tiendas almacenadas"
+          text: "Cantidad de Usuarios por Rol"
+         ),
+         legend: Legend(
+           isVisible: true
+         ),
+         series: <PieSeries>[
+           PieSeries<RoleQty, String>(
+             dataSource: getStringData(),
+             xValueMapper: (RoleQty qty,_)=>qty.x,
+             yValueMapper: (RoleQty qty,_)=>qty.y,
+             dataLabelSettings: DataLabelSettings(
+               isVisible: true
+             )
+           )
+         ],
+       )
+    );
   }
 }
 
@@ -109,25 +217,42 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //to do something
-      height: 550,
-      child: SfCartesianChart(
-        title: ChartTitle(text: "Lotes Acumulados Por Mes"),
-        primaryXAxis: NumericAxis(title: AxisTitle(text: "Mes")),
-        primaryYAxis: NumericAxis(title: AxisTitle(text: "Lotes")),
-        legend: Legend(isVisible: true),
-        tooltipBehavior: TooltipBehavior(enable: true),
-        series: <ChartSeries>[
-          ColumnSeries<LotsMonth, double>(
-              dataSource: getColumnData(),
-              xValueMapper: (LotsMonth lots, _) => lots.x,
-              yValueMapper: (LotsMonth lots, _) => lots.y,
-              name: "Lotes ABC",
-              legendIconType: LegendIconType.diamond,
-              //we put the marks for each layer
-              dataLabelSettings: DataLabelSettings(isVisible: true))
-        ],
-      ),
+       //to do something
+       height: 550,
+       child: SfCartesianChart(
+         title: ChartTitle(
+           text: "Usuarios registrados por Mes"
+         ),
+         primaryXAxis: NumericAxis(
+           title: AxisTitle(
+             text: "Mes"
+           )
+         ),
+         primaryYAxis: NumericAxis(
+           title: AxisTitle(
+             text: "Usuarios"
+           )
+         ),
+         legend: Legend(
+           isVisible: true
+         ),
+         tooltipBehavior: TooltipBehavior(
+           enable: true
+         ),
+         series: <ChartSeries>[
+           ColumnSeries<LotsMonth, double>(
+             dataSource: getColumnData(),
+             xValueMapper: (LotsMonth lots,_)=>lots.x,
+             yValueMapper: (LotsMonth lots,_)=>lots.y,
+             name: "Usuarios ABC",
+             legendIconType: LegendIconType.diamond,
+             //we put the marks for each layer
+             dataLabelSettings: DataLabelSettings(
+               isVisible: true
+             )
+           )
+         ],
+       ),
     );
   }
 }
@@ -144,44 +269,55 @@ class _ChartLinePageState extends State<ChartLinePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //to do something
-      height: 550,
-      child: SfCartesianChart(
-        //we can see a total follow-up
-        //  crosshairBehavior: CrosshairBehavior(
-        //    enable: true,
-        //    activationMode: ActivationMode.longPress
-        //  ),
-        //we can see all axis X points
+       //to do something
+       height: 550,
+       child: SfCartesianChart(
         trackballBehavior: TrackballBehavior(
-            enable: true, activationMode: ActivationMode.singleTap),
-        title: ChartTitle(text: "Lotes Acumulados Por Mes"),
-        primaryXAxis: NumericAxis(title: AxisTitle(text: "Mes")),
-        primaryYAxis: NumericAxis(title: AxisTitle(text: "Lotes")),
-        legend: Legend(isVisible: true),
-        tooltipBehavior: TooltipBehavior(enable: true),
-        series: <ChartSeries>[
-          LineSeries<LotsMonth, double>(
-            dataSource: getHugeData(),
-            xValueMapper: (LotsMonth lots, _) => lots.x,
-            yValueMapper: (LotsMonth lots, _) => lots.y,
-            name: "Lotes ABC",
-            legendIconType: LegendIconType.diamond,
-            //we put the marks for each layer
+          enable: true,
+          activationMode: ActivationMode.singleTap
+        ),
+         title: ChartTitle(
+           text: "Progresión Usuarios registrados por Mes"
+         ),
+         primaryXAxis: NumericAxis(
+           title: AxisTitle(
+             text: "Mes"
+           )
+         ),
+         primaryYAxis: NumericAxis(
+           title: AxisTitle(
+             text: "Usuarios"
+           )
+         ),
+         legend: Legend(
+           isVisible: true
+         ),
+         tooltipBehavior: TooltipBehavior(
+           enable: true
+         ),
+         series: <ChartSeries>[
+           LineSeries<LotsMonth, double>(
+             dataSource: getHugeData(),
+             xValueMapper: (LotsMonth lots,_)=>lots.x,
+             yValueMapper: (LotsMonth lots,_)=>lots.y,
+             name: "Usuarios ABC",
+             legendIconType: LegendIconType.diamond,
+             //we put the marks for each layer
             //  dataLabelSettings: DataLabelSettings(
             //    isVisible: true
             //  )
-          )
-        ],
-      ),
+           )
+         ],
+       ),
     );
   }
 }
 
+
 //fakes methods for the graph
 
 //Chart Class definition
-class Lot {
+class Lot{
   String peoplePerc;
   double peoplePercValue;
   Color colorval;
@@ -191,64 +327,42 @@ class Lot {
 }
 
 //axis variables Class constructor
-class LotsMonth {
+class LotsMonth{
   double x, y;
   LotsMonth(this.x, this.y);
 }
 
 //function that it's return solid diagram
-dynamic getColumnData() {
+dynamic getColumnData(){
   List<LotsMonth> columnData = <LotsMonth>[
     //first 5 months
     LotsMonth(1, 10),
-    LotsMonth(2, 22),
-    LotsMonth(3, 13),
-    LotsMonth(4, 23),
-    LotsMonth(5, 25)
+    LotsMonth(2, 12),
+    LotsMonth(3, 4),
+    LotsMonth(4, 13),
+    LotsMonth(5, 15)
   ];
   return columnData;
 }
 
 //function that it's return line diagram
-dynamic getHugeData() {
-  List<LotsMonth> hugeData = <LotsMonth>[];
-  double value = 100;
+dynamic getHugeData(){
+  List<LotsMonth> hugeData =<LotsMonth>[];
+  double value=100;
   Random rand = new Random();
 
-  for (int i = 0; i < 1000; i++) {
-    if (rand.nextDouble() > 0.5)
-      value += rand.nextDouble();
-    else
-      value -= rand.nextDouble();
+  for(int i=0; i<1000; i++){
+    if(rand.nextDouble()>0.5)
+    value+=rand.nextDouble();
+    else value-=rand.nextDouble();
 
     hugeData.add(LotsMonth(i.toDouble(), value));
   }
   return hugeData;
 }
 
-// //ok, now we put percentages
-// class CompanySales{
-//   String x;
-//   double y;
-
-//   CompanySales(this.x, this.y);
-// }
-
-// //& the method
-// dynamic getStringData(){
-//   List<CompanySales> stringData=<CompanySales>[
-//     CompanySales("Nike", 25),
-//     CompanySales("Adidas", 25),
-//     CompanySales("Lacoste", 12.5),
-//     CompanySales("Puma", 12.5),
-//     CompanySales("Apple", 12.5),
-//     CompanySales("Microsoft", 12.5)
-//   ];
-//   return stringData;
-// }
-
 //ok, now we put percentages
-class RoleQty {
+class RoleQty{
   String x;
   int y;
 
@@ -259,12 +373,12 @@ final userService = new UserServices();
 // future: lotService.getLotListByUser(globalData.getId())
 
 //& the method
-dynamic getStringData() {
-  List<RoleQty> stringData = <RoleQty>[
+dynamic getStringData(){
+  List<RoleQty> stringData=<RoleQty>[
     //here we return the qty trough role by user
-    RoleQty("User", 24),
-    RoleQty("Deliverer", 10),
-    RoleQty("Company", 11)
+    RoleQty("Business", 12),
+    RoleQty("Storage", 54),
+    RoleQty("Deliverer", 24)
   ];
   return stringData;
 }

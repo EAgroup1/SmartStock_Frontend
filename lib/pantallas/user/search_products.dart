@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'package:rlbasic/my_navigator.dart';
@@ -7,6 +8,10 @@ import 'package:rlbasic/pantallas/user/listStoredProducts.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+FlutterLocalNotificationsPlugin? localNotification;
 
 class SearchProductsPage extends StatefulWidget {
   @override
@@ -71,7 +76,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
     //show some result based on the selction
-    final lotservices = new lotServices();
+    final lotservices = new LotServices();
     List<Lot> lot;
     if (query.trim().length == 0) {
       return Center(
@@ -107,7 +112,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLots = new lotServices();
+    final allLots = new LotServices();
     List<Lot> lot;
     return FutureBuilder(
       future: allLots.getAllLotsSorted(),
@@ -171,7 +176,7 @@ class DataSearch extends SearchDelegate<Lot?> {
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
-    final addUserIntoLot = new lotServices();
+    final addUserIntoLot = new LotServices();
     return new AlertDialog(
       title: const Text('Información detallada del producto'),
       content: new SingleChildScrollView(

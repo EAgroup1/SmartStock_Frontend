@@ -1,3 +1,7 @@
+import 'package:rlbasic/models/chatmodel.dart';
+import 'package:rlbasic/models/userChat.dart';
+
+import 'user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GlobalData {
@@ -8,6 +12,10 @@ class GlobalData {
   late String userName;
   late String email;
   late String role;
+  late UserChat friend;
+//CHAT
+  late ChatModel model;
+  late String resetLink;
   late String location;
   late String businessLocation;
 
@@ -35,7 +43,7 @@ class GlobalData {
   late String description;
   late LatLng coordenadas;
 
-  
+
 
   static GlobalData? getInstance() {
     if (instance == null) {
@@ -54,6 +62,11 @@ class GlobalData {
   String getUserName() => this.userName;
   String getEMail() => this.email;
   String getRole() => this.role;
+  UserChat getFriend() => this.friend;
+//CHAT
+  ChatModel getChatModel() => this.model;
+  String getResetLink() => this.resetLink;
+
   String getLocation() => this.location;
   String getBusinessLocation() => this.businessLocation;
 //LOTS
@@ -104,6 +117,20 @@ class GlobalData {
     this.location = location;
   }
 
+  setFriend(UserChat friend){
+    this.friend = friend;
+  }
+
+//CHAT
+  setChatModel(ChatModel model){
+    this.model = model;
+  }
+
+//LOTS
+  setResetLink(String resetLink) {
+    this.resetLink = resetLink;
+  }
+
   //LOTS
   setName(String name) {
     this.name = name;
@@ -143,42 +170,5 @@ class GlobalData {
 
   setStored(bool stored) {
     this.stored = stored;
-  }
-
-  //DELIVERY
-  setIdDelivery(String iddelivery) {
-    this.iddelivery = iddelivery;
-  }
-
-  setOriginLocation(String originLocation) {
-    this.originLocation = originLocation;
-  }
-
-  setDestinationLocation(String destinationLocation) {
-    this.destinationLocation = destinationLocation;
-  }
-
-  setDeliveryDate(String deliveryDate) {
-    this.deliveryDate = deliveryDate;
-  }
-
-  setIsPicked(bool isPicked) {
-    this.isPicked = isPicked;
-  }
-
-  setIsDelivered(bool isDelivered) {
-    this.isDelivered = isDelivered;
-  }
-
-  setIsReady(bool isReady) {
-    this.isReady = isReady;
-  }
-
-  setIsAssigned(bool isAssigned) {
-    this.isAssigned = isAssigned;
-  }
-
-  setDescription(String description) {
-    this.description = description;
   }
 }

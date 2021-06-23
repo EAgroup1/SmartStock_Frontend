@@ -65,6 +65,12 @@ class _CompanyPageState extends State<CompanyPage> {
                 onTap: () {
                   MyNavigator.goToConfigCompany(context);
                 }),
+              ListTile(
+                leading: Icon(Icons.trending_down_sharp),
+                title: Text('Eliminar mi cuenta'),
+                onTap: () { 
+                  MyNavigator.goDelete(context);
+                }),
           ],
         ),
       ),

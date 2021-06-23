@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rlbasic/main.dart';
+import 'package:rlbasic/models/message.dart';
+import 'package:rlbasic/models/userChat.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
+import './url.dart';
+//import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'dart:async' show Future;
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: [
@@ -13,14 +19,15 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
-
 class UserServices {
   Dio dio = new Dio();
-  var url = "http://backend:3000/api/users/";
+  var url = URL + "/users/";
+  /* late DioExceptions dioExceptions; */
 
   login(email, password) async {
     print(email);
     print(password);
+    print("PRINT DESDE USERSERVICES LOGIN Y SE ENVIA EN CLARO PASSWORD");
     try {
       return await dio.post(url + 'logIn',
           data: {"email": email, "password": password},
@@ -75,22 +82,128 @@ class UserServices {
     }
   }
 
-  getUser(String id) async {
+  Future<List<UserChat>> getUserChat(String id) async {
     try {
-      final resp = await dio.post(url,
-          data: {"id": id},
+      final resp = await dio.get(url + 'chat/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
-      print(resp.data);
-      final List<dynamic> lotlist = resp.data;
-      return lotlist.map((obj) => User.fromJson(obj)).toList();
+      print(resp.data['friends']);
+
+      final List<UserChat> friendList;
+      friendList = (resp.data['friends'] as List)
+          .map((i) => UserChat.fromJson(i))
+          .toList();
+      return friendList;
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-  //NUEVA; AUN NO VA
-  sendBankRole(String id, String bank, String role, String location) async {
+   getListMessages(String id) async{ //Future<List<Message>>
+    try {
+      final resp = await dio.get(url + 'chat/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print("HOLA AMIGO");
+      print(resp.data['messages']);
+
+      final List<Message> messages;
+      messages = (resp.data['messages'] as List)
+          .map((i) => Message.fromJson(i))
+          .toList();
+      return messages;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  addMessageList(String id, List<Message> messages) async{
+    print(messages);
+    print("AYUDA COÑO QUIERO MORIRME");
+    String encoded = jsonEncode(messages);
+    //var data = [];
+    String datasent = jsonEncode(messages[0]);
+    //List<Map<String,dynamic>> AYUDA = [];
+    //AYUDA.add(messages[0].toJson());
+    //for(var i = 1; i<messages.length; i++){
+      /*var send = messages[i].senderID;
+      var receive = messages[i].receiverID;
+      var txt = messages[i].text;
+      var _data = {
+        "senderID": send,
+        "text": txt,
+        "receiverID": receive
+      };
+      var _datae = jsonEncode(_data);
+      data.add(_datae);*/
+      //AYUDA.add(jsonEncode(messages[i]).toJson());
+    //}
+    encoded = jsonEncode(messages.map((i) => i.toJson()).toList()).toString();
+
+    //String datasent = jsonEncode(messages);
+    print("LO QUE MANDAMOS PAL BACKEND");
+    print(encoded);
+    try {
+      final resp = await dio.put(url + id,
+          data: {"messages": encoded},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      print("Messages added");
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getNumByRole(String role) async {
+    try {
+      final resp = await dio.get('$url' + 'getNumByRole/' + '$role');
+      print(resp.data);
+
+      final numByRole = int.parse(resp.data);
+      return numByRole;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  eliminateUser(String id) async {
+    try {
+      final resp = await dio.delete(url + id,
+          data: {"id": id},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  deleteFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/deletefriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  putFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/putfriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  sendBankRole(String id, String bank, String role) async {
     try {
       final resp = await dio.put(url + id,
           data: {"id": id, "role": role, "bank": bank, "location":location},
@@ -158,78 +271,69 @@ class UserServices {
         switch (e.type) {
           case DioErrorType.cancel:
             Fluttertoast.showToast(
-            msg: "Cancelada la respuesta de la API",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Cancelada la respuesta de la API",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.connectTimeout:
             Fluttertoast.showToast(
-            msg: "Conexión con la API expirada",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Conexión con la API expirada",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.receiveTimeout:
-           Fluttertoast.showToast(
-            msg: "Tiempo expirado al conectar con el servidor API",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+            Fluttertoast.showToast(
+                msg: "Tiempo expirado al conectar con el servidor API",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.response:
-           Fluttertoast.showToast(
-            msg: _handleError(
-                e.response!.statusCode!, e.response!.data),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+            Fluttertoast.showToast(
+                msg: _handleError(e.response!.statusCode!, e.response!.data),
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           case DioErrorType.sendTimeout:
             Fluttertoast.showToast(
-            msg: "URL Timeout",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "URL Timeout",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
           default:
             Fluttertoast.showToast(
-            msg: "Algo ha ido mal",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1);
+                msg: "Algo ha ido mal",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
             break;
         }
       }
-
-      // if (e.response!.statusCode == 409) {
-      //   Fluttertoast.showToast(
-      //     msg: e.response!.statusMessage!,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1);
-      // }
     }
   }
 }
 
-  String message = '';
+String message = '';
 
-  String _handleError(int statusCode, dynamic error) {
-    switch (statusCode) {
-      case 400:
-        return 'Bad request';
-      case 404:
-        return error["message"];
-      case 500:
-        return 'Internal server error';
-      default:
-        return 'Oops something went wrong';
-    }
+String _handleError(int statusCode, dynamic error) {
+  switch (statusCode) {
+    case 400:
+      return 'Bad request';
+    case 404:
+      return error["message"];
+    case 500:
+      return 'Internal server error';
+    default:
+      return 'Oops something went wrong';
   }
+}
 
-  @override
-  String toString() => message;
+@override
+String toString() => message;
 
   // getAllUsers() async {
   //   try {

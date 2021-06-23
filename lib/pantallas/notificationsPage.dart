@@ -4,51 +4,37 @@ import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
-//import provider & our class provider
-import 'package:provider/provider.dart';
-import '../../providers/firstInfo.dart';
 
-GlobalData globalDataa = GlobalData.getInstance()!;
+GlobalData globalData = GlobalData.getInstance()!;
 
-//statefull MyProdPageMenu, i create on of this because i need the dropdwon button!!!
-class MyProdPageMenu extends StatefulWidget {
-  MyProdPageMenu({Key? key}) : super(key: key);
+class MyPushPageMenu extends StatefulWidget {
+  MyPushPageMenu({Key? key}) : super(key: key);
 
   @override
-  _MyProdPageMenuState createState() => _MyProdPageMenuState();
+  _MyPushPageMenuState createState() => _MyPushPageMenuState();
 }
 
-class _MyProdPageMenuState extends State<MyProdPageMenu> {
+class _MyPushPageMenuState extends State<MyPushPageMenu> {
   @override
   Widget build(BuildContext context) {
-    //variable
-    String sort = "Ordenar por Nombre";
-    //lateral menu
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(title: Text("Tu lista de Lotes"),        backgroundColor: Colors.cyan[600],
-  actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.euro_symbol),
-          onPressed: () {
-            MyNavigator.goToChartsLotList(context);
-          },
-        )
-      ]),
-      body: MyProdPage(),
+          appBar: AppBar(title: Text("Mis Notificaciones")),
+          body: MyPushPage(),
     ));
   }
 }
 
-class MyProdPage extends StatefulWidget {
-  MyProdPage({Key? key}) : super(key: key);
+
+class MyPushPage extends StatefulWidget {
+  MyPushPage({Key? key}) : super(key: key);
 
   @override
-  _MyProdPageState createState() => _MyProdPageState();
+  _MyPushPageState createState() => _MyPushPageState();
 }
 
-class _MyProdPageState extends State<MyProdPage> {
-  late var lots = <Lot>[];
+class _MyPushPageState extends State<MyPushPage> {
+  late var notifications = <Notification>[];
   @override
   void initState() {
     super.initState();
@@ -56,14 +42,13 @@ class _MyProdPageState extends State<MyProdPage> {
 
   @override
   Widget build(BuildContext context) {
-    final firstInfo = Provider.of<FirstInfo>(context);
     //created list
     List<Lot> lots;
     final lotService = new LotServices();
 
     print("entra en el futurebuilder");
     return FutureBuilder(
-      future: lotService.getLotListByUser(globalDataa.getId()),
+      future: lotService.getLotListByUser(globalData.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           print("ha pasado por la lista");

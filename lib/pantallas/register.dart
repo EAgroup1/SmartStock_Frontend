@@ -17,7 +17,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   var name, email, password, conpassword, token, id, direccion;
   bool termsAccepted = false;
-  User user = User('', '', '', '', '', '');
+  User user = User('', '', '', '', '',[],'',[],[]);
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     termsAndConditionsCheckbox() {
-      return 
+      return
       Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -125,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
-    
+
     }
 
     createRegisterButton(BuildContext context) {

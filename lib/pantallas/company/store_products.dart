@@ -14,7 +14,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
   List<Lot> historial = [];
 
   late var lots = <Lot>[];
-  final addCompanyIntoLot = new lotServices();
+  final addCompanyIntoLot = new LotServices();
 
   GlobalData globalData = GlobalData.getInstance()!;
   @override
@@ -51,7 +51,7 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLots = new lotServices();
+    final allLots = new LotServices();
     return FutureBuilder(
       future: allLots.getLotListByBusiness(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {

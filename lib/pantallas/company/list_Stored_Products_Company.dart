@@ -77,11 +77,11 @@ class DataSearch extends SearchDelegate<Lot?> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
-    final allLotsByBusiness = new lotServices();
+    final allLotsByBusiness = new LotServices();
     List<Lot> lot;
 
     return FutureBuilder(
-      future: allLotsByBusiness.getLotListByBusinessInProgressStoredTrue(globalData.id),
+      future: allLotsByBusiness.getLotListByBusiness(GlobalData.getInstance()!.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;
@@ -93,7 +93,7 @@ class DataSearch extends SearchDelegate<Lot?> {
                   .toList(); 
               // &&
               // element.name.toLowerCase().startsWith(query.toLowerCase()))
-                    
+
           print(suggestions);
           return _showLots(suggestions);
         } else {
