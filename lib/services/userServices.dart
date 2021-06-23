@@ -179,6 +179,30 @@ class UserServices {
     }
   }
 
+  deleteFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/deletefriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  putFriend(String id, String friends) async {
+    try {
+      final resp = await dio.put(url + id+"/putfriend",
+        data: {"friend": friends},
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
   sendBankRole(String id, String bank, String role) async {
     try {
       final resp = await dio.put(url + id,

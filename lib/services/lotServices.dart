@@ -42,19 +42,18 @@ class LotServices {
     }
   }
 
-  deleteUserOfLot(id) async  {
-    try{
-      final resp = await dio.put(url+id,
-        data:{"userItem": "deleted"},
-        options: Options(contentType: Headers.formUrlEncodedContentType)
-      );
+  deleteUserOfLot(id) async {
+    try {
+      final resp = await dio.put(url + id,
+          data: {"userItem": "deleted"},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data);
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
       return [];
     }
   }
+
   getLotsSameName(String name) async {
     try {
       final resp = await dio.get('$url' + 'get/' + '$name');
@@ -137,18 +136,13 @@ class LotServices {
     }
   }
 
-
-
-
   //Lot List of one user trough id
   getLotListByUser(String id) async {
     try {
       final resp = await dio.get('$url' + 'getByUser/' + '$id');
-      print(resp.data);
-      final List<dynamic> lotList = resp.data;
-      return lotList.map((obj) => Lot.fromJson(obj)).toList();
+      final List<dynamic> lotlist = resp.data;
+      return lotlist.map((obj) => Lot.fromJson(obj)).toList();
     } catch (e) {
-      print(e);
       Fluttertoast.showToast(
           msg: 'No hay ningún lote de este usuario',
           toastLength: Toast.LENGTH_SHORT,
@@ -195,8 +189,8 @@ class LotServices {
       final resp = await dio.get('$url' + 'getLotsByChart/' + '$id');
       print(resp.data);
       final List<dynamic> lotList = resp.data; //resp
-      return lotList.map((obj) => Lot.fromJson(obj)).toList();
-      // return lotList;
+      // return lotList.map((obj) => Lot.fromJson(obj)).toList();
+      return lotList;
     } catch (e) {
       print(e);
       Fluttertoast.showToast(
@@ -220,6 +214,4 @@ class LotServices {
           timeInSecForIosWeb: 3);
     }
   }
-
-
 }

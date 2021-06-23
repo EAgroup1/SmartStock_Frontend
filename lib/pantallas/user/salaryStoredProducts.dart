@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/services/lotServices.dart';
 // import '../../my_navigator.dart';
 //graph imports
@@ -37,19 +38,21 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
             bottom: TabBar(
               indicatorColor: Color(0xff9962D0),
               tabs: [
-                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Mis lotes"),
-                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Mis pedidos"),
-                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Otros"),
+                Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Cantidad por Rol"),
+                Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Usuarios por Mes"),
+                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Dinero por Lote"),
+                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Pedidos por Mes"),
               ],
             ),
             title: Text('Mis estadísticas'),
           ),
           body: TabBarView(
             children: [
-              //my three views
+              //my views
               ChartPiePage(),
               SolidChartBarPage(),
               OtherStats(),
+              OtherSecondStats(),
             ],
           ),
         ),
@@ -66,33 +69,89 @@ class OtherStats extends StatefulWidget {
 }
 
 class _OtherStatsState extends State<OtherStats> {
-  // late var lots = [];
-  late List<dynamic> lots;
+  late var lots = [];
+  // late List lots;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
-  final lotServices = new LotServices();
-
   @override
   Widget build(BuildContext context) {
+    List<dynamic> lots;
+    final lotServices = new LotServices();
     return FutureBuilder(
       future: lotServices.getLotsByChart(globalData.getId()),
       builder: (context, AsyncSnapshot snapshot) {
-        if(!snapshot.hasData){
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return Container(
-            child: ListView.builder(
-              itemCount: lots.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index){
-                return Text('${lots[index].name} : ${lots[index].money}');
-              }
-            )
-          );
+        if(snapshot.hasData){
+          lots = snapshot.data;
+          if(lots.isNotEmpty){
+            return Container(
+              child: ListView.builder(
+                itemCount: lots.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index){
+                  return Text('${lots[index].name} : ${lots[index].money}');
+                }
+              )
+            );
+          } else{return Center(child: Text('No hay lote alguno'));}
+        }
+        else if (snapshot.hasError){
+          return ListTile(title: Text('Ha habido un error'));
+        }
+        else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+  }
+}
+
+//second widget
+class OtherSecondStats extends StatefulWidget {
+  OtherSecondStats({Key? key}) : super(key: key);
+
+  @override
+  _OtherSecondStatsState createState() => _OtherSecondStatsState();
+}
+
+class _OtherSecondStatsState extends State<OtherSecondStats> {
+  late var deliveries = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<dynamic> deliveries;
+    final deliveryServices = new DeliveryServices();
+    return FutureBuilder(
+      future: deliveryServices.getDeliveriesByChart(globalData.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if(snapshot.hasData){
+          deliveries = snapshot.data;
+          if(deliveries.isNotEmpty){
+            return Container(
+              child: ListView.builder(
+                itemCount: deliveries.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index){
+                  return Text('${deliveries[index].month} : ${deliveries[index].orders}');
+                }
+              )
+            );
+          } else{return Center(child: Text('No hay lote alguno'));}
+        }
+        else if (snapshot.hasError){
+          return ListTile(title: Text('Ha habido un error'));
+        }
+        else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
     );
