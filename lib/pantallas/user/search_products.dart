@@ -196,12 +196,22 @@ class DataSearch extends SearchDelegate<Lot?> {
           onPressed: () {
             //addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
-            delivery.createDelivery(lot.id, globalData.id).then((val) {
-              print("AAAAAAAAAAAAAAAAAA" + val.data['_id'] + "AAAAAAAAAAAAAAAAAA");
-              delivery.setReadyDelivery(val.data['_id']);
-            },
-            MyNavigator.goToSearchProducts(context)
-            );
+            delivery.createDelivery(lot.id, globalData.id);
+              print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+              String? deliveryy;
+
+              FutureBuilder<dynamic>(
+                future: delivery.getDeliverLot(lot.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    deliveryy = snapshot.data;
+                    return delivery.setReadyDelivery(deliveryy!);
+                  } else {
+                    return Center(child: CircularProgressIndicator(strokeWidth: 4));
+                  }
+                }
+              );
+              MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

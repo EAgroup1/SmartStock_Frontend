@@ -214,4 +214,9 @@ class lotServices {
     }
   }
 
+
+  //Crear funcion nueva para mostrar en searchProducts, Lotes en los que aun ningún user ha apretado aceptar ni se ha creado ningun delivery. Si es necesario, crear una nueva variable.
+  
+  //getLotListWithoutDeliveryCreated
+
 }

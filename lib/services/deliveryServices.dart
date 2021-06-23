@@ -35,6 +35,38 @@ class DeliveryServices {
     }
   }
 
+getDeliverLot(String id) async {
+    try {
+      final resp = await dio.get(url + id + '/delivery/lot',
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      final String deliverylist;
+      deliverylist = resp.data;
+      return deliverylist;
+    } catch (e) {
+      print(e);
+      if (e is DioError) {
+        Fluttertoast.showToast(
+            msg: 'vacio',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 3);
+      }
+      final List<Delivery> deliverylist = [];
+      return deliverylist;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
   getReadyDeliveries(String id) async {
     try {
       final resp = await dio.get(url + id + '/readydeliveries/',
