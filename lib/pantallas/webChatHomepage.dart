@@ -5,6 +5,7 @@ import 'package:rlbasic/models/globalData.dart';
 
 import 'package:rlbasic/models/user.dart';
 import 'package:rlbasic/models/userChat.dart';
+import 'package:rlbasic/pantallas/webChat.dart';
 
 //i think for the moment navigator is not essential because pageroute
 import 'package:rlbasic/my_navigator.dart';
@@ -25,17 +26,16 @@ class _AllChatsPageState extends State<AllChatsPage> {
   ChatModel model = GlobalData.getInstance()!.getChatModel();
   @override
   void initState() {
-    /*print("HOLA");
-    print(model.friendList);
-    print(model.currentUser);*/
     super.initState();
   }
 
-  void friendClicked(UserChat friend){
-    GlobalData.getInstance()?.setFriend(friend);
+  void friendClicked(UserChat friend) async{
+    await GlobalData.getInstance()?.setFriend(friend);
     model.chatIDvect = [model.myId,friend.id];
     model.chatIDvect.sort();
     model.chatID = model.chatIDvect[0].toString()+model.chatIDvect[1].toString();
+    print("ChatID");
+    print(model.chatID);
     MyNavigator.goToWebChat(context);
   }
 
@@ -44,10 +44,8 @@ class _AllChatsPageState extends State<AllChatsPage> {
   @override
   Widget build(BuildContext context) {
     buildAllChatList(){
-      print(model.friendList?[0]);
       UserServices().getUserChat(GlobalData.getInstance()!.getId()).then((value) => {model.friendList=value});   
-      
-    
+          
       if (model.friendList!.isEmpty){
         return Center(child: Text("No tienes amigos"));
       }

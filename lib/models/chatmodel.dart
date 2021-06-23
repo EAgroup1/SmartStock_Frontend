@@ -8,9 +8,13 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:socket_io/socket_io.dart';
 import 'package:flutter/material.dart';
 import 'package:stack/stack.dart';
+import 'package:rlbasic/pantallas/webChat.dart';
+
 //import 'package:flutter_socket_io/flutter_socket_io.dart';// -- NO NULL SAFETY
 //import 'package:flutter_socket_io/socket_io_manager.dart';// -- NO NULL SAFETY
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+
 
 import 'dart:convert';
 import 'package:rlbasic/models/user.dart';
@@ -35,69 +39,54 @@ class ChatModel extends Model with ChangeNotifier {
   var rooms = [];
 
   //(Actually fake) list users this.id, this.userName, this.email, this.bank, this.role, list<_id friends>
-  late List<UserChat>? friendList=[]; // = currentUser.friends;
-/*   [
-    //new User('60aee312c0903a384cfc8544','Javier','javier@gmail.com','ES8200000000000000000000','Business',["60c9cc2b9202363c30c31d46"],""),
-    //new User('60c9cc2b9202363c30c31d46','AAAAAAAAAAAAA','a@a.com','safdsfdghvm,bjn','Storage',["60aee312c0903a384cfc8544"],""),
-    new User('60c4f100aaaa0a33e4e27ebd','test1','1@a.c','sadfdsgfdhf','Deliverer',["60c4f116aaaa0a33e4e27ebe"],""),
-    new User('60c4f116aaaa0a33e4e27ebe','test2','2@a.c','asxdvfxvcgbvnhm','Storage',["60c4f100aaaa0a33e4e27ebd"],"")
-  ]; */
+  late List<UserChat>? friendList=[]; 
 
+
+  var test;
   //Prepares rooms value
-  void setLists() {
-    late Future<List<UserChat>?> list =
-        UserServices().getUserChat(GlobalData.getInstance()!.getId());
-        list.then((value) => {friendList=value});
+  setLists() async{
+
+    await UserServices().getUserChat(myId.toString()).then((value) => {friendList=value});  
+    await UserServices().getListMessages(myId.toString()).then((value) => {test=value});
+    print("Cosas de test");
+    //print(test['senderID']);
+    //Message mensaje = test[0];
+    //print(mensaje);
+    //print(mensaje.senderID);
+    print("FIN DE TEST");
     for (var i = 0; i < friendList!.length; i++) {
       if (myId != friendList?[i].id) {
         List<String?> provisionalroom = [myId, ""];
         provisionalroom[1] =
             friendList?[i].id; //Lista provisional con myId y _id amigo
-        print(provisionalroom);
         provisionalroom.sort(); //Sort
         var prov =
             provisionalroom[0].toString() + provisionalroom[1].toString();
         rooms.add(prov);
       }
     }
+    print("salas");
+    print(rooms);
+    print("mensajes");
+    print(messages);
   }
 
   //Define (actual fake) messages list for conversation
-  List<Message>? messages = <Message>[
-    new Message("HOLA", "60ccc9c5bd290717f88511d6", "60ccca5dbd290717f88511d7"),
-    new Message("HOLA", "60ccca5dbd290717f88511d7", "60ccc9c5bd290717f88511d6"),
+  late List<Message> messages = [];// = <Message>[
+    /*new Message("HOLA", "60c4f100aaaa0a33e4e27ebd", "60c4f116aaaa0a33e4e27ebe"),
+    new Message("PRUEBA", "60c4f100aaaa0a33e4e27ebd", "2222"),
+    new Message("HOLA", "60c4f116aaaa0a33e4e27ebe", "60c4f100aaaa0a33e4e27ebd"),
     new Message(
-        "Que tal?", "60ccc9c5bd290717f88511d6", "60ccca5dbd290717f88511d7"),
-    new Message("bien", "60ccca5dbd290717f88511d7", "60ccc9c5bd290717f88511d6")
-  ];
+        "Que tal?", "60c4f100aaaa0a33e4e27ebd", "60c4f116aaaa0a33e4e27ebe"),
+    new Message("bien", "60c4f116aaaa0a33e4e27ebe", "60c4f100aaaa0a33e4e27ebd"),
+    new Message("PRUEBA", "1111", "60c4f100aaaa0a33e4e27ebd"),
+  ];*/
 
   //Create socket (but no connect it yet)
   IO.Socket socket = IO.io('http://localhost:3000', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': false,
   });
-
-  Widget build(BuildContext context) {
-    print("AQUI PASO");
-    FutureBuilder(
-        future: UserServices().getUserChat(GlobalData.getInstance()!.getId()),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          print("LLEGO AQUI");
-          if (snapshot.hasError) {
-            print("NO VA");
-          }
-          if (snapshot.hasData) {
-            //currentUser = snapshot.data;
-            //friendList = [(currentUser!.friends) as User];
-            print("EUREKA");
-            return Container();
-          } else {
-            print("NO HAY NADA");
-            return Container();
-          }
-        });
-    return Container();
-  }
 
   //adds room for socket
   void addroom(String newroom) {
@@ -110,7 +99,8 @@ class ChatModel extends Model with ChangeNotifier {
   }
 
   //initiates socket
-  void init() {
+  init() async {
+    Future.delayed(Duration(seconds: 5));
     //Connect the socket and joins the rooms
     socket.connect();
     socket.emit('joinrooms', rooms);
@@ -121,15 +111,20 @@ class ChatModel extends Model with ChangeNotifier {
     });
     socket.on('newmsg', (data) {
       print('New message');
-      Fluttertoast.showToast(msg: "Nuevo mensaje: " + data.toString());
+      Message newmsg = new Message(data['text'],data['origin'],data['destination']);
+      //messages.add(newmsg);
+
+      UserServices().addMessageList(myId.toString(), messages);
+      Fluttertoast.showToast(msg: "Nuevo mensaje: " + data['text'].toString());
       print(data);
     });
     socket.on('escribiendo', (data) {
       print('Writing with ChatID: ' + data);
-      Fluttertoast.showToast(msg: "Escribiendo...");
+      if (chatID == data){
+        Fluttertoast.showToast(msg: "Escribiendo...");
+      }
     });
   }
-
   //Different emit to server
 
   //send a message to sockets joined
@@ -168,7 +163,7 @@ class ChatModel extends Model with ChangeNotifier {
   }*/
 
   List<Message> getMessagesForChatID(String chatID) {
-    return messages!
+    return messages
         .where((msg) => msg.senderID == chatID || msg.receiverID == chatID)
         .toList();
   }

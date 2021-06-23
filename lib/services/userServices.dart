@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rlbasic/main.dart';
+import 'package:rlbasic/models/message.dart';
 import 'package:rlbasic/models/userChat.dart';
 import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/models/user.dart';
@@ -86,55 +87,71 @@ class UserServices {
       final resp = await dio.get(url + 'chat/' + id,
           options: Options(contentType: Headers.formUrlEncodedContentType));
       print(resp.data['friends']);
-      print('llega');
 
       final List<UserChat> friendList;
       friendList = (resp.data['friends'] as List)
           .map((i) => UserChat.fromJson(i))
           .toList();
-      print(friendList);
-      print('object');
       return friendList;
-/*       //Map<String, dynamic> map = jsonDecode(resp.toString());
-      //User user = new User.fromJson(resp.data);
-      final List<dynamic> lotlist = resp.data['friends'];
-      return lotlist.map((obj) => UserChat.fromJson(obj)).toList();
-   */
     } catch (e) {
       print(e);
       return [];
     }
   }
 
-  User getaUser(String id) {
-    User resulting = new User('', '', '', '', '', [], '');
+   getListMessages(String id) async{ //Future<List<Message>>
+    try {
+      final resp = await dio.get(url + 'chat/' + id,
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print("HOLA AMIGO");
+      print(resp.data['messages']);
 
-   /* getUserChat(
-            id) //el "then no va bien porque envia el vacio pero el whenComplete no funciona"
-        .then((result) {
-      var userName = result.userName;
-      var email = result.email;
-      var bank = result.bank;
-      var _id = result.id;
-      var role = result.role;
-      var friends = result.friends;
-      var resetLink = result.resetLink;
-      resulting =
-          new User(_id, userName, email, bank, role, friends, resetLink);
-      print(resulting);
-    });
-    .whenComplete((result) {
-      var userName = result.userName;
-      var email = result.email;
-      var bank = result.bank;
-      var _id = result.id;
-      var role = result.role;
-      var friends = result.friends;
-      resulting = new User(_id,userName,email,bank,role,friends);
-      print("Compelte");
-      print(resulting);
-    });*/
-    return resulting;
+      final List<Message> messages;
+      messages = (resp.data['messages'] as List)
+          .map((i) => Message.fromJson(i))
+          .toList();
+      return messages;
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  addMessageList(String id, List<Message> messages) async{
+    print(messages);
+    print("AYUDA COÑO QUIERO MORIRME");
+    String encoded = jsonEncode(messages);
+    //var data = [];
+    String datasent = jsonEncode(messages[0]);
+    //List<Map<String,dynamic>> AYUDA = [];
+    //AYUDA.add(messages[0].toJson());
+    //for(var i = 1; i<messages.length; i++){
+      /*var send = messages[i].senderID;
+      var receive = messages[i].receiverID;
+      var txt = messages[i].text;
+      var _data = {
+        "senderID": send,
+        "text": txt,
+        "receiverID": receive
+      };
+      var _datae = jsonEncode(_data);
+      data.add(_datae);*/
+      //AYUDA.add(jsonEncode(messages[i]).toJson());
+    //}
+    encoded = jsonEncode(messages.map((i) => i.toJson()).toList()).toString();
+
+    //String datasent = jsonEncode(messages);
+    print("LO QUE MANDAMOS PAL BACKEND");
+    print(encoded);
+    try {
+      final resp = await dio.put(url + id,
+          data: {"messages": encoded},
+          options: Options(contentType: Headers.formUrlEncodedContentType));
+      print(resp.data);
+      print("Messages added");
+    } catch (e) {
+      print(e);
+    }
   }
 
   getNumByRole(String role) async {
@@ -149,7 +166,7 @@ class UserServices {
       return [];
     }
   }
-
+  
   eliminateUser(String id) async {
     try {
       final resp = await dio.delete(url + id,
@@ -259,14 +276,6 @@ class UserServices {
             break;
         }
       }
-
-      // if (e.response!.statusCode == 409) {
-      //   Fluttertoast.showToast(
-      //     msg: e.response!.statusMessage!,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1);
-      // }
     }
   }
 }

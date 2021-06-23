@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var splashScreen = SplashScreen();
-  User user = User('', '', '', '', '', [], '');
+  User user = User('', '', '', '', '', [], '',[]);
   Dio dioerror = new Dio();
 
   @override
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 try {
                   if (_formKey.currentState!.validate()) {
-                    UserServices().login(email, password).then((val) {
+                    UserServices().login(email, password).then((val) async{
                       //print(val.data);
                       //print(val.statusCode);
                       print("Logged correct");
@@ -90,12 +90,12 @@ class _LoginPageState extends State<LoginPage> {
                         globalData.setToken(val.data['token']);
                         globalData.setUserName(val.data['userName']);
                         globalData.setEMail(email);
-                 //       globalData.setFriend(val.data['friends'].map((obj) => UserChat.fromJson(obj)));
                         globalData.setRole(val.data['role']);
                         //SOCKET ASINCRONO INICIADO
                         ChatModel model = new ChatModel();
-                        model.setLists();
-                        model.init();
+                        await model.setLists();
+                        await model.init();
+                        //print(model.rooms[0]);
                         //model.build(context);
                         GlobalData.getInstance()!.setChatModel(model);
                         //SOCKET ASINCRONO INICIADO

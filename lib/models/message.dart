@@ -12,5 +12,11 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+  Map<String, dynamic> toJson() {
+    return{
+      "senderID": this.senderID,
+      "text": this.text,
+      "receiverID": this.receiverID
+    };
+  }
 }
