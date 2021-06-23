@@ -18,7 +18,8 @@ Notification _$NotificationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$NotificationToJson(Notification instance) => <String, dynamic>{
+Map<String, dynamic> _$NotificationToJson(Notification instance) =>
+    <String, dynamic>{
       '_id': instance.id,
       'type': instance.type,
       'description': instance.description,
