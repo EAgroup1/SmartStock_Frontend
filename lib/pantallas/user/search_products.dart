@@ -194,24 +194,27 @@ class DataSearch extends SearchDelegate<Lot?> {
         Text("¿Quieres guardarlo en tu almacen?"),
         new FlatButton(
           onPressed: () {
-            //addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
+            addUserIntoLot.addNewLotToUser(lot.id, globalData.id);
             final delivery = new DeliveryServices();
-            delivery.createDelivery(lot.id, globalData.id);
-              print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-              String? deliveryy;
+            delivery.createDelivery(lot.id, globalData.id).then((val) {
+              delivery.setReadyDelivery(val.data['_id']);
+              delivery.setCasa(val.data['_id']);
+            });
+            // print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            //String? deliveryy;
 
-              FutureBuilder<dynamic>(
-                future: delivery.getDeliverLot(lot.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    deliveryy = snapshot.data;
-                    return delivery.setReadyDelivery(deliveryy!);
-                  } else {
-                    return Center(child: CircularProgressIndicator(strokeWidth: 4));
-                  }
-                }
-              );
-              MyNavigator.goToSearchProducts(context);
+            // FutureBuilder<dynamic>(
+            //   future: delivery.getDeliverLot(lot.id),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       deliveryy = snapshot.data;
+            //       return delivery.setReadyDelivery(deliveryy!);
+            //     } else {
+            //       return Center(child: CircularProgressIndicator(strokeWidth: 4));
+            //     }
+            //   }
+            // );
+            MyNavigator.goToSearchProducts(context);
           },
           textColor: Theme.of(context).primaryColor,
           child: const Text('Accept'),

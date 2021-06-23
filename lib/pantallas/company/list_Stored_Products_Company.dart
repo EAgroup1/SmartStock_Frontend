@@ -81,7 +81,7 @@ class DataSearch extends SearchDelegate<Lot?> {
     List<Lot> lot;
 
     return FutureBuilder(
-      future: allLotsByBusiness.getLotListByBusinessInProgressStoredTrue(globalData.id),
+      future: allLotsByBusiness.getLotListByBusiness(globalData.id),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           lot = snapshot.data;

@@ -261,7 +261,8 @@ class _Aentregar extends State<Aentregar> {
                     DeliveryServices().setIsDelivered(delivery.id).then((val) {
                       if (val.statusCode == 200) {
                         print('guardado correctamente');
-                        lotes.addNewLotToUser(delivery.lot.id, delivery.userItem.id);
+                        
+                        //lotes.addNewLotToUser(delivery.lot.id, delivery.userItem.id);
                         Navigator.of(context).pop();
                         MyNavigator.goToDeliverPage(context);
                       } else {

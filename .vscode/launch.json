@@ -12,6 +12,12 @@
                 "8000"
             ]
         },
+        {
+            "name": "Flutter",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart"
+        }
         
     ]
 }
