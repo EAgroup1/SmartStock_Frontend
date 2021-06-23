@@ -85,7 +85,7 @@ class _BankDataPageState extends State<BankDataPage> {
       );
     }
 
-    address() {
+   /* Address() {
       return Column(
         children: <Widget>[
           TextField(
@@ -137,7 +137,7 @@ class _BankDataPageState extends State<BankDataPage> {
             Text('ZIP Code: $_zipCode'),
         ],
       );
-    }
+    }*/
 
     createBankInput() {
       return TextFormField(

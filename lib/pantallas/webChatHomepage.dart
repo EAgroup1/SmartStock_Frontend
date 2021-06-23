@@ -13,6 +13,7 @@ import 'package:rlbasic/my_navigator.dart';
 import 'package:rlbasic/pantallas/company/config_company.dart';
 import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/userServices.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 ChatModel model = GlobalData.getInstance()!.getChatModel();
 List<Lot> lots = [];
@@ -23,15 +24,15 @@ List<Lot> lots = [];
 //on the other 'statefulW' create a statefull widget (reactive)
 //statefull widget only takes one class
 class AllChatsPage extends StatefulWidget {
-  AllChatsPage({Key? key}) : super(key: key);
   @override
   _AllChatsPageState createState() => _AllChatsPageState();
 }
 
-class _AllChatsPageState extends State<AllChatsPage> { //Error
+class _AllChatsPageState extends State<AllChatsPage> {
   @override
   void initState() {
     super.initState();
+    ScopedModel.of<ChatModel>(context, rebuildOnChange: false).init();
   }
 
   void friendClicked(UserChat friend) async{
@@ -63,6 +64,12 @@ class _AllChatsPageState extends State<AllChatsPage> { //Error
     );
   }
 }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 
 
 

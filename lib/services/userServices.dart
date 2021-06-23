@@ -119,7 +119,6 @@ class UserServices {
 
   addMessageList(String id, List<Message> messages) async{
     print(messages);
-    print("AYUDA COÑO QUIERO MORIRME");
     String encoded = jsonEncode(messages);
     //var data = [];
     String datasent = jsonEncode(messages[0]);
@@ -203,7 +202,7 @@ class UserServices {
     }
   }
 
-  sendBankRole(String id, String bank, String role) async {
+  sendBankRole(String id, String bank, String role, String location) async {
     try {
       final resp = await dio.put(url + id,
           data: {"id": id, "role": role, "bank": bank, "location":location},
