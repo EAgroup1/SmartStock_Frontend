@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rlbasic/models/delivery.dart';
 import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/services/lotServices.dart';
 
 class SendProductsPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
     );
   }
 
-  Widget _lottosend(List<dynamic> lots){
+  Widget _lottosend(List<dynamic> lots) {
     // TODO: implement buildSuggestions
     //show when someone searches for something
     final allLots = new LotServices();
@@ -65,44 +66,43 @@ class _SendProductsPageState extends State<SendProductsPage> {
                 child: Column(children: [
                   ListTile(
                     leading: Icon(
-                    Icons.query_builder, 
-                    semanticLabel: 'Stored in progress',
-                    color: Colors.orange,
-                    size: 40.0,
+                      Icons.query_builder,
+                      semanticLabel: 'Stored in progress',
+                      color: Colors.orange,
+                      size: 40.0,
                     ),
                     title: Text('${lots[i].name}',
-                      style: new TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold, 
-                      color: Colors.black87)
-                    ),
+                        style: new TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87)),
                     subtitle: RichText(
-                                textAlign: TextAlign.start,
-                                text: TextSpan(children: <TextSpan>[
-                                /* TextSpan(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(children: <TextSpan>[
+                        /* TextSpan(
                                   text: "Lot stored:\n",
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.bold, 
                                     fontFamily: 'AbrilFatface')), */
-                                  /* TextSpan(
+                        /* TextSpan(
                                   text: "User: ${lots[i].userItem.userName.toUpperCase()}\n",
                                   style: TextStyle(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Roboto')), */
-                                  TextSpan(
-                                  text: "In progress",
-                                  style: TextStyle(
-                                  color: Colors.redAccent[700],
-                                  fontSize: 10.0,
+                        TextSpan(
+                            text: "In progress",
+                            style: TextStyle(
+                                color: Colors.redAccent[700],
+                                fontSize: 10.0,
                                 /*  decoration: TextDecoration.underline,
                                   decorationColor: Colors.deepOrange[700], */
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'AbrilFatface')),
-                                ]),
-                    /*  Text('Lot stored in progress for: ${lots[i].userItem.userName}', 
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'AbrilFatface')),
+                      ]),
+                      /*  Text('Lot stored in progress for: ${lots[i].userItem.userName}', 
                         style: new TextStyle(
                         fontFamily: 'AbrilFatface',
                         fontSize: 14.0,
@@ -111,9 +111,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
                         ),  */
                     ),
                   ),
-                ])
-            )
-        );
+                ])));
       },
     );
   }
@@ -121,7 +119,7 @@ class _SendProductsPageState extends State<SendProductsPage> {
   Widget _buildPopupDialog(BuildContext context, Lot lot) {
     final bool value;
     final Function onChange;
-    
+    final DeliveryServices a = new DeliveryServices();
 
     return new AlertDialog(
       title: const Text('Información detallada del envio'),

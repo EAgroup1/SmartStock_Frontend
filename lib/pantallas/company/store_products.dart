@@ -109,23 +109,13 @@ class _StoreProductsPageState extends State<StoreProductsPage> {
             Text("Cantidad mínima: " + lot.minimumQty.toString()),
             Text("Precio/unidad: " + lot.price.toString()),
             Text("Frágil: " + lot.isFragile.toString()),
-            Text("Almacenado: " + lot.stored.toString()),
-
-
             // Text("Compañia: " + .info),
             //trailing: Text("Cantidad: " + lot.qty.toString()),
           ],
         ),
       ),
       actions: <Widget>[
-        Text("¿Enviar producto?"),
-        new FlatButton(
-          onPressed: () {
-            MyNavigator.goToSendProductsForm(context);
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Enviar'),
-        ),
+        Text(""),
         new FlatButton(
           onPressed: () {
             Navigator.of(context).pop();
