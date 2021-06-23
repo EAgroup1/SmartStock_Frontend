@@ -48,7 +48,7 @@ class _OrderProductsPageState extends State<OrderProductsPage> {
   }
 
   Widget _showUsers(List<dynamic> users) {
-    lotServices lts = new lotServices();
+    LotServices lts = new LotServices();
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, i) {

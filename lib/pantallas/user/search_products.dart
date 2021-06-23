@@ -11,10 +11,10 @@ import 'package:rlbasic/services/lotServices.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import '../../main.dart';
 
 FlutterLocalNotificationsPlugin? localNotification;
 
-import '../../main.dart';
 
 class SearchProductsPage extends StatefulWidget {
   @override

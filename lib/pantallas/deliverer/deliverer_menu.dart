@@ -186,7 +186,7 @@ class _Aentregar extends State<Aentregar> {
 
   @override
   Widget _buildPopupDialog(BuildContext context, Delivery delivery) {
-    lotServices lotes = new lotServices();
+    LotServices lotes = new LotServices();
     bool? isPicked = delivery.isPicked;
     bool? isDelivered = delivery.isDelivered;
     return StatefulBuilder(

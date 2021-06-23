@@ -1,1 +1,1 @@
-var URL = "http://localhost:3000/api";
+var URL = "http://backend:3000/api";

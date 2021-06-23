@@ -4,33 +4,27 @@ import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
-//import provider & our class provider
-import 'package:provider/provider.dart';
-import '../../providers/firstInfo.dart';
 
 GlobalData globalDataa = GlobalData.getInstance()!;
 
-//statefull MyProdPageMenu, i create on of this because i need the dropdwon button!!!
-class MyProdPageMenu extends StatefulWidget {
-  MyProdPageMenu({Key? key}) : super(key: key);
+class MyProdPageMenu extends StatelessWidget {
+  const MyProdPageMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     //lateral menu
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(title: Text("Tu lista de Lotes"),        backgroundColor: Colors.cyan[600],
-  actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.euro_symbol),
-          onPressed: () {
-            MyNavigator.goToChartsLotList(context);
-          },
-        )
-      ]),
-      body: MyProdPage(),
-    ));
+          appBar: AppBar(title: Text("Tu lista de Lotes"), backgroundColor: Colors.grey, actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.euro_symbol),
+              onPressed: () {
+                MyNavigator.goToChartsLotList(context);
+              },
+            )
+          ]),
+          body: MyProdPage(),
+        ));
   }
 }
 
@@ -43,8 +37,6 @@ class MyProdPage extends StatefulWidget {
 
 class _MyProdPageState extends State<MyProdPage> {
   late var lots = <Lot>[];
-  //variable
-  String sort = "Ordenar por Nombre";
   @override
   void initState() {
     super.initState();
@@ -68,15 +60,15 @@ class _MyProdPageState extends State<MyProdPage> {
           } else {
             return Center(
                 child: Text(
-              'No existe ningún lote almacenado de este usuario',
-            ));
+                  'No existe ningún lote almacenado de este usuario',
+                ));
           }
         }
 
         else if (snapshot.hasError) {
           return ListTile(title: Text('Ha habido un error :('));
         }
-         else {
+        else {
           return Center(child: CircularProgressIndicator(strokeWidth: 4));
         }
       },
@@ -84,37 +76,37 @@ class _MyProdPageState extends State<MyProdPage> {
   }
 
   Widget _buildList(List<dynamic> lots) {
-     
-      return ListView.builder(
-        itemCount: lots.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    _buildPopupDialog(context, lots[index]),
-              ).then((result) {
-                print(result);
-              });
-            },
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  ListTile(
-                    //move_to_inbox(lots in house) or inbox or al_inbox(command)
-                    leading: Icon(Icons.inbox),
-                    title: Text('${lots[index].name}'),
-                    subtitle: Text('${lots[index].qty}'),
-                  )
-                ],
-              ),
+
+    return ListView.builder(
+      itemCount: lots.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) =>
+                  _buildPopupDialog(context, lots[index]),
+            ).then((result) {
+              print(result);
+            });
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: [
+                ListTile(
+                  //move_to_inbox(lots in house) or inbox or al_inbox(command)
+                  leading: Icon(Icons.inbox),
+                  title: Text('${lots[index].name}'),
+                  subtitle: Text('${lots[index].qty}'),
+                )
+              ],
             ),
-          );
-        },
-      );
-    
+          ),
+        );
+      },
+    );
+
   }
 
   Widget _buildPopupDialog(BuildContext context, Lot lot) {

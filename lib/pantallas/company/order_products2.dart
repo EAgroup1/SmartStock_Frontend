@@ -36,7 +36,7 @@ class _OrderProducts2PageState extends State<OrderProducts2Page> {
   }
 
   Widget buildSuggestions2(BuildContext context) {
-    lotServices lots = new lotServices();
+    LotServices lots = new LotServices();
     return FutureBuilder(
       future: lots.getLotListByUser(globalData.getUserItem()),
       builder: (context, AsyncSnapshot snapshot) {
