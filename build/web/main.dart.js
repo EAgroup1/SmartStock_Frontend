@@ -78719,9 +78719,9 @@ var $async$tN=P.E(function(a,b){if(a===1)return P.F(b,r)
 while(true)switch(s){case 0:k=q.d
 j=J.eP(k)
 s=2
-return P.L(new D.ie(U.bv(null),"http://backend:3000/api/users/").xK(j.j(k)).bO(0,new X.a2T(q),t._D),$async$tN)
+return P.L(new D.ie(U.bv(null),"https://smartstockapi/api/users/").xK(j.j(k)).bO(0,new X.a2T(q),t._D),$async$tN)
 case 2:s=3
-return P.L(J.hy(new D.ie(U.bv(null),"http://backend:3000/api/users/").xw(j.j(k)),new X.a2U(q)),$async$tN)
+return P.L(J.hy(new D.ie(U.bv(null),"https://smartstockapi/api/users/").xw(j.j(k)),new X.a2U(q)),$async$tN)
 case 3:P.a7("Cosas de test")
 P.a7("FIN DE TEST")
 j=t.SL
@@ -78781,7 +78781,7 @@ s.h(a,"text")
 s.h(a,"origin")
 s.h(a,"destination")
 r=this.a
-new D.ie(U.bv(null),"http://backend:3000/api/users/").Ai(J.b1(r.d),r.gwy())
+new D.ie(U.bv(null),"https://smartstockapi/api/users/").Ai(J.b1(r.d),r.gwy())
 E.b5(null,C.b.S("Nuevo mensaje: ",J.b1(s.h(a,"text"))),1,null)
 P.a7(a)},
 $S:2}
@@ -79019,7 +79019,7 @@ else if(n===0)E.b5(p,"Selecciona al menos un rol.",1,p)
 else{$.aGa().pm(0,s).bO(0,new Z.aoE(),t.P)
 s=U.bv(p)
 r=$.k1()
-J.hy(new D.ie(s,"http://backend:3000/api/users/").xV(r.gbr(r),o.d,o.e,$.I3),new Z.aoF(o))
+J.hy(new D.ie(s,"https://smartstockapi/api/users/").xV(r.gbr(r),o.d,o.e,$.I3),new Z.aoF(o))
 $.k1().y=$.I3
 if(o.x)K.aY(q.b,"/deliverer",t.X)
 else if(o.f)K.aY(q.b,"/company",t.X)
@@ -79186,7 +79186,7 @@ return M.aq(s,s,C.h,s,s,s,s,s,s,s,s,s,s,s)},
 nb:function(a){var s,r={},q=U.bv(null)
 r.a=null
 s=$.f3()
-return B.hI(new B.a4c(r,this),new U.fH(q,"http://backend:3000/api/lots/").tF(s.gbr(s)),t.z)}}
+return B.hI(new B.a4c(r,this),new U.fH(q,"https://smartstockapi/api/lots/").tF(s.gbr(s)),t.z)}}
 B.a44.prototype={
 $0:function(){this.a.r.sc7(0,"")},
 $C:"$0",
@@ -79229,7 +79229,7 @@ ad:function(){return new E.W1(C.l)}}
 E.W1.prototype={
 I:function(a,b){var s=null
 return M.dt(E.er(s,!0,C.aS,s,s,s,s,L.z("Enviar productos",s,s,s,s,s,s,s,s)),s,this.nb(b),s,s)},
-nb:function(a){return B.hI(new E.auF(this),new D.ie(U.bv(null),"http://backend:3000/api/users/").xJ(),t.z)},
+nb:function(a){return B.hI(new E.auF(this),new D.ie(U.bv(null),"https://smartstockapi/api/users/").xJ(),t.z)},
 ajr:function(a){U.bv(null)
 return B.hh(new E.auE(a),J.b4(a),null,C.m)}}
 E.auF.prototype={
@@ -79248,13 +79248,13 @@ $0:function(){$.aGk().Q=J.aC0(J.K(this.a,this.b))
 K.aY(this.c,"/company/orderproducts2",t.X)},
 $S:0}
 O.qI.prototype={
-ad:function(){return new O.W0(new E.h9(U.bv(null),"http://backend:3000/api/delivery/"),C.l)}}
+ad:function(){return new O.W0(new E.h9(U.bv(null),"https://smartstockapi/api/delivery/"),C.l)}}
 O.W0.prototype={
 I:function(a,b){var s=null
 return M.dt(E.er(s,!0,C.aS,s,s,s,s,L.z("Enviar productos",s,s,s,s,s,s,s,s)),s,this.amg(b),s,s)},
 amg:function(a){var s=U.bv(null),r=$.f3().Q
 if(r==null)r=H.a(H.b("userItem"))
-return B.hI(new O.auC(this),new U.fH(s,"http://backend:3000/api/lots/").pP(r),t.z)},
+return B.hI(new O.auC(this),new U.fH(s,"https://smartstockapi/api/lots/").pP(r),t.z)},
 ajs:function(a){return B.hh(new O.auB(this,a),J.b4(a),null,C.m)},
 a9e:function(a,b){var s=null,r=t.p,q=E.iP(T.ku(H.c([L.z("Nombre del producto: "+b.a,s,s,s,s,s,s,s,s),L.z("Dimension: "+b.b,s,s,s,s,s,s,s,s),L.z("Peso: "+b.c,s,s,s,s,s,s,s,s),L.z("Cantidad: "+b.d,s,s,s,s,s,s,s,s),L.z("Cantidad m\xednima: "+b.y,s,s,s,s,s,s,s,s),L.z("Precio/unidad: "+b.e,s,s,s,s,s,s,s,s),L.z("Fr\xe1gil: "+C.bU.j(b.f),s,s,s,s,s,s,s,s)],r)),s,C.B,s,C.m)
 return E.h3(H.c([L.z("\xbfPedir producto?",s,s,s,s,s,s,s,s),N.dV(C.RS,s,new O.aux(this,b,a),s,K.ah(a).b),N.dV(C.eT,s,new O.auy(a),s,K.ah(a).b)],r),q,s,C.lj)}}
@@ -79294,7 +79294,7 @@ L.XR.prototype={
 I:function(a,b){var s=null,r=E.er(s,!0,C.aS,s,s,s,s,L.z("Envio de productos",s,s,s,s,s,s,s,s)),q=this.f
 return M.dt(r,s,this.age(q==null?this.f=H.c([],t.XZ):q),s,s)},
 age:function(a){var s=this.r
-return B.hI(new L.awJ(this),new U.fH(U.bv(null),"http://backend:3000/api/lots/").xx(s.gbr(s)),t.z)},
+return B.hI(new L.awJ(this),new U.fH(U.bv(null),"https://smartstockapi/api/lots/").xx(s.gbr(s)),t.z)},
 aj6:function(a){return B.hh(new L.awM(this,a),J.b4(a),null,C.m)},
 aj5:function(a,b){var s,r,q=null
 U.bv(q)
@@ -79364,12 +79364,12 @@ $S:0}
 R.rp.prototype={
 ad:function(){var s=H.c([],t.XZ),r=U.bv(null),q=$.eu
 if(q==null)q=$.eu=new Z.iD()
-return new R.YD(s,new U.fH(r,"http://backend:3000/api/lots/"),q,C.l)}}
+return new R.YD(s,new U.fH(r,"https://smartstockapi/api/lots/"),q,C.l)}}
 R.YD.prototype={
 I:function(a,b){var s=null
 return M.dt(E.er(s,!0,C.aS,s,s,s,s,L.z("A\xf1adir productos",s,s,s,s,s,s,s,s)),s,this.nb(b),s,E.a7h(C.yl,C.mD,!1,new R.axp(b)))},
 nb:function(a){var s=this.x
-return B.hI(new R.axo(this),new U.fH(U.bv(null),"http://backend:3000/api/lots/").tF(s.gbr(s)),t.z)},
+return B.hI(new R.axo(this),new U.fH(U.bv(null),"https://smartstockapi/api/lots/").tF(s.gbr(s)),t.z)},
 ajo:function(a){return B.hh(new R.axn(this,a),J.b4(a),null,C.m)},
 ajM:function(a,b){var s=null,r=t.p,q=E.iP(T.ku(H.c([L.z("Nombre del producto: "+b.a,s,s,s,s,s,s,s,s),L.z("Dimension: "+b.b,s,s,s,s,s,s,s,s),L.z("Peso: "+b.c,s,s,s,s,s,s,s,s),L.z("Cantidad: "+b.d,s,s,s,s,s,s,s,s),L.z("Cantidad m\xednima: "+b.y,s,s,s,s,s,s,s,s),L.z("Precio/unidad: "+b.e,s,s,s,s,s,s,s,s),L.z("Fr\xe1gil: "+C.bU.j(b.f),s,s,s,s,s,s,s,s)],r)),s,C.B,s,C.m)
 return E.h3(H.c([L.z("",s,s,s,s,s,s,s,s),N.dV(C.eT,s,new R.axk(a),s,K.ah(a).b)],r),q,s,C.qV)}}
@@ -79401,7 +79401,7 @@ $0:function(){K.bw(this.a,!1).cZ(0)},
 $S:0}
 X.ro.prototype={
 ad:function(){var s=null,r=t.V
-return new X.YC(new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new N.bg(s,t.am),new U.fH(U.bv(s),"http://backend:3000/api/lots/"),new L.rn(s),U.bv(s),C.l)}}
+return new X.YC(new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new D.eC(C.be,new P.aE(r)),new N.bg(s,t.am),new U.fH(U.bv(s),"https://smartstockapi/api/lots/"),new L.rn(s),U.bv(s),C.l)}}
 X.YC.prototype={
 I:function(a,b){var s=this,r=null
 return M.hT(C.P,!0,r,A.pU(B.f8(H.c([U.nE("assets/images/smartstock.jpeg",240,300),new X.ax5(s).$0(),new X.awX(s).$0(),new X.axe(s).$0(),new X.axb(s).$0(),new X.ax2(s).$0(),new X.ax8(s).$0(),new X.axh(s).$0(),new X.ax_(s).$1(b)],t.p),C.cB),s.fy),C.h,r,0,r,r,r,r,C.aW)},
@@ -79499,7 +79499,7 @@ l=r.z
 k=r.Q
 j=r.cx
 i=$.aGm()
-J.hy(new U.fH(q,"http://backend:3000/api/lots/").CC(p,o,n,m,l,k,j,i.gbr(i)),new X.ax0(r,this.b))}}catch(h){s=H.J(h)
+J.hy(new U.fH(q,"https://smartstockapi/api/lots/").CC(p,o,n,m,l,k,j,i.gbr(i)),new X.ax0(r,this.b))}}catch(h){s=H.J(h)
 P.a7(s)
 E.b5(null,J.b1(s),6,C.A)}},
 $S:0}
@@ -79532,7 +79532,7 @@ K.arw.prototype={
 $0:function(){var s,r,q,p,o=null
 try{r=U.bv(o)
 q=$.aBO()
-new D.ie(r,"http://backend:3000/api/users/").B6(q.gbr(q))
+new D.ie(r,"https://smartstockapi/api/users/").B6(q.gbr(q))
 $.b2q=new Z.iD()
 E.b5(o,"Hasta luego :(",1,o)
 K.aY(this.a,"/login",t.X)}catch(p){s=H.J(p)
@@ -79623,9 +79623,9 @@ $0:function(){K.aY(this.a,"/configuser",t.X)},
 $S:0}
 E.Kz.prototype={
 I:function(a,b){var s=null,r=t.p
-return S.nS(!0,U.aCB(M.dt(E.er(s,!1,C.aS,E.aE4(C.i,H.c([E.wk(L.at(C.nK,s,s,s),"A ENTREGAR"),E.wk(L.at(C.nL,s,s,s),"NUEVA ENTREGA")],r)),s,s,s,s),s,E.aE5(H.c([T.bK(new E.yn(s),s,s),T.bK(new E.N9(new E.h9(U.bv(s),"http://backend:3000/api/delivery/"),s),s,s)],r)),s,s),2),C.cd,s,"")}}
+return S.nS(!0,U.aCB(M.dt(E.er(s,!1,C.aS,E.aE4(C.i,H.c([E.wk(L.at(C.nK,s,s,s),"A ENTREGAR"),E.wk(L.at(C.nL,s,s,s),"NUEVA ENTREGA")],r)),s,s,s,s),s,E.aE5(H.c([T.bK(new E.yn(s),s,s),T.bK(new E.N9(new E.h9(U.bv(s),"https://smartstockapi/api/delivery/"),s),s,s)],r)),s,s),2),C.cd,s,"")}}
 E.yn.prototype={
-ad:function(){return new E.RJ(new E.h9(U.bv(null),"http://backend:3000/api/delivery/"),new N.bg(null,t.am),C.l)}}
+ad:function(){return new E.RJ(new E.h9(U.bv(null),"https://smartstockapi/api/delivery/"),new N.bg(null,t.am),C.l)}}
 E.RJ.prototype={
 gds:function(){var s=this.d
 return s==null?this.d=H.c([],t.Me):s},
@@ -79714,7 +79714,7 @@ E.anw.prototype={
 $0:function(){K.bw(this.a,!1).cZ(0)},
 $S:0}
 E.anx.prototype={
-$0:function(){var s=this,r="http://backend:3000/api/delivery/",q=s.b,p=s.a
+$0:function(){var s=this,r="https://smartstockapi/api/delivery/",q=s.b,p=s.a
 if(q.r!=p.a)J.hy(new E.h9(U.bv(null),r).y3(q.b),new E.anq(s.c))
 if(q.x!=p.b)J.hy(new E.h9(U.bv(null),r).y0(q.b),new E.anr(s.c))},
 $S:0}
@@ -79770,7 +79770,7 @@ $0:function(){var s,r,q=this.b
 P.a7(q)
 s=U.bv(null)
 r=$.aGl()
-J.hy(new E.h9(s,"http://backend:3000/api/delivery/").xZ(q,r.gbr(r)),new E.acR(this.a,this.c))},
+J.hy(new E.h9(s,"https://smartstockapi/api/delivery/").xZ(q,r.gbr(r)),new E.acR(this.a,this.c))},
 $S:0}
 E.acR.prototype={
 $1:function(a){var s
@@ -79915,7 +79915,7 @@ q.a_0(a,this.b)}},
 $S:519}
 Y.att.prototype={
 $0:function(){var s=this.a
-new E.h9(U.bv(null),"http://backend:3000/api/delivery/").y6("id",new P.b9(Date.now(),!1).j(0)+" mas "+s.y.d)
+new E.h9(U.bv(null),"https://smartstockapi/api/delivery/").y6("id",new P.b9(Date.now(),!1).j(0)+" mas "+s.y.d)
 P.a7(new P.b9(Date.now(),!1).j(0)+" mas "+s.y.d)
 s.az(new Y.ats(s))},
 $S:0}
@@ -79967,7 +79967,7 @@ $S:32}
 E.as_.prototype={
 $0:function(){var s,r,q
 try{r=this.a
-if(r.e.gbb().tw())J.hy(new D.ie(U.bv(null),"http://backend:3000/api/users/").Bw(r.d),new E.arZ())}catch(q){s=H.J(q)
+if(r.e.gbb().tw())J.hy(new D.ie(U.bv(null),"https://smartstockapi/api/users/").Bw(r.d),new E.arZ())}catch(q){s=H.J(q)
 P.a7(s)
 E.b5(null,J.b1(s),6,C.A)}},
 $S:0}
@@ -80015,7 +80015,7 @@ $S:32}
 D.ati.prototype={
 $0:function(){var s,r,q
 try{r=this.a
-if(r.y.gbb().tw())J.hy(new D.ie(U.bv(null),"http://backend:3000/api/users/").C3(r.d,r.e),new D.ath(r,this.b))}catch(q){s=H.J(q)
+if(r.y.gbb().tw())J.hy(new D.ie(U.bv(null),"https://smartstockapi/api/users/").C3(r.d,r.e),new D.ath(r,this.b))}catch(q){s=H.J(q)
 P.a7(s)
 E.b5(null,J.b1(s),6,C.A)}},
 $S:0}
@@ -80093,7 +80093,7 @@ return M.aq(s,D.aK8(T.hm(H.c([L.at(C.y2,s,s,s),new T.c7(C.nt,L.z("Entrar con Goo
 $S:88}
 D.atr.prototype={
 $0:function(){var s,r
-try{new D.ie(U.bv(null),"http://backend:3000/api/users/").wt().bO(0,new D.atq(this.a),t.P)}catch(r){s=H.J(r)
+try{new D.ie(U.bv(null),"https://smartstockapi/api/users/").wt().bO(0,new D.atq(this.a),t.P)}catch(r){s=H.J(r)
 P.a7(s)
 E.b5(null,J.b1(s),6,C.A)}},
 $S:0}
@@ -80129,7 +80129,7 @@ q.a=null
 s=U.bv(null)
 P.a7("entra en el futurebuilder")
 r=$.aQ4()
-return B.hI(new T.aur(q,this),new U.fH(s,"http://backend:3000/api/lots/").pP(r.gbr(r)),t.z)},
+return B.hI(new T.aur(q,this),new U.fH(s,"https://smartstockapi/api/lots/").pP(r.gbr(r)),t.z)},
 a96:function(a){return B.hh(new T.aup(this,a),J.b4(a),null,C.m)},
 agG:function(a,b){var s=null,r=t.p,q=E.iP(T.ku(H.c([L.z("Nombre del lote: "+b.a,s,s,s,s,s,s,s,s),L.z("Cantidad: "+b.d,s,s,s,s,s,s,s,s),L.z("Precio/unidad: "+b.e,s,s,s,s,s,s,s,s),L.z("Compa\xf1\xeda: "+b.z.a,s,s,s,s,s,s,s,s)],r)),s,C.B,s,C.m)
 return E.h3(H.c([N.dV(C.eT,s,new T.auq(a),s,K.ah(a).b)],r),q,s,C.qU)}}
@@ -80245,7 +80245,7 @@ $S:32}
 R.avr.prototype={
 $0:function(){var s,r,q,p=null
 try{r=this.a
-if(r.Q){if(r.cx.gbb().tw())J.hy(new D.ie(U.bv(p),"http://backend:3000/api/users/").CJ(0,r.d,r.e,r.f,p),new R.avq(r,this.b))}else E.b5(p,"Debes aceptar los t\xe9rminos y condiciones",1,p)}catch(q){s=H.J(q)
+if(r.Q){if(r.cx.gbb().tw())J.hy(new D.ie(U.bv(p),"https://smartstockapi/api/users/").CJ(0,r.d,r.e,r.f,p),new R.avq(r,this.b))}else E.b5(p,"Debes aceptar los t\xe9rminos y condiciones",1,p)}catch(q){s=H.J(q)
 P.a7(s)
 E.b5(p,J.b1(s),6,C.A)}},
 $S:0}
@@ -80346,20 +80346,20 @@ $0:function(){K.aY(this.a,"/configuser",t.X)},
 $S:0}
 K.KA.prototype={
 I:function(a,b){var s=null,r=C.aj.h(0,400),q=B.hL(s,L.at(C.ju,C.q,s,s),new K.a4B(b),s),p=L.z("My Stored Products",s,s,s,s,s,s,s,s),o=t.p
-return S.nS(!0,U.aCB(M.dt(E.er(s,!1,r,E.aE4(C.i,H.c([E.wk(L.at(C.nK,s,s,s),"PREPARADO"),E.wk(L.at(C.nL,s,s,s),"PRODUCTO A RECOGER")],o)),s,s,q,p),s,E.aE5(H.c([T.bK(new K.Ab(s),s,s),T.bK(new K.O0(new E.h9(U.bv(s),"http://backend:3000/api/delivery/"),s),s,s)],o)),s,s),2),C.cd,s,"")}}
+return S.nS(!0,U.aCB(M.dt(E.er(s,!1,r,E.aE4(C.i,H.c([E.wk(L.at(C.nK,s,s,s),"PREPARADO"),E.wk(L.at(C.nL,s,s,s),"PRODUCTO A RECOGER")],o)),s,s,q,p),s,E.aE5(H.c([T.bK(new K.Ab(s),s,s),T.bK(new K.O0(new E.h9(U.bv(s),"https://smartstockapi/api/delivery/"),s),s,s)],o)),s,s),2),C.cd,s,"")}}
 K.a4B.prototype={
 $0:function(){K.bw(this.a,!1).k7(0,null)},
 $C:"$0",
 $R:0,
 $S:0}
 K.Ab.prototype={
-ad:function(){return new K.UD(new E.h9(U.bv(null),"http://backend:3000/api/delivery/"),C.l)}}
+ad:function(){return new K.UD(new E.h9(U.bv(null),"https://smartstockapi/api/delivery/"),C.l)}}
 K.UD.prototype={
 gds:function(){var s=this.d
 return s==null?this.d=H.c([],t.Me):s},
 aU:function(){this.bh()},
 I:function(a,b){var s=U.bv(null),r=$.aGn()
-return B.hI(new K.asr(this),new E.h9(s,"http://backend:3000/api/delivery/").xr(r.gbr(r)),t.z)},
+return B.hI(new K.asr(this),new E.h9(s,"https://smartstockapi/api/delivery/").xr(r.gbr(r)),t.z)},
 oX:function(a){var s,r=null
 if(J.eo(this.gds())){s=K.eI(7)
 return T.bK(V.h5(new T.c7(new V.ak(20,20,20,20),L.z(u.C,r,r,r,r,A.ch(r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,!0,r,2,r,r,r,r,r),r,r,r),r),r,r,new V.ak(20,20,20,20),new X.cI(s,C.x)),r,r)}else return B.hh(new K.asq(this),J.b4(this.gds()),r,C.m)},
@@ -80393,7 +80393,7 @@ $S:0}
 K.asn.prototype={
 $0:function(){var s=this.b
 P.a7(s)
-J.hy(new E.h9(U.bv(null),"http://backend:3000/api/delivery/").tP(s),new K.asl(this.a,this.c))},
+J.hy(new E.h9(U.bv(null),"https://smartstockapi/api/delivery/").tP(s),new K.asl(this.a,this.c))},
 $S:0}
 K.asl.prototype={
 $1:function(a){var s
@@ -80469,7 +80469,7 @@ q.a=null
 s=U.bv(null)
 P.a7("entra en el futurebuilder")
 r=$.aQ5()
-return B.hI(new D.aul(q,this),new U.fH(s,"http://backend:3000/api/lots/").pP(r.gbr(r)),t.z)},
+return B.hI(new D.aul(q,this),new U.fH(s,"https://smartstockapi/api/lots/").pP(r.gbr(r)),t.z)},
 ag8:function(a){return B.hh(new D.auj(this,a),J.b4(a),null,C.m)},
 ag9:function(a,b){var s=null,r=t.p,q=E.iP(T.ku(H.c([L.z("Nombre del lote: "+b.a,s,s,s,s,s,s,s,s),L.z("Cantidad: "+b.d,s,s,s,s,s,s,s,s),L.z("Precio/unidad: "+b.e,s,s,s,s,s,s,s,s),L.z("Compa\xf1\xeda: "+b.z.a,s,s,s,s,s,s,s,s)],r)),s,C.B,s,C.m)
 return E.h3(H.c([N.dV(C.eT,s,new D.auk(a),s,K.ah(a).b)],r),q,s,C.qU)}}
@@ -80514,7 +80514,7 @@ I:function(a,b){var s,r,q={}
 q.a=null
 s=U.bv(null)
 r=$.aGk()
-return B.hI(new Y.auH(q),new U.fH(s,"http://backend:3000/api/lots/").xy(r.gbr(r)),t.z)}}
+return B.hI(new Y.auH(q),new U.fH(s,"https://smartstockapi/api/lots/").xy(r.gbr(r)),t.z)}}
 Y.auH.prototype={
 $2:function(a,b){var s,r=null,q=b.b
 if(q!=null){s=this.a
@@ -80581,16 +80581,16 @@ Vo:function(a){return B.hL(null,L.aHK(C.mC,this.x),new Q.a47(this,a),null)},
 Vp:function(a){var s=null,r={},q=U.bv(s)
 r.a=null
 if(C.b.h1(this.r.a.a).length===0)return T.bK(L.z("Introduce un producto para filtrar",s,s,s,s,s,s,s,s),s,s)
-else return B.hI(new Q.a49(r,this),new U.fH(q,"http://backend:3000/api/lots/").tz(),t.z)},
+else return B.hI(new Q.a49(r,this),new U.fH(q,"https://smartstockapi/api/lots/").tz(),t.z)},
 nb:function(a){var s={},r=U.bv(null)
 s.a=null
-return B.hI(new Q.a4d(s,this),new U.fH(r,"http://backend:3000/api/lots/").tz(),t.z)},
+return B.hI(new Q.a4d(s,this),new U.fH(r,"https://smartstockapi/api/lots/").tz(),t.z)},
 T_:function(a){return B.hh(new Q.a43(this,a),J.b4(a),null,C.m)},
 aiY:function(a,b){var s,r,q=null,p=U.bv(q)
 U.bv(q)
 s=t.p
 r=E.iP(T.ku(H.c([L.z("Nombre del producto: "+b.a,q,q,q,q,q,q,q,q),L.z("Descripci\xf3n: "+b.gwg(),q,q,q,q,q,q,q,q),L.z("Cantidad: "+b.d,q,q,q,q,q,q,q,q),L.z("Precio/unidad: "+b.e+"\u20ac",q,q,q,q,q,q,q,q),L.z("Cantidad minima: "+b.y,q,q,q,q,q,q,q,q),L.z("Empresa: "+b.z.a,q,q,q,q,q,q,q,q)],s)),q,C.B,q,C.m)
-return E.h3(H.c([L.z("\xbfQuieres guardarlo en tu almacen?",q,q,q,q,q,q,q,q),N.dV(C.S2,q,new Q.a3Z(new U.fH(p,"http://backend:3000/api/lots/"),b,a),q,K.ah(a).b),N.dV(C.RZ,q,new Q.a4_(a),q,K.ah(a).b)],s),r,q,C.lj)}}
+return E.h3(H.c([L.z("\xbfQuieres guardarlo en tu almacen?",q,q,q,q,q,q,q,q),N.dV(C.S2,q,new Q.a3Z(new U.fH(p,"https://smartstockapi/api/lots/"),b,a),q,K.ah(a).b),N.dV(C.RZ,q,new Q.a4_(a),q,K.ah(a).b)],s),r,q,C.lj)}}
 Q.a45.prototype={
 $0:function(){K.aY(this.a,"/user",t.X)},
 $C:"$0",
@@ -80643,7 +80643,7 @@ $S:2}
 Q.a3Z.prototype={
 $0:function(){var s,r=this.b.x,q=$.f3()
 this.a.Aj(r,q.gbr(q))
-s=new E.h9(U.bv(null),"http://backend:3000/api/delivery/")
+s=new E.h9(U.bv(null),"https://smartstockapi/api/delivery/")
 q=$.f3()
 J.hy(s.vv(r,q.gbr(q)),new Q.a3Y(s))
 K.aY(this.c,"/user/searchproducts",t.X)},
@@ -81310,7 +81310,7 @@ case 7:l=d
 P.a7("llega aqui")
 k=U.bv(null)
 j=$.k1()
-J.hy(new D.ie(k,"http://backend:3000/api/users/").xW(j.gbr(j),J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lat"),J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lng")),new Z.ae1())
+J.hy(new D.ie(k,"https://smartstockapi/api/users/").xW(j.gbr(j),J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lat"),J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lng")),new Z.ae1())
 $.k1().y2=V.nL(J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lat"),J.K(J.K(J.K(J.K(J.K(l.a,"results"),0),"geometry"),"location"),"lng"))
 p=2
 s=6
