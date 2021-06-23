@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/delivery.dart';
+import 'package:rlbasic/providers/deliveryCustomizer.dart';
 import './url.dart';
 
 class DeliveryServices {
@@ -95,8 +96,8 @@ class DeliveryServices {
       final resp = await dio.get('$url' + 'getDeliveriesByChart/' + '$id');
       print(resp.data); //resp
       final List<dynamic> deliveryList = resp.data;
-      // return lotList.map((obj) => Lot.fromJson(obj)).toList();
-      return deliveryList;
+      return deliveryList.map((obj) => DeliveryCustomizer.fromJson(obj)).toList();
+      // return deliveryList;
     } catch (e) {
       print(e);
       Fluttertoast.showToast(

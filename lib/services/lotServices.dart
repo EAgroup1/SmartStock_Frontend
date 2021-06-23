@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rlbasic/models/lot.dart';
+import 'package:rlbasic/providers/lotCustomizer.dart';
 import './url.dart';
 
 class LotServices {
@@ -189,8 +190,8 @@ class LotServices {
       final resp = await dio.get('$url' + 'getLotsByChart/' + '$id');
       print(resp.data);
       final List<dynamic> lotList = resp.data; //resp
-      // return lotList.map((obj) => Lot.fromJson(obj)).toList();
-      return lotList;
+      return lotList.map((obj) => LotCustomizer.fromJson(obj)).toList();
+      // return lotList;
     } catch (e) {
       print(e);
       Fluttertoast.showToast(

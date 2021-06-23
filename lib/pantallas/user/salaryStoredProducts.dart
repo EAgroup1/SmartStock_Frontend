@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rlbasic/providers/deliveryCustomizer.dart';
+import 'package:rlbasic/providers/lotCustomizer.dart';
 import 'package:rlbasic/services/deliveryServices.dart';
 import 'package:rlbasic/services/lotServices.dart';
 // import '../../my_navigator.dart';
@@ -40,8 +43,9 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
               tabs: [
                 Tab(icon: Icon(FontAwesomeIcons.chartPie), text:"Cantidad por Rol"),
                 Tab(icon: Icon(FontAwesomeIcons.solidChartBar), text: "Usuarios por Mes"),
-                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Dinero por Lote"),
-                Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Pedidos por Mes"),
+                // Tab(icon: Icon(FontAwesomeIcons.chartLine), text: "Progresión Usuario / Mes"),
+                Tab(icon: Icon(FontAwesomeIcons.coins), text: "Dinero por Lote"),
+                // Tab(icon: Icon(FontAwesomeIcons.archive), text: "Pedidos por Mes"),
               ],
             ),
             title: Text('Mis estadísticas'),
@@ -51,8 +55,9 @@ class _SalaryProductsGraphState extends State<SalaryProductsGraph> {
               //my views
               ChartPiePage(),
               SolidChartBarPage(),
+              // ChartLinePage(),
               OtherStats(),
-              OtherSecondStats(),
+              // OtherSecondStats(),
             ],
           ),
         ),
@@ -69,7 +74,7 @@ class OtherStats extends StatefulWidget {
 }
 
 class _OtherStatsState extends State<OtherStats> {
-  late var lots = [];
+  late var lots = <LotCustomizer>[];
   // late List lots;
   @override
   void initState() {
@@ -79,7 +84,7 @@ class _OtherStatsState extends State<OtherStats> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> lots;
+    List<LotCustomizer> lots;
     final lotServices = new LotServices();
     return FutureBuilder(
       future: lotServices.getLotsByChart(globalData.getId()),
@@ -92,7 +97,7 @@ class _OtherStatsState extends State<OtherStats> {
                 itemCount: lots.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index){
-                  return Text('${lots[index].name} : ${lots[index].money}');
+                  return Text('${lots[index].name} : ${lots[index].money}€ ');
                 }
               )
             );
@@ -118,7 +123,7 @@ class OtherSecondStats extends StatefulWidget {
 }
 
 class _OtherSecondStatsState extends State<OtherSecondStats> {
-  late var deliveries = [];
+  late var deliveries = <DeliveryCustomizer>[];
 
   @override
   void initState() {
@@ -128,7 +133,7 @@ class _OtherSecondStatsState extends State<OtherSecondStats> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> deliveries;
+    List<DeliveryCustomizer> deliveries;
     final deliveryServices = new DeliveryServices();
     return FutureBuilder(
       future: deliveryServices.getDeliveriesByChart(globalData.getId()),
@@ -141,7 +146,7 @@ class _OtherSecondStatsState extends State<OtherSecondStats> {
                 itemCount: deliveries.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index){
-                  return Text('${deliveries[index].month} : ${deliveries[index].orders}');
+                  return Text('mes ${deliveries[index].month} : ${deliveries[index].orders} pedidos ');
                 }
               )
             );
@@ -179,7 +184,7 @@ class _ChartPiePageState extends State<ChartPiePage> {
          ),
          title: ChartTitle(
           //  text: "Porcentaje de tus tiendas almacenadas"
-          text: "Cantidad de lotes almacenados"
+          text: "Cantidad de Usuarios por Rol"
          ),
          legend: Legend(
            isVisible: true
@@ -215,7 +220,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
        height: 550,
        child: SfCartesianChart(
          title: ChartTitle(
-           text: "Pedidos Acumulados Por Mes"
+           text: "Usuarios registrados por Mes"
          ),
          primaryXAxis: NumericAxis(
            title: AxisTitle(
@@ -224,7 +229,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
          ),
          primaryYAxis: NumericAxis(
            title: AxisTitle(
-             text: "Pedidos"
+             text: "Usuarios"
            )
          ),
          legend: Legend(
@@ -238,7 +243,7 @@ class _SolidChartBarPageState extends State<SolidChartBarPage> {
              dataSource: getColumnData(),
              xValueMapper: (LotsMonth lots,_)=>lots.x,
              yValueMapper: (LotsMonth lots,_)=>lots.y,
-             name: "Pedidos ABC",
+             name: "Usuarios ABC",
              legendIconType: LegendIconType.diamond,
              //we put the marks for each layer
              dataLabelSettings: DataLabelSettings(
@@ -271,7 +276,7 @@ class _ChartLinePageState extends State<ChartLinePage> {
           activationMode: ActivationMode.singleTap
         ),
          title: ChartTitle(
-           text: "Pedidos Acumulados Por Mes"
+           text: "Progresión Usuarios registrados por Mes"
          ),
          primaryXAxis: NumericAxis(
            title: AxisTitle(
@@ -280,7 +285,7 @@ class _ChartLinePageState extends State<ChartLinePage> {
          ),
          primaryYAxis: NumericAxis(
            title: AxisTitle(
-             text: "Pedidos"
+             text: "Usuarios"
            )
          ),
          legend: Legend(
@@ -294,7 +299,7 @@ class _ChartLinePageState extends State<ChartLinePage> {
              dataSource: getHugeData(),
              xValueMapper: (LotsMonth lots,_)=>lots.x,
              yValueMapper: (LotsMonth lots,_)=>lots.y,
-             name: "Pedidos ABC",
+             name: "Usuarios ABC",
              legendIconType: LegendIconType.diamond,
              //we put the marks for each layer
             //  dataLabelSettings: DataLabelSettings(
@@ -331,10 +336,10 @@ dynamic getColumnData(){
   List<LotsMonth> columnData = <LotsMonth>[
     //first 5 months
     LotsMonth(1, 10),
-    LotsMonth(2, 22),
-    LotsMonth(3, 13),
-    LotsMonth(4, 23),
-    LotsMonth(5, 25)
+    LotsMonth(2, 12),
+    LotsMonth(3, 4),
+    LotsMonth(4, 13),
+    LotsMonth(5, 15)
   ];
   return columnData;
 }
@@ -370,9 +375,9 @@ final userService = new UserServices();
 dynamic getStringData(){
   List<RoleQty> stringData=<RoleQty>[
     //here we return the qty trough role by user
-    RoleQty("User", 24),
-    RoleQty("Deliverer", 10),
-    RoleQty("Company", 13)
+    RoleQty("Business", 12),
+    RoleQty("Storage", 54),
+    RoleQty("Deliverer", 24)
   ];
   return stringData;
 }
