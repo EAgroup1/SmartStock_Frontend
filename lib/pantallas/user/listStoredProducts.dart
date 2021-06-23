@@ -4,6 +4,9 @@ import 'package:rlbasic/models/globalData.dart';
 import 'package:rlbasic/models/lot.dart';
 import 'dart:core';
 import 'package:rlbasic/services/lotServices.dart';
+//import provider & our class provider
+import 'package:provider/provider.dart';
+import '../../providers/firstInfo.dart';
 
 GlobalData globalDataa = GlobalData.getInstance()!;
 
@@ -21,35 +24,42 @@ class _MyProdPageMenuState extends State<MyProdPageMenu> {
     //variable
     String sort = "Ordenar por Nombre";
     //lateral menu
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(title: Text("Tu lista de Lotes"), actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.euro_symbol),
-          onPressed: () {
-            MyNavigator.goToChartsLotList(context);
-          },
-        )
-      ]),
-      body: Column(
-        children: [
-          DropdownButtonFormField(
-            //add null check
-            onChanged: (String? option){
-              setState((){
-                sort = option!;
-              });
+    return ChangeNotifierProvider<FirstInfo>(
+          create: (context) => FirstInfo(),
+          child: Consumer<FirstInfo>(
+            builder: (context, provider, child) => MaterialApp(
+              home: Scaffold(
+        appBar: AppBar(title: Text("Tu lista de Lotes"), actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.euro_symbol),
+            onPressed: () {
+              MyNavigator.goToChartsLotList(context);
             },
-            value: sort,
-            items: ["Ordenar por Nombre","Ordenar por precio", "Ordenar por cantidad"]
-              .map((option) => DropdownMenuItem(
-                child: Text(option), 
-                value: option,))
-              .toList()),
-          MyProdPage(),
-        ],
-      ),
-    ));
+          )
+        ]),
+        body: Column(
+          children: [
+            DropdownButtonFormField(
+              //add null check
+              value: sort,
+              onChanged: (String? option){
+                // setState((){
+                //   sort = option!;
+                // });
+                Provider.of<FirstInfo>(context).setSelectedOption(option!);
+              },
+              items: Provider.of<FirstInfo>(context).options
+                .map((option) => DropdownMenuItem(
+                  child: Text(option), 
+                  value: option,))
+                .toList()),
+            MyProdPage(),
+          ],
+        ),
+      )
+            ),
+            ),
+          );
   }
 }
 
@@ -70,12 +80,15 @@ class _MyProdPageState extends State<MyProdPage> {
 
   @override
   Widget build(BuildContext context) {
+    final firstInfo = Provider.of<FirstInfo>(context);
     //created list
     List<Lot> lots;
     final lotService = new LotServices();
-// if()
+
     print("entra en el futurebuilder");
-    return FutureBuilder(
+
+    if(firstInfo.selected=="Ordenar por Nombre"){
+      return FutureBuilder(
       future: lotService.getLotListByUser(globalDataa.getId()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
@@ -99,6 +112,61 @@ class _MyProdPageState extends State<MyProdPage> {
         }
       },
     );
+    }
+
+    else if(firstInfo.selected=="Ordenar por precio"){
+      return FutureBuilder(
+      future: lotService.getSortLotsByAscPrice(globalDataa.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          print("ha pasado por la lista");
+          lots = snapshot.data;
+          if (lots.isNotEmpty) {
+            return _buildList(lots);
+          } else {
+            return Center(
+                child: Text(
+              'No existe ningún lote almacenado de este usuario',
+            ));
+          }
+        }
+
+        else if (snapshot.hasError) {
+          return ListTile(title: Text('Ha habido un error :('));
+        }
+         else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    ); 
+    }
+
+    else{
+      return FutureBuilder(
+      future: lotService.getSortLotsByAscQty(globalDataa.getId()),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          print("ha pasado por la lista");
+          lots = snapshot.data;
+          if (lots.isNotEmpty) {
+            return _buildList(lots);
+          } else {
+            return Center(
+                child: Text(
+              'No existe ningún lote almacenado de este usuario',
+            ));
+          }
+        }
+
+        else if (snapshot.hasError) {
+          return ListTile(title: Text('Ha habido un error :('));
+        }
+         else {
+          return Center(child: CircularProgressIndicator(strokeWidth: 4));
+        }
+      },
+    );
+    }
   }
 
   Widget _buildList(List<dynamic> lots) {
